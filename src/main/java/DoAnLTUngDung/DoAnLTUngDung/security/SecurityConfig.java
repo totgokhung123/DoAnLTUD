@@ -72,7 +72,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/", "/register", "/error", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**", "/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
                         .permitAll()
                         .requestMatchers("/books/edit", "/books/delete", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
@@ -81,7 +81,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
+                        .loginPage("/auth-login-basic")
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
@@ -89,14 +89,14 @@ public class SecurityConfig {
                         )
                 )
                 .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/auth-login-basic")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .permitAll()
                 )
-                .formLogin(formLogin -> formLogin.loginPage("/login")
-                        .loginProcessingUrl("/login")
+                .formLogin(formLogin -> formLogin.loginPage("/auth-login-basic")
+                        .loginProcessingUrl("/auth-login-basic")
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )

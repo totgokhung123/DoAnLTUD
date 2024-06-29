@@ -20,9 +20,9 @@ public class UserController {
     @Autowired
     private UserServices userService;
 
-    @GetMapping("/login")
+    @GetMapping("/auth-login-basic")
     public String Login() {
-        return "user/login";
+        return "html/auth-login-basic";
     }
 
     @GetMapping("/register")
@@ -44,6 +44,6 @@ public class UserController {
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
-        return "redirect:/login";
+        return "redirect:/auth-login-basic";
     }
 }
