@@ -11,8 +11,14 @@ public class HomeController {
     public String home(){
         return "html/auth-login-basic";
     }
+
     @GetMapping("/home")
     public String test(){
         return "html/index";
+    }
+
+    @GetMapping("/sanpham")
+    public String Sanpham(){
+        return "html/form-layouts-vertical";
     }
 }
