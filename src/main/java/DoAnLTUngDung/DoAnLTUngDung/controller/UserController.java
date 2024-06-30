@@ -22,7 +22,8 @@ public class UserController {
     private UserServices userService;
 
     @GetMapping("/auth-login-basic")
-    public String Login() {
+    public String Login()
+    {
         return "html/auth-login-basic";
     }
 
