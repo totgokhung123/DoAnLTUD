@@ -1,5 +1,6 @@
 package DoAnLTUngDung.DoAnLTUngDung.controller;
 
+import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.validation.Valid;
@@ -46,5 +47,11 @@ public class UserController {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
         return "redirect:/auth-login-basic";
+    }
+    @GetMapping("/userlist")
+    public String Userlist(Model model) {
+        List<User> userList = userService.getAllusers();
+        model.addAttribute("DSUser", userList);
+        return "ADMIN/DSUser";
     }
 }

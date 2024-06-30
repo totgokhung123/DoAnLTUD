@@ -1,10 +1,13 @@
 package DoAnLTUngDung.DoAnLTUngDung.services;
 
+import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IRoleRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServices {
@@ -21,5 +24,8 @@ public class UserServices {
         if(roleId != 0 && userId != 0){
             userRepository.addRoleToUser(userId,roleId);
         }
+    }
+    public List<User> getAllusers () {
+        return userRepository.findAll();
     }
 }
