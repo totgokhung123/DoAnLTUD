@@ -3,6 +3,7 @@ package DoAnLTUngDung.DoAnLTUngDung.security;
 import DoAnLTUngDung.DoAnLTUngDung.services.CustomUserDetailServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,13 +34,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(userDetailsService());
-//        auth.setPasswordEncoder(passwordEncoder());
-//        return auth;
-//    }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userDetailsService());
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
 
     @Bean
     public AccessDeniedHandler customAccessDeniedHandler() {
@@ -72,7 +73,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**", "/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/auth-login-basic","/","/home","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
                         .permitAll()
                         .requestMatchers("/books/edit", "/books/delete", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
@@ -82,7 +83,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
                                 userInfoEndpoint.oidcUserService(this.oidcUserService())
@@ -97,7 +98,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth-login-basic")
                         .loginProcessingUrl("/auth-login-basic")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/home")
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")

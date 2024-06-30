@@ -25,10 +25,11 @@ public class UserController {
         return "html/auth-login-basic";
     }
 
+
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
-        return "user/register";
+        return "html/auth-register-basic";
     }
 
     @PostMapping("/register")
@@ -40,7 +41,7 @@ public class UserController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
-            return "user/register";
+            return "html/auth-register-basic";
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
