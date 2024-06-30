@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/userlist/edit/{id}")
-    public String updateCategory(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result) {
+    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "ADMIN/editUser";
         }
