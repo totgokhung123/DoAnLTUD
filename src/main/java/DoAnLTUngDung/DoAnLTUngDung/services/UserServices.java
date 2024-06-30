@@ -28,4 +28,15 @@ public class UserServices {
     public List<User> getAllusers () {
         return userRepository.findAll();
     }
+    public User getUsersById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User saveUsers(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUsers(Long id) {
+        userRepository.deleteById(id);
+    }
 }
