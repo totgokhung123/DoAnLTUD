@@ -52,29 +52,69 @@ public class UserController {
         return "redirect:/auth-login-basic";
     }
     @GetMapping("/userlist")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public String Userlist(Model model) {
         List<User> userList = userService.getAllusers();
         model.addAttribute("DSUser", userList);
         return "ADMIN/DSUser";
     }
-    @GetMapping("/userlist/edit/{id}")
-    public String EditUser(@PathVariable("id") Long id, Model model) {
+//    @GetMapping("/userlist/edit/{id}")
+//  //  @PreAuthorize("hasAuthority('ADMIN')")
+//    public String EditUser(@PathVariable("id") Long id, Model model) {
+//        User user = userService.getUsersById(id);
+//        if (user != null) {
+//            model.addAttribute("user", user);
+//            return "ADMIN/editUser";
+//        }
+//        System.out.println("User not found with id: " + id);
+//        return "redirect:ADMIN/userlist";
+//    }
+//
+//    @PostMapping("/userlist/edit/{id}")
+//  //  @PreAuthorize("hasAuthority('ADMIN')")
+//    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result,Model model) {
+//        if (result.hasErrors()) {
+//            List<FieldError> errors = result.getFieldErrors();
+//            for (FieldError error : errors) {
+//                model.addAttribute(error.getField() + "_error",
+//                        error.getDefaultMessage());
+//            }
+//            return "ADMIN/editUser";
+//        }
+//        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+//        userService.saveUsers(user);
+//        return "redirect:ADMIN/userlist";
+//    }
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.getUsersById(id);
         if (user != null) {
             model.addAttribute("user", user);
-            return "ADMIN/editUser";
+            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
         }
+        // Xử lý trường hợp không tìm thấy user
         return "redirect:/userlist";
     }
 
-    @PostMapping("/userlist/edit/{id}")
-    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "ADMIN/editUser";
+    @PostMapping("/edit")
+    public String editUser(@Valid @ModelAttribute("user") User editedUser,
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
         }
-        userService.saveUsers(user);
+        // Cập nhật thông tin user
+        editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
+        userService.edit(editedUser);
         return "redirect:/userlist";
     }
-
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable("id") Long id) {
+        userService.deleteUsers(id);
+        return "redirect:/userlist";
+    }
 }

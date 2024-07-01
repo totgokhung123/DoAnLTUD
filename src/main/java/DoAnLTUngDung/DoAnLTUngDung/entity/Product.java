@@ -3,6 +3,7 @@ package DoAnLTUngDung.DoAnLTUngDung.entity;
 import DoAnLTUngDung.DoAnLTUngDung.Validator.ValidCategoryId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -30,13 +31,11 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @NotBlank(message = "Giá sản phẩm không được để trống")
-    @Size(min = 10000, message = "Gia sản phẩm ít nhất lớn hơn 10,000")
+    @Min(value = 10000, message = "Giá sản phẩm phải ít nhất lớn hơn 10,000")
     @Column(name = "price")
     private double price;
 
-    @NotBlank(message = "Số lượng sản phẩm không được để trống")
-    @Size(min = 1, message = "Số lượng sản phẩm ít nhất lớn hơn 1")
+    @Min(value = 1, message = "Số lượng sản phẩm phải ít nhất lớn hơn 1")
     @Column(name = "sl")
     private double sl;
 

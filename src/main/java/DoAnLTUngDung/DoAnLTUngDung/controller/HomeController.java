@@ -21,4 +21,8 @@ public class HomeController {
     public String Sanpham(){
         return "html/form-layouts-vertical";
     }
+    @GetMapping("/testedit")
+    public String edit(){
+        return "ADMIN/editUser";
+    }
 }

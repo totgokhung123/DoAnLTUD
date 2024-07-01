@@ -20,7 +20,7 @@
         data-assets-path="../assets/"
         data-template="vertical-menu-template-free"
         xmlns:th="http://www.thymeleaf.org"
->
+        xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta
@@ -606,13 +606,11 @@
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" th:href="@{/userlist/edit/{id}(id=${USER.id})}"
-                                                ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                >
-                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                ><i class="bx bx-trash me-1"></i> Delete</a
-                                                >
+                                            <div class="dropdown-menu" >
+                                                <a class="dropdown-item" th:href="@{/edit/{id}(id=${USER.id})}"
+                                                ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                <a class="dropdown-item" th:href="@{/delete/{id}(id=${USER.id})}"
+                                                ><i class="bx bx-trash me-1"></i> Delete</a>
                                             </div>
                                         </div>
                                     </td>

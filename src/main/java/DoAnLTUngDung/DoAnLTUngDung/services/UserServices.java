@@ -5,6 +5,7 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IRoleRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,17 @@ public class UserServices {
 
     public void deleteUsers(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User edit(User editedUser) {
+        User existingUser = userRepository.findById(editedUser.getId()).orElse(null);
+        if (existingUser != null) {
+            existingUser.setUsername(editedUser.getUsername());
+            existingUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
+            existingUser.setEmail(editedUser.getEmail());
+            existingUser.setName(editedUser.getName());
+            return userRepository.save(existingUser);
+        }
+        return null;
     }
 }
