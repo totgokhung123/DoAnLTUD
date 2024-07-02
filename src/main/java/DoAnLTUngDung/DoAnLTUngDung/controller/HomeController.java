@@ -17,10 +17,10 @@ public class HomeController {
         return "html/index";
     }
 
-    @GetMapping("/sanpham")
-    public String Sanpham(){
-        return "html/form-layouts-vertical";
-    }
+//    @GetMapping("/sanpham")
+//    public String Sanpham(){
+//        return "html/form-layouts-vertical";
+//    }
     @GetMapping("/testedit")
     public String edit(){
         return "ADMIN/editUser";

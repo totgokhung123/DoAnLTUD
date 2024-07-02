@@ -5,17 +5,22 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -58,33 +63,27 @@ public class UserController {
         model.addAttribute("DSUser", userList);
         return "ADMIN/DSUser";
     }
-//    @GetMapping("/userlist/edit/{id}")
-//  //  @PreAuthorize("hasAuthority('ADMIN')")
-//    public String EditUser(@PathVariable("id") Long id, Model model) {
-//        User user = userService.getUsersById(id);
-//        if (user != null) {
-//            model.addAttribute("user", user);
-//            return "ADMIN/editUser";
-//        }
-//        System.out.println("User not found with id: " + id);
-//        return "redirect:ADMIN/userlist";
-//    }
-//
-//    @PostMapping("/userlist/edit/{id}")
-//  //  @PreAuthorize("hasAuthority('ADMIN')")
-//    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user, BindingResult result,Model model) {
-//        if (result.hasErrors()) {
-//            List<FieldError> errors = result.getFieldErrors();
-//            for (FieldError error : errors) {
-//                model.addAttribute(error.getField() + "_error",
-//                        error.getDefaultMessage());
-//            }
-//            return "ADMIN/editUser";
-//        }
-//        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-//        userService.saveUsers(user);
-//        return "redirect:ADMIN/userlist";
-//    }
+    @GetMapping("/userlist/add")
+    public String add(Model model) {
+        model.addAttribute("user", new User());
+        return "ADMIN/addUser";
+    }
+
+    @PostMapping("/userlist/add")
+    public String add(@Valid @ModelAttribute("user") User user,
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "ADMIN/addUser";
+        }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        userService.save(user);
+        return "redirect:/userlist";
+    }
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.getUsersById(id);
@@ -116,5 +115,43 @@ public class UserController {
     public String deleteCategory(@PathVariable("id") Long id) {
         userService.deleteUsers(id);
         return "redirect:/userlist";
+    }
+    // Thêm phương thức để xóa nhiều người dùng
+    @PostMapping("/delete-multiple")
+    public String deleteMultipleUsers(@RequestParam("userIds") List<Long> userIds) {
+        userService.deleteMultipleUsers(userIds);
+        return "redirect:/userlist";
+    }
+    @PostMapping("/import-users")
+    public String importUsers(@RequestParam("file") MultipartFile file) {
+        try {
+            // Kiểm tra file có tồn tại và định dạng hợp lệ
+            if (file.isEmpty()) {
+                // Xử lý khi file không tồn tại
+                return "redirect:/userlist?import_error=empty";
+            }
+            // Xử lý đọc dữ liệu từ file Excel và thêm người dùng vào cơ sở dữ liệu
+            List<User> users = userService.readUsersFromExcel(file.getInputStream());
+            for (User user : users) {
+                // Lưu hoặc thêm user vào cơ sở dữ liệu
+                userService.save(user);
+            }
+            return "redirect:/userlist";
+        } catch (Exception e) {
+            // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
+            return "redirect:/userlist?import_error=" + e.getMessage();
+        }
+    }
+    @GetMapping("/export-users")
+    public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
+        ByteArrayInputStream in = userService.exportUsersToExcel();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=users.xlsx");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(in));
     }
 }
