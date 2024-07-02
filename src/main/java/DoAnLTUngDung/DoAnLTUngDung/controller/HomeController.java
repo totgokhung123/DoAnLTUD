@@ -16,15 +16,8 @@ public class HomeController {
     public String test(){
         return "html/index";
     }
-    @GetMapping("/cc")
-    public String hâhah(){
-        return "Product/editpro";
-    }
 
-//    @GetMapping("/sanpham")
-//    public String Sanpham(){
-//        return "html/form-layouts-vertical";
-//    }
+    /// test chức năng template
     @GetMapping("/testedit")
     public String edit(){
         return "ADMIN/editUser";
