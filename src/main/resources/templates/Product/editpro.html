@@ -1,49 +1,96 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html
+        class="light-style layout-menu-fixed"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="../assets/"
+        data-template="vertical-menu-template-free"
+        xmlns:th="http://www.thymeleaf.org"
 
+      >
+<head>
+    <title>Update Product</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
 </head>
 <body>
-<form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">
-    <div class="mb-3">
-        <label class="form-label" for="product-title">Tên Sản phẩm</label>
-        <input type="text" class="form-control" id="product-title" th:field="*{title}" placeholder="Tên sản phẩm..." />
-        <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-price">Giá</label>
-        <input type="number" class="form-control" id="product-price" th:field="*{price}" placeholder="Giá..." />
-        <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-quantity">Số lượng</label>
-        <input type="number" class="form-control" id="product-quantity" th:field="*{sl}" placeholder="Số lượng..." />
-        <div class="text-danger" th:if="${#fields.hasErrors('sl')}" th:errors="*{sl}"></div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-description">Mô tả</label>
-        <textarea id="product-description" class="form-control" th:field="*{description}" placeholder="Mô tả sản phẩm..."></textarea>
-        <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-year">Năm sản xuất</label>
-        <input type="date" class="form-control" id="product-year" th:field="*{NamSX}" placeholder="Năm sản xuất..." />
-        <div class="text-danger" th:if="${#fields.hasErrors('NamSX')}" th:errors="*{NamSX}"></div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-image">Chọn ảnh sản phẩm</label>
-        <input type="file" class="form-control" id="product-image" onchange="displayImage(this)" accept="image/*">
-        <input type="hidden" id="product-image-url" th:field="*{MuTiImagePath}">
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="product-category">Mã loại</label>
-        <select class="form-control" id="product-category" th:field="*{category.id}">
-            <option value="">-- Chọn thể loại --</option>
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-        </select>
-        <div class="text-danger" th:if="${#fields.hasErrors('category.id')}" th:errors="*{category.id}"></div>
-    </div>
-    <button type="submit" class="btn btn-primary">Cập nhật</button>
-</form>
+<th:block th:replace="~{html/index::navbar}"></th:block>
+<section  class="container mt-5">
+    <h1>Edit Product</h1>
+    <form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">-->
+        <div class="mb-3">
+            <label class="form-label" for="product-title">Tên Sản phẩm</label>
+            <input type="text" class="form-control" id="product-title" th:field="*{title}" placeholder="Tên sản phẩm..." />
+            <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-price">Giá</label>
+            <input type="number" class="form-control" id="product-price" th:field="*{price}" placeholder="Giá..." />
+            <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-quantity">Số lượng</label>
+            <input type="number" class="form-control" id="product-quantity" th:field="*{sl}" placeholder="Số lượng..." />
+            <div class="text-danger" th:if="${#fields.hasErrors('sl')}" th:errors="*{sl}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-description">Mô tả</label>
+            <textarea id="product-description" class="form-control" th:field="*{description}" placeholder="Mô tả sản phẩm..."></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-year">Năm sản xuất</label>
+            <input type="date" class="form-control" id="product-year" th:field="*{NamSX}" placeholder="Năm sản xuất..." />
+            <div class="text-danger" th:if="${#fields.hasErrors('NamSX')}" th:errors="*{NamSX}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-image">Chọn ảnh sản phẩm</label>
+            <input type="file" class="form-control" id="product-image" onchange="displayImage(this)" accept="image/*">
+            <input type="hidden" id="product-image-url" th:field="*{MuTiImagePath}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product-category">Mã loại</label>
+            <select class="form-control" id="product-category" th:field="*{category.id}">
+                <option value="">-- Chọn thể loại --</option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('category.id')}" th:errors="*{category.id}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+    </form>
+</section>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
 </body>
 </html>

@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAddForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryServices.getAllCategories());
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
@@ -55,16 +55,17 @@ public class ProductController {
         if (product != null) {
             model.addAttribute("product", product);
             model.addAttribute("categories", categoryServices.getAllCategories());
-            return "Product/Product-edit";
+            return "Product/product-edit";
         }
         return "redirect:/products/list";
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/edit/{id}")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
-            return "Product/Product-edit";
+            return "Product/product-edit";
         }
         product.setId(id); // Ensure the ID is set correctly
         productServices.saveProduct(product);
@@ -72,6 +73,7 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteProduct(@PathVariable("id") Long id) {
         productServices.deleteProduct(id);
         return "redirect:/products/list";

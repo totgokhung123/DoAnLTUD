@@ -587,7 +587,7 @@
                                     <small class="text-muted float-end">Default label</small>
                                 </div>
                                 <div class="card-body">
-<!--                                    <form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">-->
+<!--                                    <form th:action="@{/products/edit}" th:object="${product}" method="post">-->
 <!--                                        <div class="mb-3">-->
 <!--                                            <label class="form-label" for="product-title">Tên Sản phẩm</label>-->
 <!--                                            <input type="text" class="form-control" id="product-title" th:field="*{title}" placeholder="Tên sản phẩm..." />-->
@@ -701,11 +701,14 @@
 <!-- endbuild -->
 
 <!-- Vendors JS -->
+<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 <!-- Main JS -->
 <script src="../assets/js/main.js"></script>
 
 <!-- Page JS -->
+<script src="../assets/js/dashboards-analytics.js"></script>
+
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

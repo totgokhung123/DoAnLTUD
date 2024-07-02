@@ -16,6 +16,9 @@ public class HomeController {
     public String test(){
         return "html/index";
     }
-
+    @GetMapping("/cc")
+    public String hâhah(){
+        return "Product/editpro";
+    }
 
 }
