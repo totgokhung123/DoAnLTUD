@@ -79,14 +79,21 @@
                     <div class="card">
                         <h5 class="card-header">Thêm Danh Mục</h5>
                         <div class="card-body">
-                            <form th:action="@{/add}" th:object="${category}" method="post">
+                            <form th:action="@{/add}" th:object="${category}" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="categoryName" class="form-label">Tên Danh Mục</label>
                                     <input type="text" class="form-control" id="categoryName" th:field="*{name}" placeholder="Nhập tên danh mục" />
                                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên danh mục là bắt buộc</div>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="categoryImagePath" class="form-label">Chọn ảnh</label>
+                                    <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" />
+                                    <small class="form-text text-muted">Chỉ chấp nhận các định dạng ảnh.</small>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Lưu</button>
-                                <a th:href="@{/categories}" class="btn btn-secondary">Hủy</a>
+                                <a href="/categorylist" class="btn btn-secondary">
+                                    <div data-i18n="Cancel">Cancel</div>
+                                </a>
                             </form>
                         </div>
                     </div>
