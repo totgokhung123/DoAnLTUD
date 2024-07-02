@@ -20,7 +20,9 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "image_path")
     private String ImagePath;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 }

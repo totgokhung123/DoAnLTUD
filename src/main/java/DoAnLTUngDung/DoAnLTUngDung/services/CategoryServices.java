@@ -26,5 +26,13 @@ public class CategoryServices {
 
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+        //updateCategoryIds();
+    }
+    public void updateCategoryIds() {
+        List<Category> categories = categoryRepository.findAll();
+        for (int i = 0; i < categories.size(); i++) {
+            categories.get(i).setId((long) (i + 1));
+        }
+        categoryRepository.saveAll(categories);
     }
 }
