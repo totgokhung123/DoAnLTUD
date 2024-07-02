@@ -55,19 +55,37 @@ public class ProductController {
         if (product != null) {
             model.addAttribute("product", product);
             model.addAttribute("categories", categoryServices.getAllCategories());
-            return "Product/product-edit";
+            return "Product/editpro";
         }
         return "redirect:/products/list";
+     //   return "Product/editpro";
     }
 
-    @PostMapping("/edit/{id}")
+
+//    @GetMapping("/edit/{id}")
+//    public String editUser(@PathVariable("id") Long id, Model model) {
+//        User user = userService.getUsersById(id);
+//        if (user != null) {
+//            model.addAttribute("user", user);
+//            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
+//        }
+//        // Xử lý trường hợp không tìm thấy user
+//        return "redirect:/userlist";
+//    }
+
+
+
+
+
+
+    @PostMapping("/edit")
    // @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+    public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
-            return "Product/product-edit";
+            return "Product/editpro";
         }
-        product.setId(id); // Ensure the ID is set correctly
+       // product.setId(id); // Ensure the ID is set correctly
         productServices.saveProduct(product);
         return "redirect:/products/list";
     }
