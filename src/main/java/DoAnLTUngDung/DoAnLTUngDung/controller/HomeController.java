@@ -22,5 +22,4 @@ public class HomeController {
     public String edit(){
         return "ADMIN/editUser";
     }
-
 }
