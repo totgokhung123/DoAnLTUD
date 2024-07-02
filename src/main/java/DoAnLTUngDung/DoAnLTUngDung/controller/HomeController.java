@@ -16,6 +16,10 @@ public class HomeController {
     public String test(){
         return "html/index";
     }
+    @GetMapping("/cc")
+    public String hâhah(){
+        return "Product/editpro";
+    }
 
 //    @GetMapping("/sanpham")
 //    public String Sanpham(){
@@ -25,4 +29,5 @@ public class HomeController {
     public String edit(){
         return "ADMIN/editUser";
     }
+
 }
