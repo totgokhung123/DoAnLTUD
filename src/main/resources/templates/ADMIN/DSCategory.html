@@ -78,8 +78,11 @@
                     </h4>
 
                     <hr class="my-5" />
-                    <div class="d-flex justify-content-between mb-3">
-                        <button class="btn btn-primary" th:href="@{/categoryadd}">Add</button>
+<!--                    <div class="d-flex justify-content-between mb-3">-->
+<!--                        <button th:href="@{/add}" class="btn btn-primary">Add</button>-->
+<!--                    </div>-->
+                    <div>
+                        <a th:href="@{/add}" class="btn btn-primary mb-3">Add</a>
                     </div>
                     <div class="card">
                         <h5 class="card-header">Category List</h5>
@@ -97,7 +100,7 @@
                                 <tr th:each="category : ${categories}">
                                     <td th:text="${category.id}"></td>
                                     <td th:text="${category.name}"></td>
-                                    <td th:text="${category.ImagePath}"></td>
+                                    <td><img th:if="${category.ImagePath}" th:src="@{{image}(image=${category.ImagePath})}" style="width:100px; height:100px;"></td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

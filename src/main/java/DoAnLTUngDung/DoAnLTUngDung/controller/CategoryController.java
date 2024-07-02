@@ -23,7 +23,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryServices categoryServices;
-    private static final String UPLOADED_DIR = "src/main/resources/static/assets/image/category";
+    private static final String UPLOADED_DIR = "src/main/resources/static/assets/img/category/";
     @GetMapping("/categorylist")
     public String showAllCategories(Model model) {
         List<Category> categories = categoryServices.getAllCategories();
@@ -31,41 +31,28 @@ public class CategoryController {
         return "ADMIN/DSCategory";
     }
 
-    @GetMapping("/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String showAddForm(Model model) {
-        model.addAttribute("category", new Category());
-        return "ADMIN/Categoryadd";
-    }
 
-    @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult result) {
-        if (result.hasErrors()) {
+        @GetMapping("/add")
+        public String showAddForm(Model model) {
+            model.addAttribute("category", new Category());
             return "ADMIN/Categoryadd";
         }
-        categoryServices.saveCategory(category);
-        return "redirect:/categories";
-    }
-
-//    @GetMapping("/edit/{id}")
-//    public String showEditForm(@PathVariable("id") Long id, Model model) {
-//        Category category = categoryServices.getCategoryById(id);
-//        if (category != null) {
-//            model.addAttribute("category", category);
-//            return "ADMIN/Categoryedit";
-//        }
-//        return "redirect:/categories";
-//    }
-//
-//    @PostMapping("/edit/{id}")
-//    public String updateCategory(@PathVariable("id") Long id, @Valid @ModelAttribute("category") Category category, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return "ADMIN/Categoryedit";
-//        }
-//        categoryServices.saveCategory(category);
-//        return "redirect:/categories";
-//    }
+        @PostMapping("/add")
+        public String addCategory(@Valid Category category, @RequestParam("image") MultipartFile file, BindingResult result) {
+            if (result.hasErrors()) {
+                return "ADMIN/Categoryadd";
+            }
+            try {
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOADED_DIR+file.getOriginalFilename());
+                Files.write(path,bytes);
+                category.setImagePath("assets/img/category/" + file.getOriginalFilename());
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            categoryServices.addCategory(category);
+            return "redirect:/categorylist";
+        }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
@@ -76,7 +63,7 @@ public class CategoryController {
         return "ADMIN/Categoryedit";
     }
     // POST request to update category
-    @PostMapping("/update/{id}")
+    @PostMapping("/edit/{id}")
     public String updateCategory(@PathVariable("id") Long id, @Valid Category category,
                                  BindingResult result, @RequestParam("image") MultipartFile file, Model model) {
         if (result.hasErrors()) {
@@ -87,7 +74,7 @@ public class CategoryController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_DIR+file.getOriginalFilename());
             Files.write(path,bytes);
-            category.setImagePath("/image/" + file.getOriginalFilename());
+            category.setImagePath("assets/img/category/" + file.getOriginalFilename());
         }catch (IOException e){
             e.printStackTrace();
         }

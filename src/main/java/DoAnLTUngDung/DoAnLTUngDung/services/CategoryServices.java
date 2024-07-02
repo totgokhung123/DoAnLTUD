@@ -25,6 +25,9 @@ public class CategoryServices {
         return categoryRepository.findById(id);
     }
 
+    public void addCategory(Category category) {
+        categoryRepository.save(category);
+    }
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
