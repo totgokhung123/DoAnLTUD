@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+    <form th:action="@{/edit/{id}}" th:object="${category}" method="post">
+        <input type="hidden" id="categoryId" th:field="*{id}" />
+        <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="categoryName" th:field="*{name}" placeholder="Nhập tên danh mục" />
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên danh mục là bắt buộc</div>
+        </div>
+        <div class="mb-3">
+            <label for="categoryImagePath" class="form-label">Chọn ảnh</label>
+            <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" />
+            <small class="form-text text-muted">Chỉ chấp nhận các định dạng ảnh.</small>
+        </div>
+        <button type="submit"  class="btn btn-primary">Save</button>
+        <a href="/categorylist" class="btn btn-secondary">
+            <div data-i18n="Cancel">Cancel</div>
+        </a>
+    </form>
+</body>
+</html>

@@ -2,10 +2,12 @@ package DoAnLTUngDung.DoAnLTUngDung.services;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServices {
@@ -16,8 +18,11 @@ public class CategoryServices {
         return categoryRepository.findAll();
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+//    public Category getCategoryById(Long id) {
+//        return categoryRepository.findById(id).orElse(null);
+//    }
+    public Optional<Category> getCategoryById(Long id) {
+        return categoryRepository.findById(id);
     }
 
     public Category saveCategory(Category category) {
@@ -28,11 +33,19 @@ public class CategoryServices {
         categoryRepository.deleteById(id);
         //updateCategoryIds();
     }
-    public void updateCategoryIds() {
-        List<Category> categories = categoryRepository.findAll();
-        for (int i = 0; i < categories.size(); i++) {
-            categories.get(i).setId((long) (i + 1));
-        }
-        categoryRepository.saveAll(categories);
+//    public void updateCategoryIds(@NotNull Category category) {
+//        List<Category> categories = categoryRepository.findAll();
+//        for (int i = 0; i < categories.size(); i++) {
+//            categories.get(i).setId((long) (i + 1));
+//        }
+//        categoryRepository.saveAll(categories);
+//    }
+    public void updateCategory(@NotNull Category category) {
+        Category existingCategory = categoryRepository.findById(category.getId())
+                .orElseThrow(() -> new IllegalStateException("Category with ID " +
+                        category.getId() + " does not exist."));
+        existingCategory.setImagePath(category.getImagePath());
+        existingCategory.setName(category.getName());
+        categoryRepository.save(existingCategory);
     }
 }
