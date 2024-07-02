@@ -17,8 +17,5 @@ public class HomeController {
         return "html/index";
     }
 
-    @GetMapping("/sanpham")
-    public String Sanpham(){
-        return "html/form-layouts-vertical";
-    }
+
 }
