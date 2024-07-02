@@ -604,7 +604,8 @@
                                     </td>
                                     <td th:text="${product.price}"></td>
                                     <td th:text="${product.sl}"></td>
-                                    <td th:text="${product.MuTiImagePath}"></td>
+                                    <td><img th:if="${product.MuTiImagePath}" th:src="@{{image}(image=${product.MuTiImagePath})}" alt="Image" style="width:100px; height:100px;"></td>
+
                                     <td th:text="${product.category.name}"></td>
                                     <td th:text="${product.description}"></td>
                                     <td th:text="${#dates.format(product.NamSX, 'yyyy-MM-dd')}"></td>
@@ -618,6 +619,7 @@
                                                 <a class="dropdown-item" th:href="@{/products/edit/{id}(id=${product.id})}">
                                                     <i class="bx bx-edit-alt me-1"></i> Chỉnh sửa
                                                 </a>
+
                                                 <!-- Delete link with product ID and confirmation dialog -->
                                                 <a class="dropdown-item" th:href="@{/products/delete/{id}(id=${product.id})}"
                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">

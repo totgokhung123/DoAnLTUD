@@ -587,7 +587,7 @@
                       <small class="text-muted float-end">Default label</small>
                     </div>
                     <div class="card-body">
-                      <form th:action="@{/products/add}" th:object="${product}" method="post">
+                      <form th:action="@{/products/add}" th:object="${product}" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                           <label class="form-label" for="product-title">Tên Sản phẩm</label>
                           <input type="text" class="form-control" id="product-title" th:field="*{title}" placeholder="Tên sản phẩm..." />
@@ -615,10 +615,9 @@
                         </div>
 
 
-                        <div class="mb-3">
-                          <label class="form-label" for="product-image">Chọn ảnh sản phẩm</label>
-                          <input type="file" class="form-control" id="product-image" onchange="displayImage(this)" accept="image/*">
-                          <input type="hidden" id="product-image-url" th:field="*{MuTiImagePath}">
+                        <div class="form-group">
+                          <label for="image">Hình ảnh: </label>
+                          <input class="form-control-file" type="file" id="image" name="image" th:required="${MuTiImagePath}" onchange="previewImage(event)">
                         </div>
 
 

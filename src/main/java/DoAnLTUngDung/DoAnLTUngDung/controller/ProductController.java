@@ -10,12 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
 import java.util.List;
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
+    private static final String UPLOADED_DIR = "src/main/resources/static/image/";
 
     @Autowired
     private ProductServices productServices;
@@ -40,16 +44,28 @@ public class ProductController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
+                             @RequestParam("image") MultipartFile file, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
             return "Product/Product-add";
         }
+
+        try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
+            Files.write(path, bytes);
+            product.setMuTiImagePath("/image/" + file.getOriginalFilename());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         productServices.saveProduct(product);
         return "redirect:/products/list";
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Product product = productServices.getProductById(id);
         if (product != null) {
@@ -58,34 +74,34 @@ public class ProductController {
             return "Product/editpro";
         }
         return "redirect:/products/list";
-     //   return "Product/editpro";
     }
 
-
-//    @GetMapping("/edit/{id}")
-//    public String editUser(@PathVariable("id") Long id, Model model) {
-//        User user = userService.getUsersById(id);
-//        if (user != null) {
-//            model.addAttribute("user", user);
-//            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
-//        }
-//        // Xử lý trường hợp không tìm thấy user
-//        return "redirect:/userlist";
-//    }
-
-
-
-
-
-
-    @PostMapping("/edit")
-   // @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
+                                @RequestParam(value = "image", required = false) MultipartFile file, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
             return "Product/editpro";
         }
-       // product.setId(id); // Ensure the ID is set correctly
+
+        // Load existing product to preserve original image path if no new image uploaded
+        Product existingProduct = productServices.getProductById(product.getId());
+        if (existingProduct != null) {
+            if (file != null && !file.isEmpty()) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
+                    Files.write(path, bytes, StandardOpenOption.CREATE);
+                    product.setMuTiImagePath("/image/" + file.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                product.setMuTiImagePath(existingProduct.getMuTiImagePath());
+            }
+        }
+
         productServices.saveProduct(product);
         return "redirect:/products/list";
     }
@@ -97,3 +113,4 @@ public class ProductController {
         return "redirect:/products/list";
     }
 }
+
