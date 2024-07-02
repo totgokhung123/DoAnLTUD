@@ -15,8 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServices {
@@ -26,12 +25,22 @@ public class UserServices {
     @Autowired
     private IRoleRepository rolePepository;
     public void save(User user) {
-
         userRepository.save(user);
         Long userId = userRepository.getUserIdByUsername(user.getUsername());
-        Long roleId = rolePepository.getRoleIdByName("USER");
-        if(roleId != 0 && userId != 0){
-            userRepository.addRoleToUser(userId,roleId);
+
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            Long roleId = rolePepository.getRoleIdByName("USER");
+            if (roleId != 0 && userId != 0) {
+                userRepository.addRoleToUser(userId, roleId);
+            }
+        } else {
+            // Gán vai trò từ user nếu đã có
+            for (Role role : user.getRoles()) {
+                Long roleId = rolePepository.getRoleIdByName(role.getName());
+                if (roleId != 0 && userId != 0 && userRepository.countUserRole(userId, roleId) == 0) {
+                    userRepository.addRoleToUser(userId, roleId);
+                }
+            }
         }
     }
     public List<User> getAllusers () {
@@ -118,18 +127,19 @@ public class UserServices {
                 User user = new User();
                 user.setName(currentRow.getCell(0).getStringCellValue());
                 user.setUsername(currentRow.getCell(1).getStringCellValue());
-                user.setPassword(currentRow.getCell(2).getStringCellValue());
+                user.setPassword(new BCryptPasswordEncoder().encode(currentRow.getCell(2).getStringCellValue()));
                 user.setEmail(currentRow.getCell(3).getStringCellValue());
 
                 // Xử lý vai trò từ file Excel
-                String roleName = currentRow.getCell(4).getStringCellValue();
-                Role role = rolePepository.findByName(roleName);
-                if (role == null) {
-                    // Xử lý nếu vai trò không tồn tại
-                    throw new RuntimeException("Vai trò '" + roleName + "' không tồn tại.");
+                String[] roleNames = currentRow.getCell(4).getStringCellValue().split(",");
+                Set<Role> roles = new HashSet<>();
+                for (String roleName : roleNames) {
+                    Role role = rolePepository.findByName(roleName.trim());
+                    if (role != null) {
+                        roles.add(role);
+                    }
                 }
-
-                user.addRole(role);
+                user.setRoles(new ArrayList<>(roles));
 
                 users.add(user);
             }
