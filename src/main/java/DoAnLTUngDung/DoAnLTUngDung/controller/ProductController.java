@@ -5,6 +5,10 @@ import DoAnLTUngDung.DoAnLTUngDung.services.CategoryServices;
 import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
@@ -111,6 +116,42 @@ public class ProductController {
     public String deleteProduct(@PathVariable("id") Long id) {
         productServices.deleteProduct(id);
         return "redirect:/products/list";
+    }
+
+
+    @PostMapping("/import-products")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String importProducts(@RequestParam("file") MultipartFile file) {
+        try {
+            // Kiểm tra file có tồn tại và định dạng hợp lệ
+            if (file.isEmpty()) {
+                // Xử lý khi file không tồn tại
+                return "redirect:/products/list?import_error=empty";
+            }
+            // Xử lý đọc dữ liệu từ file Excel và thêm sản phẩm vào cơ sở dữ liệu
+            List<Product> products = productServices.readProductsFromExcel(file.getInputStream());
+            for (Product product : products) {
+                // Lưu hoặc thêm product vào cơ sở dữ liệu
+                productServices.saveProduct(product);
+            }
+            return "redirect:/products/list";
+        } catch (Exception e) {
+            // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
+            return "redirect:/products/list?import_error=" + e.getMessage();
+        }
+    }
+
+    @GetMapping("/export-products")
+    public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
+        ByteArrayInputStream in = productServices.exportProductsToExcel();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=products.xlsx");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(in));
     }
 }
 

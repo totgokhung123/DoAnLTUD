@@ -122,6 +122,8 @@ public class UserController {
         userService.deleteMultipleUsers(userIds);
         return "redirect:/userlist";
     }
+
+    //nhapex
     @PostMapping("/import-users")
     public String importUsers(@RequestParam("file") MultipartFile file) {
         try {
@@ -142,6 +144,9 @@ public class UserController {
             return "redirect:/userlist?import_error=" + e.getMessage();
         }
     }
+
+
+    //xuatex
     @GetMapping("/export-users")
     public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
         ByteArrayInputStream in = userService.exportUsersToExcel();
