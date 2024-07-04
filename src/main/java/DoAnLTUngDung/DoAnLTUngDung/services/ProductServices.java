@@ -80,8 +80,10 @@ public class ProductServices {
 
     public List<Product> readProductsFromExcel(InputStream inputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook(inputStream);
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+
         List<Product> products = new ArrayList<>();
+
         // Duyệt qua từng dòng của sheet, bắt đầu từ dòng thứ 1 (dòng tiêu đề đã có trong mẫu)
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row currentRow = sheet.getRow(i);
@@ -104,7 +106,7 @@ public class ProductServices {
                 product.setImagePaths(imagePaths);
 
                 // Xử lý danh mục sản phẩm từ Excel
-                String categoryName = currentRow.getCell(6).getStringCellValue();
+                String categoryName = currentRow.getCell(currentRow.getLastCellNum() - 1).getStringCellValue();
                 Category category = categoryRepository.findByName(categoryName);
                 if (category == null) {
                     // Xử lý nếu danh mục không tồn tại
@@ -115,9 +117,11 @@ public class ProductServices {
                 products.add(product);
             }
         }
+
         workbook.close();
         return products;
     }
+
 
 
 

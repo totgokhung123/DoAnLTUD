@@ -576,10 +576,17 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <!-- nhapnha -->
+                    <div id="importForm" style="display: none;">
+                        <form id="uploadForm" action="/import-products" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".xlsx, .xls">
+                            <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
+                        </form>
+                    </div>
                     <hr class="my-5" />
                     <a th:href="@{/products/add}"class="btn btn-primary">Add</a>
                     <button id="exportButton" class="btn btn-primary mb-3">Xuất file Excel</button>
-<!--                    <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Import Excel</button>-->
+                    <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Import Excel</button>
                     <!-- Hoverable Table rows -->
 
                     <div class="card">
@@ -717,7 +724,14 @@
     document.getElementById('exportButton').addEventListener('click', function() {
         window.location.href = '/products/export-products';
     });
-
+    function toggleImportForm() {
+        var importForm = document.getElementById('importForm');
+        if (importForm.style.display === 'none') {
+            importForm.style.display = 'block';
+        } else {
+            importForm.style.display = 'none';
+        }
+    }
 
 </script>
 <!-- nhapnha -->
