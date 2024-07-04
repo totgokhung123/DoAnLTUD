@@ -1,6 +1,7 @@
 package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
+import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.CategoryServices;
 import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
 import jakarta.validation.Valid;
@@ -140,6 +141,29 @@ public class ProductController {
             return "redirect:/products/list?import_error=" + e.getMessage();
         }
     }
+
+//    //nhapnha
+//    @PostMapping("/import-users")
+//    public String importUsers(@RequestParam("file") MultipartFile file) {
+//        try {
+//            // Kiểm tra file có tồn tại và định dạng hợp lệ
+//            if (file.isEmpty()) {
+//                // Xử lý khi file không tồn tại
+//                return "redirect:/userlist?import_error=empty";
+//            }
+//            // Xử lý đọc dữ liệu từ file Excel và thêm người dùng vào cơ sở dữ liệu
+//            List<User> users = userService.readUsersFromExcel(file.getInputStream());
+//            for (User user : users) {
+//                // Lưu hoặc thêm user vào cơ sở dữ liệu
+//                userService.save(user);
+//            }
+//            return "redirect:/userlist";
+//        } catch (Exception e) {
+//            // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
+//            return "redirect:/userlist?import_error=" + e.getMessage();
+//        }
+//    }
+
 
     @GetMapping("/export-products")
     public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
