@@ -20,10 +20,7 @@ public class HomeController {
         return "html/index";
     }
 
-//    @GetMapping("/sanpham")
-//    public String Sanpham(){
-//        return "html/form-layouts-vertical";
-//    }
+    /// test chức năng template
     @GetMapping("/testedit")
     public String edit(){
         return "ADMIN/editUser";
