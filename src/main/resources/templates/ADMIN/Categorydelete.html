@@ -74,22 +74,27 @@
             </nav>
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục /</span> Xóa Danh Mục</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Category Delete</h4>
                     <hr class="my-5" />
                     <div class="card">
-                        <h5 class="card-header">Xóa Danh Mục</h5>
+                        <h5 class="card-header">Category Delete</h5>
                         <div class="card-body">
-                            <form th:action="@{/delete/{id}}" th:object="${category}" method="post">
+                            <form th:action="@{/delete/{id}}" th:object="${category}" method="post" >
                                 <div class="mb-3">
-                                    <label for="categoryName" class="form-label">Tên Danh Mục</label>
+                                    <label for="categoryName" class="form-label">Category Name</label>
                                     <input type="text" class="form-control" id="categoryName" th:field="*{name}" readonly="readonly" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="categoryImagePath" class="form-label">Image Path</label>
                                     <input type="text" class="form-control" id="categoryImagePath" th:field="*{ImagePath}" readonly="readonly" />
                                 </div>
-                                <button type="submit" class="btn btn-danger">Xóa</button>
-                                <a th:href="@{/categories}" class="btn btn-secondary">Hủy</a>
+                                <div class="mb-3">
+                                    <td><img th:if="${category.ImagePath}" th:src="@{{image}(image=${category.ImagePath})}" style="width:100px; height:100px;"></td>
+                                </div>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <a href="/categorylist" class="btn btn-secondary">
+                                    <div data-i18n="Cancel">Cancel</div>
+                                </a>
                             </form>
                         </div>
                     </div>

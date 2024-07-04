@@ -83,9 +83,19 @@ public class CategoryController {
         return "redirect:/categorylist";
     }
 
+//    @GetMapping("/delete/{id}")
+//    public String deleteCategory(@PathVariable("id") Long id) {
+//        categoryServices.deleteCategory(id);
+//
+//        return "redirect:/categorylist";
+//    }
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id) {
-        categoryServices.deleteCategory(id);
-        return "redirect:/categorylist";
+    public String deleteCategory(@PathVariable("id") Long id, Model model) {
+        Category category = categoryServices.getCategoryById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:"
+                        + id));
+        categoryServices.deleteCategoryById(id);
+        model.addAttribute("category", category);
+        return "ADMIN/Categorydelete";
     }
 }

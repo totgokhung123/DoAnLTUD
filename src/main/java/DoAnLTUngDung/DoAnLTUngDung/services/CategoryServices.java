@@ -31,11 +31,17 @@ public class CategoryServices {
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
-
-    public void deleteCategory(Long id) {
+    public void deleteCategoryById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new IllegalStateException("Category with ID " + id + " does not exist.");
+        }
         categoryRepository.deleteById(id);
-        //updateCategoryIds();
     }
+
+//    public void deleteCategory(Long id) {
+//        categoryRepository.deleteById(id);
+//        //updateCategoryIds();
+//    }
 //    public void updateCategoryIds(@NotNull Category category) {
 //        List<Category> categories = categoryRepository.findAll();
 //        for (int i = 0; i < categories.size(); i++) {

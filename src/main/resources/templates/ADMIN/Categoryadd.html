@@ -87,9 +87,10 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="categoryImagePath" class="form-label">Chọn ảnh</label>
-                                    <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" />
+                                    <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" onchange="previewImage(event)"/>
                                     <small class="form-text text-muted">Chỉ chấp nhận các định dạng ảnh.</small>
                                 </div>
+                                <img id="imagePreview" style="display:none; width:100px; height:100px; margin-bottom: 10px;" />
                                 <button type="submit" class="btn btn-primary">Lưu</button>
                                 <a href="/categorylist" class="btn btn-secondary">
                                     <div data-i18n="Cancel">Cancel</div>
@@ -124,5 +125,18 @@
 <script src="../assets/vendor/js/menu.js"></script>
 <script src="../assets/js/main.js"></script>
 <script async defer src="https://buttons.github.io/buttons"></script>
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var output = document.getElementById('imagePreview');
+            output.src = dataURL;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
 </body>
 </html>
