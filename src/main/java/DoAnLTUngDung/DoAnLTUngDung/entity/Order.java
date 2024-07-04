@@ -5,12 +5,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import java.util.List;
+
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -41,6 +38,8 @@ public class Order {
     @NotNull(message = "Email không được để trống")
     @Column(name = "Email")
     private String email;
+
+    private String note;
 
     @NotBlank(message = "Phương thức thanh toán không được để trống")
     @Column(name = "pttt")
