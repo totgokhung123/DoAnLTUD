@@ -20,7 +20,7 @@ public class User {
     @Column(name = "username", length = 50, nullable = false, unique = true)
     @NotBlank(message = "Ten đang nhập khong được để trống")
     @Size(max = 50, message = "Tên đăng nhập phải ít hơn 50 ký tự")
-    @ValidUsername
+    //@ValidUsername
     private String username;
 
     @Column(name = "password", length = 250, nullable = false)

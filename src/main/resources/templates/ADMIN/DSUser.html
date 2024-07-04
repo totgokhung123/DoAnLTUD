@@ -20,7 +20,7 @@
         data-assets-path="../assets/"
         data-template="vertical-menu-template-free"
         xmlns:th="http://www.thymeleaf.org"
->
+        xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta
@@ -575,52 +575,86 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Bang /</span> Danh Sach User</h4>
                     <hr class="my-5" />
+                    <div>
+                        <a th:href="@{/userlist/add}" class="btn btn-primary bx-{tada-hover}">
+                            <span class="tf-icons bx bx-user-plus bx-{tada-hover}"></span>&nbsp; Add User
+                        </a>
+                    </div>
+                    <!-- Form import từ file Excel -->
+                    <div id="importForm" style="display: none;">
+                        <form id="uploadForm" action="/import-users" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".xlsx, .xls">
+                            <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
+                        </form>
+                    </div>
                     <!-- Hoverable Table rows -->
                     <div class="card">
                         <h5 class="card-header">Danh Sach User</h5>
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>UserName</th>
-                                    <th>Password</th>
-                                    <th>Email</th>
-                                    <th>Vai Tro</th>
-                                    <th>Chuc Nang</th>
-                                </tr>
-                                </thead>
-                                <tbody class="table-border-bottom-0" >
-                                <tr th:each="USER : ${DSUser}">
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong  th:text="${USER.name} "></strong></td>
-                                    <td th:text="${USER.username}"></td>
-                                    <td th:text="${USER.password}">
-                                    </td>
-                                    <td th:text="${USER.email}">
-                                    </td>
-                                    <td><span th:each="role : ${USER.roles}" class="badge bg-label-primary me-1" th:text="${role.name}"></span></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" th:href="@{/userlist/edit/{id}(id=${USER.id})}"
-                                                ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                >
-                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                ><i class="bx bx-trash me-1"></i> Delete</a
-                                                >
+                            <button id="exportButton" class="btn btn-primary mb-3">Export Excel</button>
+                            <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Import Excel</button>
+                            <form th:action="@{/delete-multiple}" method="post">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
+                                        </th>
+                                        <th>Name</th>
+                                        <th>UserName</th>
+                                        <th>Password</th>
+                                        <th>Email</th>
+                                        <th>Vai Tro</th>
+                                        <th>Chuc Nang</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0" >
+                                    <tr th:each="USER : ${DSUser}">
+                                        <td>
+                                            <input type="checkbox" name="userIds" class="form-check-input" id="defaultCheck1" th:value="${USER.id}">
+                                        </td>
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong  th:text="${USER.name} "></strong></td>
+                                        <td th:text="${USER.username}"></td>
+                                        <td th:text="${USER.password}">
+                                        </td>
+                                        <td th:text="${USER.email}">
+                                        </td>
+                                        <td><span th:each="role : ${USER.roles}" class="badge bg-label-primary me-1" th:text="${role.name}"></span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu" >
+                                                    <a class="dropdown-item" th:href="@{/edit/{id}(id=${USER.id})}"
+                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                    <a class="dropdown-item" th:href="@{/delete/{id}(id=${USER.id})}"
+                                                    ><i class="bx bx-trash me-1"></i> Delete</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn p-0 dropdown-toggle hide-arrow">Xóa người dùng đã chọn</button>
+                            </form>
                         </div>
                     </div>
+<!--                    &lt;!&ndash; The Modal &ndash;&gt;-->
+<!--                    <div id="uploadModal" class="modal">-->
+<!--                        <div class="modal-content">-->
+<!--                            <span class="close" onclick="closeUploadModal()">&times;</span>-->
+<!--                            <form th:action="@{/userlist/upload-excel}" method="post" enctype="multipart/form-data">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="file" class="form-label">Tải lên file Excel:</label>-->
+<!--                                    <input type="file" class="form-control" id="file" name="file" accept=".xlsx, .xls" required>-->
+<!--                                </div>-->
+<!--                                <button type="submit" class="btn btn-primary">Thêm người dùng</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!--/ Hoverable Table rows -->
                 </div>
                 <!-- / Content -->
@@ -681,6 +715,24 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+<script>
+    document.getElementById('exportButton').addEventListener('click', function() {
+        window.location.href = '/export-users';
+    });
+    function selectAllCheckboxes(source) {
+        checkboxes = document.getElementsByName('userIds');
+        for(var i in checkboxes)
+            checkboxes[i].checked = source.checked;
+    }
+    function toggleImportForm() {
+        var importForm = document.getElementById('importForm');
+        if (importForm.style.display === 'none') {
+            importForm.style.display = 'block';
+        } else {
+            importForm.style.display = 'none';
+        }
+    }
+</script>
 <script src="../assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assets/vendor/libs/popper/popper.js"></script>
 <script src="../assets/vendor/js/bootstrap.js"></script>
@@ -698,5 +750,57 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<!--<script>-->
+<!--    function openUploadModal() {-->
+<!--        document.getElementById("uploadModal").style.display = "block";-->
+<!--    }-->
+
+<!--    function closeUploadModal() {-->
+<!--        document.getElementById("uploadModal").style.display = "none";-->
+<!--    }-->
+
+<!--    function selectAllCheckboxes(source) {-->
+<!--        checkboxes = document.getElementsByName('userIds');-->
+<!--        for (var i in checkboxes)-->
+<!--            checkboxes[i].checked = source.checked;-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>
+<!--<style>-->
+<!--    .modal {-->
+<!--        display: none;-->
+<!--        position: fixed;-->
+<!--        z-index: 1;-->
+<!--        left: 0;-->
+<!--        top: 0;-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        overflow: auto;-->
+<!--        background-color: rgb(0, 0, 0);-->
+<!--        background-color: rgba(0, 0, 0, 0.4);-->
+<!--        padding-top: 60px;-->
+<!--    }-->
+
+<!--    .modal-content {-->
+<!--        background-color: #fefefe;-->
+<!--        margin: 5% auto;-->
+<!--        padding: 20px;-->
+<!--        border: 1px solid #888;-->
+<!--        width: 80%;-->
+<!--    }-->
+
+<!--    .close {-->
+<!--        color: #aaa;-->
+<!--        float: right;-->
+<!--        font-size: 28px;-->
+<!--        font-weight: bold;-->
+<!--    }-->
+
+<!--    .close:hover,-->
+<!--    .close:focus {-->
+<!--        color: black;-->
+<!--        text-decoration: none;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+<!--</style>-->

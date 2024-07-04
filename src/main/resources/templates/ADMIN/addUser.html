@@ -75,8 +75,8 @@
         <div class="layout-page">
             <!-- Navbar -->
             <nav
-                class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-                id="layout-navbar"
+                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar"
             >
                 <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
                     <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -189,7 +189,7 @@
                         <div class="card mb-4">
                             <h5 class="card-header">Edit User</h5>
                             <div class="card-body demo-vertical-spacing demo-only-element">
-                                <form id="formEditUser" class="mb-3" th:action="@{/edit}" th:object="${user}" method="post">
+                                <form id="formEditUser" class="mb-3" th:action="@{/userlist/add}" th:object="${user}" method="post">
                                     <input type="hidden" th:field="*{id}"/>
                                     <label for="name" class="form-label">Họ và tên:</label>
                                     <div class="input-group">
@@ -207,7 +207,7 @@
                                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                                     <label for="username" class="form-label">Tên đăng nhập:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" th:field="*{username}" id="username" readonly aria-describedby="basic-addon11">
+                                        <input type="text" class="form-control" th:field="*{username}" id="username" aria-describedby="basic-addon11">
                                         <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                                     </div>
                                     <label for="password" class="form-label">Mật khẩu:</label><span class="text-danger">*</span>

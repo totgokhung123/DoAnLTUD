@@ -32,6 +32,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestParam String email) throws MessagingException {
         Optional<User> userOptional = userRepository.findByEmail(email);
@@ -41,7 +42,7 @@ public class AuthController {
             user.setResetToken(token);
             userRepository.save(user);
 
-            String resetLink = "http://localhost:8888/auth/reset-password?token=" + token;
+            String resetLink = "http://localhost:8080/auth/reset-password?token=" + token;
             emailService.sendEmail(user.getEmail(), "Password Reset Request", "To reset your password, click the link below:\n" + resetLink);
 
             return "Password reset email sent.";
@@ -49,7 +50,6 @@ public class AuthController {
             return "User not found.";
         }
     }
-
     @GetMapping("/reset-password")
     public String showResetPasswordPage(@RequestParam String token) {
         Optional<User> userOptional = userRepository.findByResetToken(token);
