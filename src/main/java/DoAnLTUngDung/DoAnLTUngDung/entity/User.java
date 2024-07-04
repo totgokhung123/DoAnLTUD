@@ -33,7 +33,7 @@ public class User {
 
     @Column(name = "name", length = 50, nullable = false)
     @Size(max = 50, message = "Tên của bạn phải ít hơn 50 ký tự")
-    @NotBlank(message = "Ten cua bạn khong được để trống")
+    @NotBlank(message = "Ten cua bạn không được để trống")
     private String name;
 
 
