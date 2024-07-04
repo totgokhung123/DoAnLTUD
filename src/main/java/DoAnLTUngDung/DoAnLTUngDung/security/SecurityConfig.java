@@ -73,9 +73,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/auth-login-basic","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/auth-login-basic","/auth/forgot-password","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/userlist","/userlist/add","/edit", "/books/delete", "/categories/edit", "/categories/delete")
+                        .requestMatchers("/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/books", "/books/add", "/categories", "/categories/add")
                         .hasAnyAuthority("ADMIN", "USER")

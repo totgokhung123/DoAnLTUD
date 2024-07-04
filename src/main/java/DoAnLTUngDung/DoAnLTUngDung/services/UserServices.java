@@ -148,4 +148,21 @@ public class UserServices {
         workbook.close();
         return users;
     }
+//    public void updateResetPasswordToken(String token, String email) throws Exception {
+//        User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("Không tìm thấy người dùng với email: " + email));
+//        user.setResetToken(token);
+//        userRepository.save(user);
+//    }
+//
+//    public User getByResetPasswordToken(String token) {
+//        return userRepository.findByResetToken(token).orElse(null);
+//    }
+//
+//    public void updatePassword(User user, String newPassword) {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String encodedPassword = passwordEncoder.encode(newPassword);
+//        user.setPassword(encodedPassword);
+//        user.setResetToken(null);
+//        userRepository.save(user);
+//    }
 }
