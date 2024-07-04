@@ -2,11 +2,14 @@ package DoAnLTUngDung.DoAnLTUngDung.services;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
+import DoAnLTUngDung.DoAnLTUngDung.entity.Role;
+import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IProductRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -14,7 +17,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProductServices {
@@ -72,13 +77,11 @@ public class ProductServices {
         }
     }
 
-    // Nhập danh sách sản phẩm từ Excel
+
     public List<Product> readProductsFromExcel(InputStream inputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
-
         List<Product> products = new ArrayList<>();
-
         // Duyệt qua từng dòng của sheet, bắt đầu từ dòng thứ 1 (dòng tiêu đề đã có trong mẫu)
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row currentRow = sheet.getRow(i);
@@ -112,8 +115,45 @@ public class ProductServices {
                 products.add(product);
             }
         }
-
         workbook.close();
         return products;
     }
+
+
+
+//    //nhapnha
+//    public List<User> readUsersFromExcel(InputStream inputStream) throws IOException {
+//        Workbook workbook = new XSSFWorkbook(inputStream);
+//        Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+//
+//        List<User> users = new ArrayList<>();
+//
+//        // Duyệt qua từng dòng của sheet, bắt đầu từ dòng thứ 1 (dòng tiêu đề đã có trong mẫu)
+//        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+//            Row currentRow = sheet.getRow(i);
+//            if (currentRow != null) {
+//                User user = new User();
+//                user.setName(currentRow.getCell(0).getStringCellValue());
+//                user.setUsername(currentRow.getCell(1).getStringCellValue());
+//                user.setPassword(new BCryptPasswordEncoder().encode(currentRow.getCell(2).getStringCellValue()));
+//                user.setEmail(currentRow.getCell(3).getStringCellValue());
+//
+//                // Xử lý vai trò từ file Excel
+//                String[] roleNames = currentRow.getCell(4).getStringCellValue().split(",");
+//                Set<Role> roles = new HashSet<>();
+//                for (String roleName : roleNames) {
+//                    Role role = rolePepository.findByName(roleName.trim());
+//                    if (role != null) {
+//                        roles.add(role);
+//                    }
+//                }
+//                user.setRoles(new ArrayList<>(roles));
+//
+//                users.add(user);
+//            }
+//        }
+//
+//        workbook.close();
+//        return users;
+//    }
 }
