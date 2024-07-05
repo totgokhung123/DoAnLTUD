@@ -1,14 +1,6 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html lang="zxx"
-	  xmlns:th="http://www.thymeleaf.org"
->
-
+	  xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Grocery Shoppy an Ecommerce Category Bootstrap Responsive Web Template | Home :: w3layouts</title>
 	<!--/tags -->
@@ -80,6 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="#" data-toggle="modal" data-target="#myModal2">
 							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
 					</li>
+
 				</ul>
 				<!-- //header lists -->
 				<!-- search -->
@@ -842,7 +835,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="ads-grid">
 		<div class="container">
 			<!-- tittle heading -->
-			<h3 class="tittle-w3l">Our Top Products
+			<h3 class="tittle-w3l">Sản phẩm
 				<span class="heading-style">
 					<i></i>
 					<i></i>
@@ -1030,7 +1023,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<h3>Lay's Potato Chips</h3>
-							<a href="single.html">$18.00</a>
+							<a href="/single">$18.00</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -1040,7 +1033,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<h3>Bingo Mad Angles</h3>
-							<a href="single.html">$9.00</a>
+							<a href="/single">$9.00</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -1050,7 +1043,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<h3>Tata Salt</h3>
-							<a href="single.html">$15.00</a>
+							<a href="/single">$15.00</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -1060,7 +1053,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<h3>Gujarat Dry Fruit</h3>
-							<a href="single.html">$525.00</a>
+							<a href="/single">$525.00</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -1070,7 +1063,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<h3>Cadbury Dairy Milk</h3>
-							<a href="single.html">$149.00</a>
+							<a href="/single">$149.00</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -1079,132 +1072,92 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<!-- //product left -->
 			<!-- product right -->
-				<div class="agileinfo-ads-display col-md-9">
+			<div class="agileinfo-ads-display col-md-9">
 				<div class="wrapper">
-					<!-- first section (nuts) -->
-					<div class="product-sec1">
-						<h3 class="heading-tittle">Nuts</h3>
-						<div class="col-md-4 product-men">
-							<div class="men-pro-item simpleCart_shelfItem">
-								<div class="men-thumb-item">
-									<img src="../webchinh/images/m1.jpg" alt="">
-									<div class="men-cart-pro">
-										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
-										</div>
-									</div>
-									<span class="product-new-top">New</span>
-								</div>
-								<div class="item-info-product ">
-									<h4>
-										<a href="single.html">Almonds, 100g</a>
-									</h4>
-									<div class="info-product-price">
-										<span class="item_price">$149.00</span>
-										<del>$280.00</del>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Almonds, 100g" />
-												<input type="hidden" name="amount" value="149.00" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
-
+				<div class="product-sec1">
+				<h3 class="heading-tittle">Nuts</h3>
+				<div class="col-md-4 product-men" th:each="product : ${products}">
+					<div class="men-pro-item simpleCart_shelfItem">
+						<div class="men-thumb-item">
+							<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">
+							<div class="men-cart-pro">
+								<div class="inner-men-cart-pro">
+									<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Quick View</a>
 								</div>
 							</div>
+							<span class="product-new-top">New</span>
 						</div>
-						<div class="col-md-4 product-men">
-							<div class="men-pro-item simpleCart_shelfItem">
-								<div class="men-thumb-item">
-									<img src="../webchinh/images/m2.jpg" alt="">
-									<div class="men-cart-pro">
-										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
-										</div>
-									</div>
-									<span class="product-new-top">New</span>
+						<div class="item-info-product ">
+							<h4>
+								<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>
+							</h4>
 
-								</div>
-								<div class="item-info-product ">
-									<h4>
-										<a href="single.html">Cashew Nuts, 100g</a>
-									</h4>
-									<div class="info-product-price">
-										<span class="item_price">$200.00</span>
-										<del>$420.00</del>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Cashew Nuts, 100g" />
-												<input type="hidden" name="amount" value="200.00" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
 
-								</div>
+							<div class="info-product-price">
+								<span class="item_price" th:text="${'$' + product.price}"></span>
+								<del th:text="${'$' + (product.price + (product.price * 0.2))}"></del>
 							</div>
-						</div>
-						<div class="col-md-4 product-men">
-							<div class="men-pro-item simpleCart_shelfItem">
-								<div class="men-thumb-item">
-									<img src="../webchinh/images/m3.jpg" alt="">
-									<div class="men-cart-pro">
-										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
-										</div>
-									</div>
-									<span class="product-new-top">New</span>
-
-								</div>
-								<div class="item-info-product ">
-									<h4>
-										<a href="single.html">Pista..., 250g</a>
-									</h4>
-									<div class="info-product-price">
-										<span class="item_price">$520.99</span>
-										<del>$600.99</del>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Pista, 250g" />
-												<input type="hidden" name="amount" value="520.99" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
-
-								</div>
+							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+								<form action="@{/cart/add}" th:action="@{/cart/add}" method="post">
+									<fieldset>
+										<input type="hidden" name="productId" th:value="${product.id}" />
+										<input type="hidden" name="quantity" value="1" />
+										<input type="submit" name="submit" value="Add to cart" class="button" />
+									</fieldset>
+								</form>
 							</div>
+
 						</div>
-						<div class="clearfix"></div>
 					</div>
+				</div>
+
+
+
+<!--				<div class="col-md-4 product-men" th:each="product : ${products}">-->
+<!--					<div class="men-pro-item simpleCart_shelfItem">-->
+<!--						<div class="men-thumb-item">-->
+<!--							<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">-->
+<!--							<div class="men-cart-pro">-->
+<!--								<div class="inner-men-cart-pro">-->
+<!--									<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Xem nhanh</a>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div class="item-info-product">-->
+<!--							<h4>-->
+<!--								<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Tên sản phẩm</a>-->
+<!--							</h4>-->
+<!--							<div class="info-product-price">-->
+<!--								<span class="item_price" th:text="${'$' + product.price}">$149.00</span>-->
+<!--								<del th:text="${'$' + product.originalPrice}">$280.00</del>-->
+<!--							</div>-->
+<!--							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">-->
+<!--								<form action="#" method="post">-->
+<!--									<fieldset>-->
+<!--										<input type="hidden" name="cmd" value="_cart" />-->
+<!--										<input type="hidden" name="add" value="1" />-->
+<!--										<input type="hidden" name="business" value=" " />-->
+<!--										<input type="hidden" name="item_name" value="Surf Excel Liquid, 1.02L" />-->
+<!--										<input type="hidden" name="amount" value="187.00" />-->
+<!--										<input type="hidden" name="discount_amount" value="1.00" />-->
+<!--										<input type="hidden" name="currency_code" value="USD" />-->
+<!--										<input type="hidden" name="return" value=" " />-->
+<!--										<input type="hidden" name="cancel_return" value=" " />-->
+<!--										<input type="submit" name="submit" value="Add to cart" class="button" />-->
+<!--									</fieldset>-->
+<!--								</form>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+				<div class="clearfix"></div>
+			</div>
+
+
+
+
+
 					<!-- //first section (nuts) -->
 					<!-- second section (nuts special) -->
 					<div class="product-sec1 product-sec2">
@@ -1229,14 +1182,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk4.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 									<span class="product-new-top">New</span>
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Freedom Oil, 1L</a>
+										<a href="/single">Freedom Oil, 1L</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$78.00</span>
@@ -1268,7 +1221,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk5.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 									<span class="product-new-top">New</span>
@@ -1276,7 +1229,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Saffola Gold, 1L</a>
+										<a href="/single">Saffola Gold, 1L</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$130.00</span>
@@ -1308,7 +1261,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk6.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 									<span class="product-new-top">New</span>
@@ -1316,7 +1269,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Fortune Oil, 5L</a>
+										<a href="/single">Fortune Oil, 5L</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$399.99</span>
@@ -1354,13 +1307,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk7.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Yippee Noodles, 65g</a>
+										<a href="/single">Yippee Noodles, 65g</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$15.00</span>
@@ -1392,7 +1345,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk8.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 									<span class="product-new-top">New</span>
@@ -1400,7 +1353,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Wheat Pasta, 500g</a>
+										<a href="/single">Wheat Pasta, 500g</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$98.00</span>
@@ -1432,7 +1385,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img src="../webchinh/images/mk9.jpg" alt="">
 									<div class="men-cart-pro">
 										<div class="inner-men-cart-pro">
-											<a href="single.html" class="link-product-add-cart">Quick View</a>
+											<a href="/single" class="link-product-add-cart">Quick View</a>
 										</div>
 									</div>
 									<span class="product-new-top">New</span>
@@ -1440,7 +1393,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</div>
 								<div class="item-info-product ">
 									<h4>
-										<a href="single.html">Chinese Noodles, 68g</a>
+										<a href="/single">Chinese Noodles, 68g</a>
 									</h4>
 									<div class="info-product-price">
 										<span class="item_price">$11.99</span>
@@ -1492,13 +1445,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="single.html">
+								<a href="/single">
 									<img src="../webchinh/images/s1.jpg" alt="">
 								</a>
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="single.html">Aashirvaad, 5g</a>
+									<a href="/single">Aashirvaad, 5g</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>$220.00</h6>
@@ -1526,13 +1479,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="single.html">
+								<a href="/single">
 									<img src="../webchinh/images/s4.jpg" alt="">
 								</a>
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="single.html">Kissan Tomato Ketchup, 950g</a>
+									<a href="/single">Kissan Tomato Ketchup, 950g</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>$99.00</h6>
@@ -1560,13 +1513,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="single.html">
+								<a href="/single">
 									<img src="../webchinh/images/s2.jpg" alt="">
 								</a>
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="single.html">Madhur Pure Sugar, 1g</a>
+									<a href="/single">Madhur Pure Sugar, 1g</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>$69.00</h6>
@@ -1628,13 +1581,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="single.html">
+								<a href="/single">
 									<img src="../webchinh/images/s8.jpg" alt="">
 								</a>
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="single.html">Cadbury Choclairs, 655.5g</a>
+									<a href="/single">Cadbury Choclairs, 655.5g</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>$160.00</h6>
@@ -1696,13 +1649,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="single.html">
+								<a href="/single">
 									<img src="../webchinh/images/s5.jpg" alt="">
 								</a>
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="single.html">Sprite, 2.25L (Pack of 2)</a>
+									<a href="/single">Sprite, 2.25L (Pack of 2)</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>$180.00</h6>

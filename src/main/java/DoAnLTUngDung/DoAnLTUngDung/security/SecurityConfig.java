@@ -82,16 +82,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
+                        .requestMatchers("/products","/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/books", "/books/add", "/categories", "/categories/add")
                         .hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated()
-
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/index", true)
                         .failureUrl("/auth-login-basic?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
                                 userInfoEndpoint.oidcUserService(this.oidcUserService())
@@ -107,7 +106,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth-login-basic")
                         .loginProcessingUrl("/auth-login-basic")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/index")
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")
@@ -121,10 +120,6 @@ public class SecurityConfig {
                 .build();
     }
 
-//    @Bean
-//    public OidcUserService oidcUserService() {
-//        return new OidcUserService();
-//    }
     @Bean
     public CustomOAuth2UserService oidcUserService() {
         return new CustomOAuth2UserService();

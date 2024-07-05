@@ -33,6 +33,7 @@
                 <input type="number" class="form-control" id="product-quantity" th:field="*{sl}" placeholder="Số lượng..." />
                 <div class="text-danger" th:if="${#fields.hasErrors('sl')}" th:errors="*{sl}"></div>
             </div>
+
             <div class="mb-3">
                 <label class="form-label" for="product-description">Mô tả</label>
                 <textarea id="product-description" class="form-control" th:field="*{description}" placeholder="Mô tả sản phẩm..."></textarea>
