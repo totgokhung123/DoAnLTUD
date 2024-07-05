@@ -42,11 +42,10 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-
     @Column(name = "reset_token")
     private String resetToken;
-
-
-    @Column(name = "active", nullable = false)
-    private boolean active = true;  // Thêm trường này để lưu trạng thái hoạt động
+//    @Column(name = "enabled", nullable = false)
+//    private boolean enabled = true; // Mặc định là true
+    @Column(name ="accountNonLocked", nullable = false)
+    private boolean accountNonLocked = true;
 }

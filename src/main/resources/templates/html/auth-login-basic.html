@@ -142,7 +142,7 @@
               <form  class="mb-3" th:action="@{/auth-login-basic}" method="post">
                 <fieldset>
                   <div th:if ="${param.error}" class="alert alert-danger">
-                    Tên đăng nhập và mật khẩu không hợp lệ
+                    [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
                   </div>
                   <div th:if ="${param.logout}" class="alert alert-success">
                     Bạn đã đăng xuất

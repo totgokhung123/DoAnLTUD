@@ -1,8 +1,10 @@
 package DoAnLTUngDung.DoAnLTUngDung.security;
 
+import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.CustomOAuth2UserService;
 import DoAnLTUngDung.DoAnLTUngDung.services.CustomUserDetailServices;
 import DoAnLTUngDung.DoAnLTUngDung.services.OAuth2LoginSuccessHandler;
+import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
@@ -26,7 +29,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Bean
+    private UserServices userservices;
+
+        @Bean
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailServices();
     }
@@ -84,14 +89,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
                 )
-//                .oauth2Login(oauth2Login -> oauth2Login
-//                        .loginPage("/auth-login-basic")
-//                        .defaultSuccessUrl("/home", true)
-//                        .failureUrl("/login?error=true")
-//                        .userInfoEndpoint(userInfoEndpoint ->
-//                                userInfoEndpoint.oidcUserService(this.oidcUserService())
-//                        )
-//                )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
                         .defaultSuccessUrl("/home", true)

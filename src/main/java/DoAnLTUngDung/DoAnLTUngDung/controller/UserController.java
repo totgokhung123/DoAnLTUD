@@ -3,6 +3,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
+import DoAnLTUngDung.DoAnLTUngDung.services.UserService;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -246,10 +248,16 @@ public class UserController {
 
         return "html/auth-login-basic";
     }
-
-    @PostMapping("/updateStatus")
-    public String updateStatus(@RequestParam Long userId, @RequestParam boolean active, Model model) {
-        userService.updateActiveStatus(userId, active);
-        return "ADMIN/userlist";
+    @Autowired
+    private UserService u;
+    @GetMapping("/toggle-user-lock-status")
+    public String toggleUserLockStatus(@RequestParam("id") Long userId, RedirectAttributes redirectAttributes) {
+        try {
+            u.toggleUserLockStatus(userId);
+            redirectAttributes.addFlashAttribute("message", "Đã thay đổi trạng thái tài khoản thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Lỗi khi thay đổi trạng thái tài khoản: " + e.getMessage());
+        }
+        return "redirect:/userlist";
     }
 }

@@ -179,7 +179,6 @@ public class UserServices {
         user.setResetToken(token);
         userRepository.save(user);
     }
-
     public User getByResetPasswordToken(String token) {
         return userRepository.findByResetToken(token).orElse(null);
     }
@@ -199,7 +198,7 @@ public class UserServices {
         // Cập nhật thông tin đăng nhập nếu cần thiết
         userRepository.save(user);
     }
-    public void updateActiveStatus(Long userId, boolean active) {
-        userRepository.updateActiveStatus(userId, active);
-    }
+//    public void updateActiveStatus(Long userId, boolean active) {
+//        userRepository.updateActiveStatus(userId, active);
+//    }
 }
