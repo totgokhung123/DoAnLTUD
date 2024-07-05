@@ -1,6 +1,8 @@
 package DoAnLTUngDung.DoAnLTUngDung.security;
 
+import DoAnLTUngDung.DoAnLTUngDung.services.CustomOAuth2UserService;
 import DoAnLTUngDung.DoAnLTUngDung.services.CustomUserDetailServices;
+import DoAnLTUngDung.DoAnLTUngDung.services.OAuth2LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -54,8 +56,8 @@ public class SecurityConfig {
 
     private ClientRegistration googleClientRegistration() {
         return ClientRegistration.withRegistrationId("google")
-                .clientId("657744543587-nphkp1645boooi2tul364mf2fn6unp44.apps.googleusercontent.com")
-                .clientSecret("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")
+                .clientId("851264590167-egpq4f57vt68edodrlfd1u4dentrdjgv.apps.googleusercontent.com")
+                .clientSecret("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")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
@@ -73,9 +75,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/auth-login-basic","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/products/add","/products/edit","/products/delete","/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
+                        .requestMatchers("/products","/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/books", "/books/add", "/categories", "/categories/add")
                         .hasAnyAuthority("ADMIN", "USER")
@@ -84,10 +86,11 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
                         .defaultSuccessUrl("/home", true)
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/auth-login-basic?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
                                 userInfoEndpoint.oidcUserService(this.oidcUserService())
                         )
+                        .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/auth-login-basic")
@@ -113,7 +116,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public OidcUserService oidcUserService() {
-        return new OidcUserService();
+    public CustomOAuth2UserService oidcUserService() {
+        return new CustomOAuth2UserService();
+    }
+
+    // Định nghĩa các bean cần thiết
+    @Bean
+    public CustomOAuth2UserService customOAuth2UserService() {
+        return new CustomOAuth2UserService();
+    }
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    public SecurityConfig(OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 }

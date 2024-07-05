@@ -4,10 +4,15 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import  DoAnLTUngDung.DoAnLTUngDung.config.Utility;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +27,19 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
+
+
 
 @Controller
 public class UserController {
     @Autowired
     private UserServices userService;
     private IUserRepository userRepository;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/auth-login-basic")
     public String Login()
@@ -124,6 +135,8 @@ public class UserController {
         userService.deleteMultipleUsers(userIds);
         return "redirect:/userlist";
     }
+
+    //nhapex
     @PostMapping("/import-users")
     public String importUsers(@RequestParam("file") MultipartFile file) {
         try {
@@ -144,6 +157,9 @@ public class UserController {
             return "redirect:/userlist?import_error=" + e.getMessage();
         }
     }
+
+
+    //xuatex
     @GetMapping("/export-users")
     public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
         ByteArrayInputStream in = userService.exportUsersToExcel();
@@ -155,5 +171,90 @@ public class UserController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new InputStreamResource(in));
+    }
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "ADMIN/forgotpassword";
+    }
+
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(HttpServletRequest request, Model model) {
+        String email = request.getParameter("email");
+        String token = UUID.randomUUID().toString();
+
+        try {
+            userService.updateResetPasswordToken(token, email);
+            String resetPasswordLink = Utility.getSiteURL(request) + "/reset-password?token=" + token;
+            sendEmail(email, resetPasswordLink);
+            model.addAttribute("message", "Chúng tôi đã gửi liên kết đặt lại mật khẩu tới email của bạn. Vui lòng kiểm tra.");
+        } catch (Exception ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+        return "ADMIN/forgotpassword";
+    }
+
+    private void sendEmail(String recipientEmail, String link)
+            throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("chutienbinh2003@gmail.com", "Example Support");
+        helper.setTo(recipientEmail);
+
+        String subject = "Liên kết đặt lại mật khẩu của bạn";
+
+        String content = "<p>Xin chào,</p>"
+                + "<p>Bạn đã yêu cầu đặt lại mật khẩu của mình.</p>"
+                + "<p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>"
+                + "<p><a href=\"" + link + "\">Reset Password here</a></p>"
+                + "<br>"
+                + "<p>Bỏ qua email này nếu bạn nhớ mật khẩu của mình, "
+                + "hoặc bạn không thực hiện yêu cầu này.</p>";
+
+        helper.setSubject(subject);
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(@RequestParam(value = "token") String token, Model model) {
+        User user = userService.getByResetPasswordToken(token);
+        model.addAttribute("token", token);
+
+        if (user == null) {
+            model.addAttribute("message", "Invalid Token");
+            return "html/auth-login-basic";
+        }
+
+        return "ADMIN/reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String processResetPassword(HttpServletRequest request, Model model) {
+        String token = request.getParameter("token");
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+
+        User user = userService.getByResetPasswordToken(token);
+
+        if (user == null) {
+            model.addAttribute("message", "Invalid Token");
+            return "html/auth-login-basic";
+        } else if (!password.equals(confirmPassword)) {
+            model.addAttribute("message", "Passwords do not match");
+            return "ADMIN/reset-password";
+        } else {
+            userService.updatePassword(user, password);
+            model.addAttribute("message", "You have successfully reset your password.");
+        }
+
+        return "html/auth-login-basic";
+    }
+
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam Long userId, @RequestParam boolean active, Model model) {
+        userService.updateActiveStatus(userId, active);
+        return "ADMIN/userlist";
     }
 }

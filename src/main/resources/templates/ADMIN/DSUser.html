@@ -586,15 +586,16 @@
                     <div id="importForm" style="display: none;">
                         <form id="uploadForm" action="/import-users" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" accept=".xlsx, .xls">
-                            <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
+                            <button type="submit" class="btn btn-primary mb-3">Import từ file Excel</button>
                         </form>
                     </div>
                     <!-- Hoverable Table rows -->
                     <div class="card">
                         <h5 class="card-header">Danh Sach User</h5>
                         <div class="table-responsive text-nowrap">
-                            <button id="exportButton" class="btn btn-primary mb-3">Export Excel</button>
-                            <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Import Excel</button>
+                            <!-- xuatex -->
+                            <button id="exportButton" class="btn btn-primary mb-3">Xuất file Excel</button>
+                            <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Tải xuống file Excel mẫu</button>
                             <form th:action="@{/delete-multiple}" method="post">
                                 <table class="table table-hover">
                                     <thead>
@@ -608,6 +609,9 @@
                                         <th>Email</th>
                                         <th>Vai Tro</th>
                                         <th>Chuc Nang</th>
+                                        <th>Trạng thái</th>
+                                        <th>Vô hiệu Hóa</th>
+
                                     </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" >
@@ -634,6 +638,14 @@
                                                     ><i class="bx bx-trash me-1"></i> Delete</a>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td th:text="${USER.active ? 'Hoạt động' : 'Vô hiệu hóa'}"></td>
+                                        <td>
+                                            <form th:action="@{/userlist/updateStatus}" method="post">
+                                                <input type="hidden" name="userId" th:value="${USER.id}"/>
+                                                <input type="hidden" name="active" th:value="${!USER.active}" />
+                                                <button type="submit" th:text="${USER.active ? 'Vô hiệu hóa' : 'Kích hoạt'}"></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>
