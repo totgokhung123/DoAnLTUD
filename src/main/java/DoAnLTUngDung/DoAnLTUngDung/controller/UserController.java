@@ -246,4 +246,10 @@ public class UserController {
 
         return "html/auth-login-basic";
     }
+
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam Long userId, @RequestParam boolean active, Model model) {
+        userService.updateActiveStatus(userId, active);
+        return "ADMIN/userlist";
+    }
 }

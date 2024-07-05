@@ -45,4 +45,8 @@ public class User {
 
     @Column(name = "reset_token")
     private String resetToken;
+
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;  // Thêm trường này để lưu trạng thái hoạt động
 }

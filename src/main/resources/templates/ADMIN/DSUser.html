@@ -608,6 +608,9 @@
                                         <th>Email</th>
                                         <th>Vai Tro</th>
                                         <th>Chuc Nang</th>
+                                        <th>Trạng thái</th>
+                                        <th>Vô hiệu Hóa</th>
+
                                     </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" >
@@ -634,6 +637,14 @@
                                                     ><i class="bx bx-trash me-1"></i> Delete</a>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td th:text="${USER.active ? 'Hoạt động' : 'Vô hiệu hóa'}"></td>
+                                        <td>
+                                            <form th:action="@{/userlist/updateStatus}" method="post">
+                                                <input type="hidden" name="userId" th:value="${USER.id}"/>
+                                                <input type="hidden" name="active" th:value="${!USER.active}" />
+                                                <button type="submit" th:text="${USER.active ? 'Vô hiệu hóa' : 'Kích hoạt'}"></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>
