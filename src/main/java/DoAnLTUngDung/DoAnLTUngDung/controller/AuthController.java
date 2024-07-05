@@ -33,42 +33,42 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
 
-    @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestParam String email) throws MessagingException {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            String token = UUID.randomUUID().toString();
-            user.setResetToken(token);
-            userRepository.save(user);
-
-            String resetLink = "http://localhost:8080/auth/reset-password?token=" + token;
-            emailService.sendEmail(user.getEmail(), "Password Reset Request", "To reset your password, click the link below:\n" + resetLink);
-
-            return "Password reset email sent.";
-        } else {
-            return "User not found.";
-        }
-    }
-    @GetMapping("/reset-password")
-    public String showResetPasswordPage(@RequestParam String token) {
-        Optional<User> userOptional = userRepository.findByResetToken(token);
-        return userOptional.isPresent() ? "Reset Password Form" : "Invalid token";
-    }
-
-    @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam String token, @RequestParam String newPassword) {
-        Optional<User> userOptional = userRepository.findByResetToken(token);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setPassword(passwordEncoder.encode(newPassword));
-            user.setResetToken(null);
-            userRepository.save(user);
-            return "Password successfully reset.";
-        } else {
-            return "Invalid token";
-        }
-    }
+//    @PostMapping("/forgot-password")
+//    public String forgotPassword(@RequestParam String email) throws MessagingException {
+//        Optional<User> userOptional = userRepository.findByEmail(email);
+//        if (userOptional.isPresent()) {
+//            User user = userOptional.get();
+//            String token = UUID.randomUUID().toString();
+//            user.setResetToken(token);
+//            userRepository.save(user);
+//
+//            String resetLink = "http://localhost:8080/auth/reset-password?token=" + token;
+//            emailService.sendEmail(user.getEmail(), "Password Reset Request", "To reset your password, click the link below:\n" + resetLink);
+//
+//            return "Password reset email sent.";
+//        } else {
+//            return "User not found.";
+//        }
+//    }
+//    @GetMapping("/reset-password")
+//    public String showResetPasswordPage(@RequestParam String token) {
+//        Optional<User> userOptional = userRepository.findByResetToken(token);
+//        return userOptional.isPresent() ? "Reset Password Form" : "Invalid token";
+//    }
+//
+//    @PostMapping("/reset-password")
+//    public String resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+//        Optional<User> userOptional = userRepository.findByResetToken(token);
+//        if (userOptional.isPresent()) {
+//            User user = userOptional.get();
+//            user.setPassword(passwordEncoder.encode(newPassword));
+//            user.setResetToken(null);
+//            userRepository.save(user);
+//            return "Password successfully reset.";
+//        } else {
+//            return "Invalid token";
+//        }
+//    }
 
     @GetMapping("/login-success")
     public String loginSuccess(OAuth2AuthenticationToken authentication) {
@@ -88,16 +88,15 @@ public class AuthController {
             newUser.setName(oauthUser.getAttribute("name"));
             newUser.setEmail(email);
             newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString())); // Đặt mật khẩu ngẫu nhiên
-
+            newUser.setUsername(email);
             // Thiết lập vai trò cho người dùng mới
             Role defaultRole = roleService.findRoleByName("USER");
             if (defaultRole != null) {
                 newUser.setRoles(List.of(defaultRole));
             }
-
             userRepository.save(newUser);
         }
 
-        return "Login Success";
+        return "html/auth-login-basic";
     }
 }

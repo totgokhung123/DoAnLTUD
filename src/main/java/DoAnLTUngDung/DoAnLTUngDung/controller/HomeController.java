@@ -11,10 +11,10 @@ public class HomeController {
     public String home(){
         return "html/auth-login-basic";
     }
-    @GetMapping("/auth/forgot_password")
-    public String showfogot(){
-        return "ADMIN/forgotpassword";
-    }
+//    @GetMapping("/auth/forgot_password")
+//    public String showfogot(){
+//        return "ADMIN/forgotpassword";
+//    }
     @GetMapping("/home")
     public String test(){
         return "html/index";

@@ -187,17 +187,19 @@
                 </fieldset>
               </form>
               <div class="d-flex justify-content-between">
-                <a th:href="@{/auth/forgot_password}">
+                <a th:href="@{/forgot-password}">
                   <small>Forgot Password?</small>
                 </a>
               </div>
               <p class="text-center">
                 <span>New on our platform?</span>
-
                 <a href="/register">
                   <span>Create an account</span>
                 </a>
               </p>
+              <div class="d-flex justify-content-between">
+                <a href="/oauth2/authorization/google" class="btn btn-danger mt-2">Đăng nhập với Google</a>
+              </div>
             </div>
           </div>
           <!-- /Register -->
