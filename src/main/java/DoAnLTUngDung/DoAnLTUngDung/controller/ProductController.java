@@ -120,6 +120,7 @@ public class ProductController {
     }
 
 
+
     @PostMapping("/import-products")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String importProducts(@RequestParam("file") MultipartFile file) {
@@ -141,6 +142,7 @@ public class ProductController {
             return "redirect:/products/list?import_error=" + e.getMessage();
         }
     }
+
 
 //    //nhapnha
 //    @PostMapping("/import-users")
@@ -177,5 +179,16 @@ public class ProductController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new InputStreamResource(in));
     }
+
+
+
+
+
+//    @GetMapping("/delete/{id}")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public String deleteProduct(@PathVariable("id") Long id) {
+//        productServices.deleteProduct(id);
+//        return "redirect:/products/list";
+//    }
 }
 

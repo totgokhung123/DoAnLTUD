@@ -133,6 +133,10 @@
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
+						<additionalProperties>
+							<server.port>8080</server.port>
+							<server.tomcat.uri-encoding>UTF-8</server.tomcat.uri-encoding>
+						</additionalProperties>
 					</excludes>
 				</configuration>
 			</plugin>
