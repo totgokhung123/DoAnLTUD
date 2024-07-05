@@ -138,6 +138,7 @@ public class ProductServices {
         workbook.close();
         return products;
     }
+
     public List<Product> getTopTwoHighestPricedProducts() {
         List<Product> allProducts = productRepository.findAll();
 

@@ -36,7 +36,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE User u SET u.active = active WHERE u.id = userId")
+    @Query("UPDATE User u SET u.active = :active WHERE u.id = :userId")
     void updateActiveStatus(@Param("userId") Long userId, @Param("active") boolean active);
 
 

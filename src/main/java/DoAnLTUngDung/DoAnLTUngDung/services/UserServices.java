@@ -24,9 +24,7 @@ public class UserServices {
     private IUserRepository userRepository;
     @Autowired
     private IRoleRepository rolePepository;
-
     public void save(User user) {
-
         userRepository.save(user);
         Long userId = userRepository.getUserIdByUsername(user.getUsername());
 
@@ -45,11 +43,9 @@ public class UserServices {
             }
         }
     }
-
-    public List<User> getAllusers() {
+    public List<User> getAllusers () {
         return userRepository.findAll();
     }
-
     public User getUsersById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -73,13 +69,11 @@ public class UserServices {
         }
         return null;
     }
-
     public void deleteMultipleUsers(List<Long> userIds) {
         for (Long id : userIds) {
             userRepository.deleteById(id);
         }
     }
-
     public ByteArrayInputStream exportUsersToExcel() throws IOException {
         List<User> users = getAllusers();
 
@@ -120,7 +114,6 @@ public class UserServices {
             return new ByteArrayInputStream(out.toByteArray());
         }
     }
-
     public List<User> readUsersFromExcel(InputStream inputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
@@ -176,9 +169,37 @@ public class UserServices {
                     users.add(user);
                 }
             }
-
-            workbook.close();
-            return users;
         }
+
+        workbook.close();
+        return users;
+    }
+    public void updateResetPasswordToken(String token, String email) throws Exception {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("Không tìm thấy người dùng với email: " + email));
+        user.setResetToken(token);
+        userRepository.save(user);
+    }
+
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByResetToken(token).orElse(null);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+        user.setResetToken(null);
+        userRepository.save(user);
+    }
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public void updateUserLoginDetails(User user) {
+        // Cập nhật thông tin đăng nhập nếu cần thiết
+        userRepository.save(user);
+    }
+    public void updateActiveStatus(Long userId, boolean active) {
+        userRepository.updateActiveStatus(userId, active);
     }
 }
