@@ -85,7 +85,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/index", true)
                         .failureUrl("/auth-login-basic?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
                                 userInfoEndpoint.oidcUserService(this.oidcUserService())
@@ -101,7 +101,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth-login-basic")
                         .loginProcessingUrl("/auth-login-basic")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/index")
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")

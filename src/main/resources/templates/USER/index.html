@@ -1,14 +1,6 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html lang="zxx"
-	  xmlns:th="http://www.thymeleaf.org"
->
-
+	  xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Grocery Shoppy an Ecommerce Category Bootstrap Responsive Web Template | Home :: w3layouts</title>
 	<!--/tags -->
@@ -80,6 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="#" data-toggle="modal" data-target="#myModal2">
 							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
 					</li>
+
 				</ul>
 				<!-- //header lists -->
 				<!-- search -->
@@ -1105,17 +1098,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<del th:text="${'$' + (product.price + (product.price * 0.2))}"></del>
 							</div>
 							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-								<form action="#" method="post">
+								<form action="@{/cart/add}" th:action="@{/cart/add}" method="post">
 									<fieldset>
-										<input type="hidden" name="cmd" value="_cart" />
-										<input type="hidden" name="add" value="1" />
-										<input type="hidden" name="business" value=" " />
-										<input type="hidden" name="item_name" value="Almonds, 100g" />
-										<input type="hidden" name="amount" value="149.00" />
-										<input type="hidden" name="discount_amount" value="1.00" />
-										<input type="hidden" name="currency_code" value="USD" />
-										<input type="hidden" name="return" value=" " />
-										<input type="hidden" name="cancel_return" value=" " />
+										<input type="hidden" name="productId" th:value="${product.id}" />
+										<input type="hidden" name="quantity" value="1" />
 										<input type="submit" name="submit" value="Add to cart" class="button" />
 									</fieldset>
 								</form>
