@@ -716,13 +716,10 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
-
-<!-- xuatex -->
 <script>
     document.getElementById('exportButton').addEventListener('click', function() {
         window.location.href = '/export-users';
     });
-
     function selectAllCheckboxes(source) {
         checkboxes = document.getElementsByName('userIds');
         for(var i in checkboxes)
@@ -737,9 +734,6 @@
         }
     }
 </script>
-
-
-
 <script src="../assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assets/vendor/libs/popper/popper.js"></script>
 <script src="../assets/vendor/js/bootstrap.js"></script>

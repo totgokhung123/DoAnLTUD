@@ -65,10 +65,6 @@ public class UserServices {
             userRepository.deleteById(id);
         }
     }
-
-
-    //exxuat
-
     public ByteArrayInputStream exportUsersToExcel() throws IOException {
         List<User> users = getAllusers();
 
@@ -109,8 +105,6 @@ public class UserServices {
             return new ByteArrayInputStream(out.toByteArray());
         }
     }
-
-    //nhapex
     public List<User> readUsersFromExcel(InputStream inputStream) throws IOException {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
@@ -134,8 +128,7 @@ public class UserServices {
                     // Xử lý nếu vai trò không tồn tại
                     throw new RuntimeException("Vai trò '" + roleName + "' không tồn tại.");
                 }
-
-                //user.addRole(role);
+                user.setRoles(new ArrayList<>(roles));
 
                 users.add(user);
             }

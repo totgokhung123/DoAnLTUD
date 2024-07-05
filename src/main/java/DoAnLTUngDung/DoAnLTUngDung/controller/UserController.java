@@ -2,6 +2,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserServices userService;
+    private IUserRepository userRepository;
 
     @GetMapping("/auth-login-basic")
     public String Login()
