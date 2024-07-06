@@ -576,12 +576,22 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <!-- nhapnha -->
+                    <div id="importForm" style="display: none;">
+                        <form id="uploadForm" action="/products/import-products" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".xlsx, .xls">
+                            <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
+                        </form>
+                    </div>
                     <hr class="my-5" />
                     <a th:href="@{/products/add}"class="btn btn-primary">Add</a>
+                    <button id="exportButton" class="btn btn-primary mb-3">Xuất file Excel</button>
+                    <button type="button" onclick="toggleImportForm()" class="btn btn-primary mb-3">Import Excel</button>
                     <!-- Hoverable Table rows -->
-                    <div class="card">
+
+                    <div class="card" style="min-height: 800px;">
                         <h5 class="card-header">Danh Sách Sản Phẩm</h5>
-                        <div class="table-responsive text-nowrap">
+                        <div class="table-responsive text-nowrap" style="min-height: 800px;">
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
@@ -597,14 +607,14 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                 <!-- Iterate over each product in DSProduct -->
-                                <tr th:each="product : ${products}">
+                                 <tr th:each="product : ${products}">
                                     <td>
-                                        <!-- Display product name -->
                                         <strong th:text="${product.title}"></strong>
                                     </td>
                                     <td th:text="${product.price}"></td>
                                     <td th:text="${product.sl}"></td>
-                                    <td th:text="${product.MuTiImagePath}"></td>
+                                    <td><img th:if="${product.MuTiImagePath}" th:src="@{{image}(image=${product.MuTiImagePath})}" alt="Image" style="width:100px; height:100px;"></td>
+
                                     <td th:text="${product.category.name}"></td>
                                     <td th:text="${product.description}"></td>
                                     <td th:text="${#dates.format(product.NamSX, 'yyyy-MM-dd')}"></td>
@@ -618,6 +628,7 @@
                                                 <a class="dropdown-item" th:href="@{/products/edit/{id}(id=${product.id})}">
                                                     <i class="bx bx-edit-alt me-1"></i> Chỉnh sửa
                                                 </a>
+
                                                 <!-- Delete link with product ID and confirmation dialog -->
                                                 <a class="dropdown-item" th:href="@{/products/delete/{id}(id=${product.id})}"
                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
@@ -708,6 +719,48 @@
 
 <!-- Main JS -->
 <script src="../assets/js/main.js"></script>
+<script>
+    document.getElementById('exportButton').addEventListener('click', function() {
+        window.location.href = '/products/export-products';
+    });
+    function toggleImportForm() {
+        var importForm = document.getElementById('importForm');
+        if (importForm.style.display === 'none') {
+            importForm.style.display = 'block';
+        } else {
+            importForm.style.display = 'none';
+        }
+    }
+
+</script>
+<!-- nhapnha -->
+<!--<script>-->
+<!--    document.getElementById('exportButton').addEventListener('click', function() {-->
+<!--        window.location.href = '/export-users';-->
+<!--    });-->
+<!--    function selectAllCheckboxes(source) {-->
+<!--        checkboxes = document.getElementsByName('userIds');-->
+<!--        for(var i in checkboxes)-->
+<!--            checkboxes[i].checked = source.checked;-->
+<!--    }-->
+<!--    function toggleImportForm() {-->
+<!--        var importForm = document.getElementById('importForm');-->
+<!--        if (importForm.style.display === 'none') {-->
+<!--            importForm.style.display = 'block';-->
+<!--        } else {-->
+<!--            importForm.style.display = 'none';-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+
+
+
+
+
+
+
+
+
 
 <!-- Page JS -->
 
