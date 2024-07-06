@@ -46,14 +46,14 @@ public class UserController {
     @GetMapping("/auth-login-basic")
     public String Login()
     {
-        return "html/auth-login-basic";
+        return "Login/auth-login-basic";
     }
 
 
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
-        return "html/auth-register-basic";
+        return "Login/auth-register-basic";
     }
 
     @PostMapping("/register")
@@ -65,7 +65,7 @@ public class UserController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
-            return "html/auth-register-basic";
+            return "Login/auth-register-basic";
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
@@ -226,7 +226,7 @@ public class UserController {
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
-            return "html/auth-login-basic";
+            return "Login/auth-login-basic";
         }
 
         return "ADMIN/reset-password";
@@ -242,7 +242,7 @@ public class UserController {
 
         if (user == null) {
             model.addAttribute("message", "Invalid Token");
-            return "html/auth-login-basic";
+            return "Login/auth-login-basic";
         } else if (!password.equals(confirmPassword)) {
             model.addAttribute("message", "Passwords do not match");
             return "ADMIN/reset-password";
@@ -251,7 +251,7 @@ public class UserController {
             model.addAttribute("message", "You have successfully reset your password.");
         }
 
-        return "html/auth-login-basic";
+        return "Login/auth-login-basic";
     }
     @Autowired
     private UserService u;

@@ -1,10 +1,8 @@
 package DoAnLTUngDung.DoAnLTUngDung.security;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
-import DoAnLTUngDung.DoAnLTUngDung.services.CustomOAuth2UserService;
-import DoAnLTUngDung.DoAnLTUngDung.services.CustomUserDetailServices;
-import DoAnLTUngDung.DoAnLTUngDung.services.OAuth2LoginSuccessHandler;
-import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
+import DoAnLTUngDung.DoAnLTUngDung.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -75,22 +73,23 @@ public class SecurityConfig {
                 .clientName("Google")
                 .build();
     }
-
+    @Autowired
+    private CustomAuSucLogin customAuthenticationSuccessHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/","/assets/**", "/register","/public/**", "/error", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/index","/webchinh/**","/image/**","/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/assets/**", "/register","/public/**", "/error/**", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/products","/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit","/home", "/categories/edit", "/categories/delete")
+                        .requestMatchers("/Admin","/adminlayout,/products","/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/books", "/books/add", "/categories", "/categories/add")
+                        .requestMatchers("/categories", "/categories/add")
                         .hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/auth-login-basic")
-                        .defaultSuccessUrl("/index", true)
+                        .defaultSuccessUrl("/default", true)
                         .failureUrl("/auth-login-basic?error=true")
                         .userInfoEndpoint(userInfoEndpoint ->
                                 userInfoEndpoint.oidcUserService(this.oidcUserService())
@@ -106,7 +105,8 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth-login-basic")
                         .loginProcessingUrl("/auth-login-basic")
-                        .defaultSuccessUrl("/index")
+                        .defaultSuccessUrl("/default")
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")
@@ -115,7 +115,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(customAccessDeniedHandler())
-                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/error/403"))
+                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/auth-login-basic"))
                 )
                 .build();
     }

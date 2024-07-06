@@ -49,14 +49,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             newUser.setEmail(email);
             newUser.setUsername(email);
             newUser.setPassword(new BCryptPasswordEncoder().encode(email));
-//            Role role = new Role();
-//            role.setName("USER");
-//            newUser.setRoles(Collections.singletonList(role)); // or any default roles
-            // Thiết lập vai trò cho người dùng mới
-//            Role defaultRole = roleService.findRoleByName("USER");
-//            if (defaultRole != null) {
-//                newUser.setRoles(List.of(defaultRole));
-//            }
             userService.save(newUser);
         }
 
@@ -66,7 +58,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         FlashMap flashMap = new FlashMap();
         flashMap.put("successMessage", "Đăng nhập thành công với Google!");
         flashMapManager.saveOutputFlashMap(flashMap, request, response);
-
         super.onAuthenticationSuccess(request, response, authentication);
+        response.sendRedirect("/index");
     }
 }

@@ -2,6 +2,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
 import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,27 +18,17 @@ public class HomeController {
 
     @Autowired
     private ProductServices productServices;
-
-    @GetMapping("/")
-    public String home(){
-        return "html/auth-login-basic";
+    @GetMapping("/Admin")
+    public String adminHome() {
+        return "ADMIN/LayoutAdmin";
     }
-//    @GetMapping("/auth/forgot_password")
-//    public String showfogot(){
-//        return "ADMIN/forgotpassword";
-//    }
-    @GetMapping("/home")
-    public String test(){
-        return "html/index";
+    @GetMapping("/default")
+    public String defaultAfterLogin(HttpServletRequest request) {
+        if (request.isUserInRole("ADMIN")) {
+            return "redirect:/Admin";
+        }
+        return "redirect:/index";
     }
-
-    /// test chức nănag template
-    @GetMapping("/testedit")
-    public String edit(){
-        return "ADMIN/editUser";
-    }
-
-
     @GetMapping("/index")
     public String showAllProducts(Model model) {
         model.addAttribute("products", productServices.getAllProducts());

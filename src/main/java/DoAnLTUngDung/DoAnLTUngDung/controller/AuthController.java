@@ -97,6 +97,6 @@ public class AuthController {
             userRepository.save(newUser);
         }
 
-        return "html/auth-login-basic";
+        return "Login/auth-login-basic";
     }
 }
