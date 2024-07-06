@@ -76,7 +76,7 @@
                 return "redirect:/categorylist";
             }
 
-        @GetMapping("/edit/{id}")
+        @GetMapping("/editcategory/{id}")
         public String showUpdateForm(@PathVariable("id") Long id, Model model) {
             Category category = categoryServices.getCategoryById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:"
@@ -85,7 +85,7 @@
             return "ADMIN/Categoryedit";
         }
         // POST request to update category
-        @PostMapping("/edit/{id}")
+        @PostMapping("/editcategory/{id}")
         public String updateCategory(@PathVariable("id") Long id, @Valid Category category,
                                      BindingResult result, @RequestParam("image") MultipartFile file, Model model) {
             if (result.hasErrors()) {
@@ -120,7 +120,7 @@
     //        model.addAttribute("category", category);
     //        return "ADMIN/Categorydelete";
     //    }
-            @GetMapping("/delete/{id}")
+            @GetMapping("/deletecategory/{id}")
             //@PreAuthorize("hasAuthority('ADMIN')")
             public String deleteCategory(@PathVariable("id") Long id) {
                 categoryServices.deleteCategory(id);

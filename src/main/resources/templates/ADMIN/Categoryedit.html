@@ -79,7 +79,7 @@
                     <div class="card">
                         <h5 class="card-header">Category edit</h5>
                         <div class="card-body">
-                            <form th:action="@{/edit/{id}(id=${category.id})}" th:object="${category}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/editcategory/{id}(id=${category.id})}" th:object="${category}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="categoryId" th:field="*{id}" />
                                 <div class="mb-3">
                                     <label for="categoryName" class="form-label">Category Name</label>
