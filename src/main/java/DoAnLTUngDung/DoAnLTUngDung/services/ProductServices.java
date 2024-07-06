@@ -156,6 +156,4 @@ public class ProductServices {
                 .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
                 .collect(Collectors.toList());
     }
-
-
 }
