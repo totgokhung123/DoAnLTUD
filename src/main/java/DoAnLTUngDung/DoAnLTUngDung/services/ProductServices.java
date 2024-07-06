@@ -138,21 +138,7 @@ public class ProductServices {
         workbook.close();
         return products;
     }
-    public List<Product> getTopTwoHighestPricedProducts() {
-        List<Product> allProducts = productRepository.findAll();
 
-        // Sắp xếp danh sách sản phẩm theo giá giảm dần
-        List<Product> sortedProducts = allProducts.stream()
-                .sorted(Comparator.comparing(Product::getPrice).reversed())
-                .collect(Collectors.toList());
-
-        // Lấy hai sản phẩm đầu tiên (cao nhất)
-        List<Product> topTwoProducts = sortedProducts.stream()
-                .limit(2)
-                .collect(Collectors.toList());
-
-        return topTwoProducts;
-    }
 
 
     public void updateProductDetails(Product product) {
@@ -163,39 +149,13 @@ public class ProductServices {
         }
         // Các bước tương tự cho các thuộc tính khác như mô tả, năm sản xuất, hình ảnh, v.v.
     }
-//    //nhapnha
-//    public List<User> readUsersFromExcel(InputStream inputStream) throws IOException {
-//        Workbook workbook = new XSSFWorkbook(inputStream);
-//        Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
-//
-//        List<User> users = new ArrayList<>();
-//
-//        // Duyệt qua từng dòng của sheet, bắt đầu từ dòng thứ 1 (dòng tiêu đề đã có trong mẫu)
-//        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-//            Row currentRow = sheet.getRow(i);
-//            if (currentRow != null) {
-//                User user = new User();
-//                user.setName(currentRow.getCell(0).getStringCellValue());
-//                user.setUsername(currentRow.getCell(1).getStringCellValue());
-//                user.setPassword(new BCryptPasswordEncoder().encode(currentRow.getCell(2).getStringCellValue()));
-//                user.setEmail(currentRow.getCell(3).getStringCellValue());
-//
-//                // Xử lý vai trò từ file Excel
-//                String[] roleNames = currentRow.getCell(4).getStringCellValue().split(",");
-//                Set<Role> roles = new HashSet<>();
-//                for (String roleName : roleNames) {
-//                    Role role = rolePepository.findByName(roleName.trim());
-//                    if (role != null) {
-//                        roles.add(role);
-//                    }
-//                }
-//                user.setRoles(new ArrayList<>(roles));
-//
-//                users.add(user);
-//            }
-//        }
-//
-//        workbook.close();
-//        return users;
-//    }
+
+    public List<Product> getProductsByCategoryIdAndHasImage(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId)
+                .stream()
+                .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
+                .collect(Collectors.toList());
+    }
+
+
 }
