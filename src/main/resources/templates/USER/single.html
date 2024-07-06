@@ -52,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- header-bot-->
 			<div class="col-md-4 logo_agile">
 				<h1>
-					<a href="index.html">
+					<a href="/index">
 						<span>G</span>rocery
 						<span>S</span>hoppy
 						<img href="../webchinh/images/logo2.png" alt=" ">
@@ -492,6 +492,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //shop locator (popup) -->
 	<!-- signin Model -->
 	<!-- Modal1 -->
+
 	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
@@ -612,7 +613,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav menu__list">
 								<li>
-									<a class="nav-stylehead" href="index.html">Home
+									<a class="nav-stylehead" href="/index">Home
 										<span class="sr-only">(current)</span>
 									</a>
 								</li>
@@ -780,7 +781,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="container">
 				<ul class="w3_short">
 					<li>
-						<a href="index.html">Home</a>
+						<a href="/index">Home</a>
 						<i>|</i>
 					</li>
 					<li>CHI TIẾT SẢN PHẨM</li>
@@ -801,109 +802,142 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</span>
 			</h3>
 			<!-- //tittle heading -->
-			<div class="col-md-5 single-right-left ">
+			<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">
 				<div class="grid images_3_of_2">
 					<div class="flexslider">
 						<ul class="slides">
-							<li data-thumb="images/si.jpg">
 								<div class="thumb-image">
-									<img href="../webchinh/images/si.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
-							</li>
-							<li data-thumb="images/si2.jpg">
-								<div class="thumb-image">
-									<img href="../webchinh/images/si2.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
-							</li>
-							<li data-thumb="images/si3.jpg">
-								<div class="thumb-image">
-									<img href="../webchinh/images/si3.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
-							</li>
+									<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Product Image" class="img-thumbnail mt-3"  style="height: 400px; width: 380px;">
+								</div>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-7 single-right-left simpleCart_shelfItem">
-				<h3>Zeeba Premium Basmati Rice - 5 KG</h3>
-				<div class="rating1">
-					<span class="starRating">
-						<input id="rating5" type="radio" name="rating" value="5">
-						<label for="rating5">5</label>
-						<input id="rating4" type="radio" name="rating" value="4">
-						<label for="rating4">4</label>
-						<input id="rating3" type="radio" name="rating" value="3" checked="">
-						<label for="rating3">3</label>
-						<input id="rating2" type="radio" name="rating" value="2">
-						<label for="rating2">2</label>
-						<input id="rating1" type="radio" name="rating" value="1">
-						<label for="rating1">1</label>
-					</span>
-				</div>
-				<p>
-					<span class="item_price">$950.00</span>
-					<del>$1300.00</del>
-					<label>Free delivery</label>
-				</p>
-				<div class="single-infoagile">
-					<ul>
-						<li>
-							Cash on Delivery Eligible.
-						</li>
-						<li>
-							Shipping Speed to Delivery.
-						</li>
-						<li>
-							Sold and fulfilled by Supple Tek (3.6 out of 5 | 8 ratings).
-						</li>
-						<li>
-							1 offer from
-							<span class="item_price">$950.00</span>
-						</li>
-					</ul>
-				</div>
-				<div class="product-single-w3l">
-					<p>
-						<i class="fa fa-hand-o-right" aria-hidden="true"></i>This is a
-						<label>Vegetarian</label> product.</p>
-					<ul>
-						<li>
-							Best for Biryani and Pulao.
-						</li>
-						<li>
-							After cooking, Zeeba Basmati rice grains attain an extra ordinary length of upto 2.4 cm/~1 inch.
-						</li>
-						<li>
-							Zeeba Basmati rice adheres to the highest food afety standards as your health is paramount to us.
-						</li>
-						<li>
-							Contains only the best and purest grade of basmati rice grain of Export quality.
-						</li>
-					</ul>
-					<p>
-						<i class="fa fa-refresh" aria-hidden="true"></i>All food products are
-						<label>non-returnable.</label>
-					</p>
-				</div>
-				<div class="occasion-cart">
-					<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-						<form action="#" method="post">
-							<fieldset>
-								<input type="hidden" name="cmd" value="_cart" />
-								<input type="hidden" name="add" value="1" />
-								<input type="hidden" name="business" value=" " />
-								<input type="hidden" name="item_name" value="Zeeba Premium Basmati Rice - 5 KG" />
-								<input type="hidden" name="amount" value="950.00" />
-								<input type="hidden" name="discount_amount" value="1.00" />
-								<input type="hidden" name="currency_code" value="USD" />
-								<input type="hidden" name="return" value=" " />
-								<input type="hidden" name="cancel_return" value=" " />
-								<input type="submit" name="submit" value="Add to cart" class="button" />
-							</fieldset>
-						</form>
+
+<!--
+
+
+					<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">
+						<div class="grid images_3_of_2">
+							<div class="form-group">
+								<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Product Image" class="img-thumbnail mt-3">
+							</div>
+
+						</div>
 					</div>
 
+					 Phần hiển thị thông tin sản phẩm -->
+
+					<div class="col-md-7 single-right-left simpleCart_shelfItem">
+						<h3 th:text="${product.title}">Tên sản phẩm</h3>
+						<div class="rating1">
+                    <span class="starRating">
+                        <input id="rating5" type="radio" name="rating" value="5">
+                        <label for="rating5">5</label>
+                        <input id="rating4" type="radio" name="rating" value="4">
+                        <label for="rating4">4</label>
+                        <input id="rating3" type="radio" name="rating" value="3" checked="">
+                        <label for="rating3">3</label>
+                        <input id="rating2" type="radio" name="rating" value="2">
+                        <label for="rating2">2</label>
+                        <input id="rating1" type="radio" name="rating" value="1">
+                        <label for="rating1">1</label>
+                    </span>
+						</div>
+						<p>
+							<span class="item_price" th:text="${product.price}">Giá sản phẩm</span>
+							<del>$1300.00</del>
+							<label>Free delivery</label>
+						</p>
+						<div class="single-infoagile">
+							<ul>
+								<li>
+									Cash on Delivery Eligible.
+								</li>
+								<li>
+									Shipping Speed to Delivery.
+								</li>
+								<li>
+									Sold and fulfilled by Supple Tek
+								</li>
+								<li>
+									1 offer from
+									<span class="item_price" th:text="${product.price}">Giá sản phẩm</span>
+								</li>
+							</ul>
+						</div>
+						<div class="product-single-w3l">
+							<p>
+								<i class="fa fa-hand-o-right" aria-hidden="true"></i>This is a
+								<label>good </label> product.</p>
+							<p>
+								<i class="fa fa-refresh" aria-hidden="true"></i>All food products are
+								<label>non-returnable.</label>
+							</p>
+						</div>
+						<div class="occasion-cart">
+							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+								<form action="#" method="post">
+									<fieldset>
+										<input type="hidden" name="cmd" value="_cart" />
+										<input type="hidden" name="add" value="1" />
+										<input type="hidden" name="business" value=" " />
+										<input type="hidden" name="item_name" th:value="${product.title}" />
+										<input type="hidden" name="amount" th:value="${product.price}" />
+										<input type="hidden" name="discount_amount" value="1.00" />
+										<input type="hidden" name="currency_code" value="USD" />
+										<input type="hidden" name="return" value=" " />
+										<input type="hidden" name="cancel_return" value=" " />
+										<input type="submit" name="submit" value="Add to cart" class="button" />
+									</fieldset>
+								</form>
+							</div>
+						</div>
 				</div>
 
+
+			<div class="content-bottom-in" >
+				<ul id="flexiselDemo1">
+					<li th:each="product : ${products}">
+						<div class="w3l-specilamk">
+							<div class="speioffer-agile">
+								<a href="/single">
+									<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">
+								</a>
+							</div>
+							<div class="product-name-w3l">
+								<h4>
+									<a href="/single" th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
+								</h4>
+								<div class="w3l-pricehkj">
+									<h6 th:text="${'$' + product.price}">$220.00</h6>
+									<p th:text="'Save $' + (${product.price} * 0.8)">Save $40.00</p>
+								</div>
+								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+									<form action="#" method="post">
+										<fieldset>
+											<input type="hidden" name="cmd" value="_cart" />
+											<input type="hidden" name="add" value="1" />
+											<input type="hidden" name="business" value=" " />
+											<input type="hidden" name="item_name" value="Aashirvaad, 5g" />
+											<input type="hidden" name="amount" value="220.00" />
+											<input type="hidden" name="discount_amount" value="1.00" />
+											<input type="hidden" name="currency_code" value="USD" />
+											<input type="hidden" name="return" value=" " />
+											<input type="hidden" name="cancel_return" value=" " />
+											<input type="submit" name="submit" value="Add to cart" class="button" />
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
 			</div>
+
+
+
 			<div class="clearfix"> </div>
 		</div>
 	</div>
@@ -912,7 +946,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="featured-section" id="projects">
 		<div class="container">
 			<!-- tittle heading -->
-			<h3 class="tittle-w3l">Add More
+			<h3 class="tittle-w3l">KẾT THÚC
 				<span class="heading-style">
 					<i></i>
 					<i></i>
