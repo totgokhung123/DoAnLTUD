@@ -65,9 +65,22 @@ public class UserServices {
             existingUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
             existingUser.setEmail(editedUser.getEmail());
             existingUser.setName(editedUser.getName());
+
+            existingUser.setRoles(editedUser.getRoles());
             return userRepository.save(existingUser);
         }
         return null;
+    }
+    public void changeUserRole(Long userId, Long roleId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            Role newRole = rolePepository.findById(roleId).orElse(null);
+            if (newRole != null) {
+                user.getRoles().clear();
+                user.getRoles().add(newRole);
+                userRepository.save(user);
+            }
+        }
     }
     public void deleteMultipleUsers(List<Long> userIds) {
         for (Long id : userIds) {

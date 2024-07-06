@@ -112,6 +112,7 @@
                                         <th>Vai Tro</th>
                                         <th>Trạng Thái</th>
                                         <th>Chuc Nang</th>
+                                        <th>Đổi Role</th>
                                     </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" >
@@ -146,6 +147,18 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <!-- Dropdown đổi role -->
+                                            <form th:action="@{/changeRole}" method="post">
+                                                <input type="hidden" name="userId" th:value="${USER.id}">
+                                                <select name="roleId" class="form-select" onchange="this.form.submit()">
+                                                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${#lists.contains(USER.roles, role)}">
+
+                                                    </option>
+
+                                                </select>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>

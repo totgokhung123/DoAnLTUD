@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/role/{id}(id=${USER.id})}" >
+    <input type="hidden" th:field="*{id}"/>
+    <label for="name" class="form-label">Họ và tên:</label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon11">@</span>
+        <input type="text" class="form-control" placeholder="Nhập họ tên của bạn"
+               autofocus th:field="*{name}" id="name" aria-label="name"
+               aria-describedby="basic-addon11">
+    </div>
+    <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <label for="email" class="form-label">Email:</label>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Nhập địa chỉ email của bạn" aria-label="Recipient's username" aria-describedby="basic-addon13" th:field="*{email}" id="email">
+        <span class="input-group-text" id="basic-addon13">@gmail.com</span>
+    </div>
+    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    <label for="username" class="form-label">Tên đăng nhập:</label>
+    <div class="input-group">
+        <input type="text" class="form-control" th:field="*{username}" id="username" readonly aria-describedby="basic-addon11">
+        <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+    </div>
+    <label for="password" class="form-label">Mật khẩu:</label><span class="text-danger">*</span>
+    <div class="mb-3 form-password-toggle">
+        <div class="input-group input-group-merge">
+            <input type="password" class="form-control" th:field="*{password}" id="password"
+                   placeholder="Nhập mật khẩu mới của bạn" aria-describedby="basic-default-password2"/>
+            <span id="basic-default-password2" class="input-group-text cursor-pointer"
+            ><i class="bx bx-hide"></i
+            ></span>
+        </div>
+        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    </div>
+    <div>
+        <select multiple class="form-control" th:field="*{roles}" id="roles">
+            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+        </select>
+    </div>
+
+    <button>
+    </button>
+</form>
+
+</body>
+</html>

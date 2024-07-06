@@ -1,8 +1,11 @@
 package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
+import DoAnLTUngDung.DoAnLTUngDung.entity.Role;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IRoleRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IUserRepository;
+import DoAnLTUngDung.DoAnLTUngDung.services.RoleService;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserService;
 import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.mail.MessagingException;
@@ -39,10 +42,15 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserServices userService;
+
     private IUserRepository userRepository;
     @Autowired
-    private JavaMailSender mailSender;
+    private RoleService roleService;
 
+    @Autowired
+    private IRoleRepository roleRepository;
+    @Autowired
+    private JavaMailSender mailSender;
     @GetMapping("/auth-login-basic")
     public String Login()
     {
@@ -75,7 +83,9 @@ public class UserController {
     //@PreAuthorize("hasAuthority('ADMIN')")
     public String Userlist(Model model) {
         List<User> userList = userService.getAllusers();
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("DSUser", userList);
+        model.addAttribute("roles", roles);
         return "ADMIN/DSUser";
     }
     @GetMapping("/userlist/add")
@@ -104,12 +114,10 @@ public class UserController {
         User user = userService.getUsersById(id);
         if (user != null) {
             model.addAttribute("user", user);
-            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
+            return "ADMIN/editUser";
         }
-        // Xử lý trường hợp không tìm thấy user
         return "redirect:/userlist";
     }
-
     @PostMapping("/edit")
     public String editUser(@Valid @ModelAttribute("user") User editedUser,
                            BindingResult bindingResult, Model model) {
@@ -119,11 +127,16 @@ public class UserController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
-            return "ADMIN/editUser"; // Thay đổi đường dẫn và tên file thích hợp
+            return "ADMIN/editUser";
         }
         // Cập nhật thông tin user
         editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
         userService.edit(editedUser);
+        return "redirect:/userlist";
+    }
+    @PostMapping("/changeRole")
+    public String changeUserRole(@RequestParam("userId") Long userId, @RequestParam("roleId") Long roleId, Model model) {
+        userService.changeUserRole(userId, roleId);
         return "redirect:/userlist";
     }
     @GetMapping("/delete/{id}")
