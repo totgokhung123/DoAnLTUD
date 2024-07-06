@@ -3,6 +3,7 @@ package DoAnLTUngDung.DoAnLTUngDung.services;
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,18 @@ public class CategoryServices {
         if (!categoryRepository.existsById(id)) {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
         }
+        categoryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteCategories(List<Long> categoryIds) {
+        // Xử lý xóa từng danh mục theo id
+        for (Long categoryId : categoryIds) {
+            categoryRepository.deleteById(categoryId);
+        }
+    }
+
+    public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
 
