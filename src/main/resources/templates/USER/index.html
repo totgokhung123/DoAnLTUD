@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Grocery Shoppy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 	<script>
 		addEventListener("load", function () {
 			setTimeout(hideURLbar, 0);
@@ -105,12 +105,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <body>
 	<!-- top-header -->
-	<div class="header-most-top">
+	<div class="header-most-top" th:fragment="header-top">
 		<p>Sửa lại cái này</p>
 	</div>
 	<!-- //top-header -->
 	<!-- header-bot-->
-	<div class="header-bot">
+	<div class="header-bot"  th:fragment="header-bot">
 		<div class="header-bot_inner_wthreeinfo_header_mid">
 			<!-- header-bot-->
 			<div class="col-md-4 logo_agile">
@@ -171,51 +171,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="clearfix"></div>
 		</div>
 	</div>
-	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body modal-body-sub_agile">
-					<div class="main-mailposi">
-						<span class="fa fa-envelope-o" aria-hidden="true"></span>
-					</div>
-					<div class="modal_body_left modal_body_left1">
-						<h3 class="agileinfo_sign">Sign Up</h3>
-						<p>
-							Come join the Grocery Shoppy! Let's set up your Account.
-						</p>
-						<form action="#" method="post">
-							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="Name" name="Name" required="">
-							</div>
-							<div class="styled-input">
-								<input type="email" placeholder="E-mail" name="Email" required="">
-							</div>
-							<div class="styled-input">
-								<input type="password" placeholder="Password" name="password" id="password1" required="">
-							</div>
-							<div class="styled-input">
-								<input type="password" placeholder="Confirm Password" name="Confirm Password" id="password2" required="">
-							</div>
-							<input type="submit" value="Sign Up">
-						</form>
-						<p>
-							<a href="#">By clicking register, I agree to your terms</a>
-						</p>
-					</div>
-				</div>
-			</div>
-			<!-- //Modal content-->
-		</div>
-	</div>
 	<!-- //Modal2 -->
 	<!-- //signup Model -->
 	<!-- //header-bot -->
 	<!-- navigation -->
-	<div class="ban-top">
+	<div class="ban-top" th:fragment="ban-top">
 		<div class="container">
 			<div class="agileits-navi_search">
 				<form action="#" method="post">
@@ -917,7 +877,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- //special offers -->
 	<!-- newsletter -->
-	<div class="footer-top">
+	<div class="footer-top" th:fragment="footer-top">
 		<div class="container-fluid">
 			<div class="col-xs-8 agile-leftmk">
 				<h2>Get your Groceries delivered from local stores</h2>
@@ -938,7 +898,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- //newsletter -->
 	<!-- footer -->
-	<footer>
+	<footer th:fragment="footer">
 		<div class="container">
 			<!-- footer first section -->
 			<p class="footer-main">
