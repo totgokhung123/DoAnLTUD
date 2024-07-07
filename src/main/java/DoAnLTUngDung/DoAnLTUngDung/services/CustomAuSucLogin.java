@@ -17,7 +17,7 @@ public class CustomAuSucLogin implements AuthenticationSuccessHandler{
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             response.sendRedirect("/Admin");
         } else {
-            response.sendRedirect("/index");
+            response.sendRedirect("/");
         }
     }
 }
