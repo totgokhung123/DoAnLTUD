@@ -34,7 +34,7 @@ public class HomeController {
         if (request.isUserInRole("ADMIN")) {
             return "redirect:/Admin";
         }
-        return "redirect:/index";
+        return "redirect:/";
     }
     @GetMapping("/single/{id}")
     public String showProductDetails(@PathVariable("id") Long id, Model model) {
@@ -48,7 +48,7 @@ public class HomeController {
         return "redirect:/products/list";
 
     }
-    @GetMapping("/index")
+    @GetMapping("/")
     public String showAllCategories(Model model) {
         List<Category> categories = categoryServices.getAllCategories();
         model.addAttribute("categories", categories);
@@ -65,6 +65,4 @@ public class HomeController {
         model.addAttribute("categoryProductsMap", categoryProductsMap);
         return "USER/index";
     }
-
-
 }
