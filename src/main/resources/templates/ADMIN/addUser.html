@@ -104,9 +104,13 @@
                                         <span class="input-group-text" id="basic-addon13">@gmail.com</span>
                                     </div>
                                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    <label for="sdt" class="form-label">Số điện thoại:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Nhập Số điện thoại" aria-label="Recipient's username" th:field="*{sdt}" id="sdt">
+                                    </div>
                                     <label for="username" class="form-label">Tên đăng nhập:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" th:field="*{username}" id="username" aria-describedby="basic-addon11">
+                                        <input type="text" class="form-control" th:field="*{username}" placeholder="Nhập tên tài khoản" id="username" aria-describedby="basic-addon11">
                                         <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                                     </div>
                                     <label for="password" class="form-label">Mật khẩu:</label><span class="text-danger">*</span>
@@ -124,6 +128,7 @@
                                         <button type="submit" class="btn btn-primary d-grid w-100">Submit</button>
                                     </div>
                                 </form>
+                                <a href="/userlist" class="btn btn-primary">quay lại danh sách</a>
                             </div>
                         </div>
                     </div>

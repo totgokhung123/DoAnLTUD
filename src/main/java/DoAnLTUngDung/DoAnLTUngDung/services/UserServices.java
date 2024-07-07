@@ -65,7 +65,7 @@ public class UserServices {
             existingUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
             existingUser.setEmail(editedUser.getEmail());
             existingUser.setName(editedUser.getName());
-
+            existingUser.setSdt(editedUser.getSdt());
             existingUser.setRoles(editedUser.getRoles());
             return userRepository.save(existingUser);
         }
@@ -99,7 +99,7 @@ public class UserServices {
             headerCellStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
             headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            String[] headers = {"Name", "Username", "Password", "Email", "Roles"};
+            String[] headers = {"Name", "Username", "Password","sdt", "Email", "Roles"};
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headers[i]);
@@ -114,13 +114,14 @@ public class UserServices {
                 row.createCell(0).setCellValue(user.getName());
                 row.createCell(1).setCellValue(user.getUsername());
                 row.createCell(2).setCellValue(user.getPassword());
-                row.createCell(3).setCellValue(user.getEmail());
+                row.createCell(3).setCellValue(user.getSdt());
+                row.createCell(4).setCellValue(user.getEmail());
 
                 String roles = user.getRoles().stream()
                         .map(Role::getName)
                         .reduce((a, b) -> a + ", " + b)
                         .orElse("");
-                row.createCell(4).setCellValue(roles);
+                row.createCell(5).setCellValue(roles);
             }
 
             workbook.write(out);
@@ -165,11 +166,16 @@ public class UserServices {
                     } else {
                         user.setPassword(new BCryptPasswordEncoder().encode(password)); // Mã hóa password mới
                     }
+                    // Kiểm tra kiểu dữ liệu của ô và lấy giá trị phù hợp
+                    if (currentRow.getCell(3).getCellType() == CellType.NUMERIC) {
+                        user.setSdt(String.valueOf((long) currentRow.getCell(3).getNumericCellValue()));
+                    } else if (currentRow.getCell(3).getCellType() == CellType.STRING) {
+                        user.setSdt(currentRow.getCell(3).getStringCellValue());
+                    }
 
-                    user.setEmail(currentRow.getCell(3).getStringCellValue());
-
+                    user.setEmail(currentRow.getCell(4).getStringCellValue());
                     // Xử lý vai trò từ file Excel
-                    String[] roleNames = currentRow.getCell(4).getStringCellValue().split(",");
+                    String[] roleNames = currentRow.getCell(5).getStringCellValue().split(",");
                     Set<Role> roles = new HashSet<>();
                     for (String roleName : roleNames) {
                         Role role = rolePepository.findByName(roleName.trim());
@@ -178,14 +184,18 @@ public class UserServices {
                         }
                     }
                     user.setRoles(new ArrayList<>(roles));
-
                     users.add(user);
                 }
             }
         }
-
         workbook.close();
         return users;
+    }
+    public List<User> searchUsers(String name, String username, String email,String sdt, Boolean accountNonLocked) {
+        if (name == null && username == null && email == null && sdt == null && accountNonLocked == null) {
+            return userRepository.findAll();
+        }
+        return userRepository.findByCriteria(name, username, email,sdt, accountNonLocked);
     }
     public void updateResetPasswordToken(String token, String email) throws Exception {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("Không tìm thấy người dùng với email: " + email));

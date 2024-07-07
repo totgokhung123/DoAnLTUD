@@ -98,6 +98,10 @@
                                                aria-describedby="basic-addon11">
                                     </div>
                                     <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                    <label for="sdt" class="form-label">Số điện thoại:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Nhập Số điện thoại của bạn" aria-label="Recipient's username" th:field="*{sdt}" id="sdt">
+                                    </div>
                                     <label for="email" class="form-label">Email:</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập địa chỉ email của bạn" aria-label="Recipient's username" aria-describedby="basic-addon13" th:field="*{email}" id="email">
@@ -124,6 +128,7 @@
                                         <button type="submit" class="btn btn-primary d-grid w-100">Submit</button>
                                     </div>
                                 </form>
+                                <a href="/userlist" class="btn btn-primary">quay lại danh sách</a>
                             </div>
                         </div>
                     </div>

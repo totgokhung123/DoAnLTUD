@@ -77,14 +77,20 @@ public class UserController {
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
-        return "redirect:/auth-login-basic";
+        return "redirect:/index";
     }
     @GetMapping("/userlist")
     //@PreAuthorize("hasAuthority('ADMIN')")
-    public String Userlist(Model model) {
+    public String Userlist( @RequestParam(name = "name", required = false) String name,
+                            @RequestParam(name = "username", required = false) String username,
+                            @RequestParam(name = "email", required = false) String email,
+                            @RequestParam(name = "sdt", required = false) String sdt,
+                            @RequestParam(name = "accountNonLocked", required = false) Boolean accountNonLocked
+                            ,Model model) {
         List<User> userList = userService.getAllusers();
         List<Role> roles = roleService.findAllRoles();
-        model.addAttribute("DSUser", userList);
+        List<User> users = userService.searchUsers(name, username, email,sdt, accountNonLocked);
+        model.addAttribute("DSUser", users);
         model.addAttribute("roles", roles);
         return "ADMIN/DSUser";
     }
@@ -213,12 +219,12 @@ public class UserController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("chutienbinh2003@gmail.com", "Example Support");
+        helper.setFrom("chutienbinh2003@gmail.com", "Totgokhung123 🤖");
         helper.setTo(recipientEmail);
 
         String subject = "Liên kết đặt lại mật khẩu của bạn";
 
-        String content = "<p>Xin chào,</p>"
+        String content = "<p>Xin chào ✨</p>"
                 + "<p>Bạn đã yêu cầu đặt lại mật khẩu của mình.</p>"
                 + "<p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>"
                 + "<p><a href=\"" + link + "\">Reset Password here</a></p>"

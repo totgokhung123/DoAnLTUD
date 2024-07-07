@@ -36,6 +36,9 @@ public class User {
     @NotBlank(message = "Ten cua bạn không được để trống")
     private String name;
 
+    @Column(name = "sdt", length = 14)
+    @Size(max = 14, message = "số điện thoại không quá 14 số")
+    private String sdt;
 
     @ManyToMany ( fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="user_id"),
@@ -44,8 +47,7 @@ public class User {
 
     @Column(name = "reset_token")
     private String resetToken;
-//    @Column(name = "enabled", nullable = false)
-//    private boolean enabled = true; // Mặc định là true
+
     @Column(name ="accountNonLocked", nullable = false)
     private boolean accountNonLocked = true;
 }

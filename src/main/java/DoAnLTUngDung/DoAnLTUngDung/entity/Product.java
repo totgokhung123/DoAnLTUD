@@ -59,4 +59,16 @@ public class Product {
     @JoinColumn(name = "category_id")
     //@ValidCategoryId
     private Category category;
+
+
+    // phan thêm mới database
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DanhGia> danhGias;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<productGiamGia> giamGias;
+
+    @ManyToOne
+    @JoinColumn(name = "baoHanh_id", referencedColumnName = "id")
+    private BaoHanh baoHanh;
 }

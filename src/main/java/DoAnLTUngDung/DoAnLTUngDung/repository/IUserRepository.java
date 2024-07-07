@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<User, Long> {
@@ -34,6 +35,18 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT r.name FROM role r INNER JOIN user_role ur ON r.id = ur.role_id WHERE ur.user_id =?1", nativeQuery = true)
     String[] getRoleOfUser(Long userId);
 
+
+    @Query("SELECT u FROM User u WHERE "
+            + "(:name IS NULL OR u.name LIKE %:name%) AND "
+            + "(:username IS NULL OR u.username LIKE %:username%) AND "
+            + "(:email IS NULL OR u.email LIKE %:email%) AND "
+            +  "(:sdt IS NULL OR u.sdt LIKE %:sdt%) AND "
+            + "(:accountNonLocked IS NULL OR u.accountNonLocked = :accountNonLocked)")
+    List<User> findByCriteria(@Param("name") String name,
+                              @Param("username") String username,
+                              @Param("email") String email,
+                              @Param("sdt") String sdt,
+                              @Param("accountNonLocked") Boolean accountNonLocked);
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE User u SET u.enabled = ?2 WHERE u.id = ?1")
