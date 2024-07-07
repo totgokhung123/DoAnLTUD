@@ -156,4 +156,7 @@ public class ProductServices {
                 .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
                 .collect(Collectors.toList());
     }
+    public List<Product> searchProducts(String query) {
+        return productRepository.findByTitleContainingOrCategory_NameContaining(query, query);
+    }
 }

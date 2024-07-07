@@ -145,8 +145,8 @@
 				<!-- //header lists -->
 				<!-- search -->
 				<div class="agileits_search">
-					<form action="#" method="post">
-						<input name="Search" type="search" placeholder="Thêm chức năng tìm kiếm sản phẩm" required="">
+					<form th:action="@{/search-products}" method="get">
+						<input name="Search" type="search" placeholder="Tìm kiếm sản phẩm">
 						<button type="submit" class="btn btn-default" aria-label="Left Align">
 							<span class="fa fa-search" aria-hidden="true"> </span>
 						</button>

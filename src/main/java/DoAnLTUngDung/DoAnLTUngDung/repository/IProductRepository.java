@@ -8,5 +8,6 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByPriceDesc();
     List<Product> findByCategoryId(Long categoryId);
+    List<Product> findByTitleContainingOrCategory_NameContaining(String title, String categoryName);
 }
 

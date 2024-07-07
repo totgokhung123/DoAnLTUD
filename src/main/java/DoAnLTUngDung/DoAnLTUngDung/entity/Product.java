@@ -47,6 +47,11 @@ public class Product {
     @Column(name = "NamSX")
     private Date NamSX;
 
+    // ảnh sẽ hiện trên index
+    @Column(name = "anhdaidien")
+    private String anhdaidien;
+
+    // sau khi click checkout product gọi thằng này
     @Column(name = "MuTiImagePath")
     private String MuTiImagePath;
 
@@ -57,10 +62,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    //@ValidCategoryId
     private Category category;
-
-
     // phan thêm mới database
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DanhGia> danhGias;

@@ -1,6 +1,7 @@
 package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.services.CartService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,10 @@ public class CartController {
         return "/cart/cart";
     }
     @PostMapping("/add")
-    public String addToCart(@RequestParam Long productId, @RequestParam int quantity) {
+    public String addToCart(@RequestParam Long productId, @RequestParam int quantity, HttpServletRequest request) {
+        if (!request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
+            return "redirect:/auth-login-basic";
+        }
         cartService.addToCart(productId, quantity);
         return "redirect:/cart";
     }
