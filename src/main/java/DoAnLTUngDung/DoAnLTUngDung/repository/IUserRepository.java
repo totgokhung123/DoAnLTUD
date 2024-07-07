@@ -40,12 +40,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
             + "(:name IS NULL OR u.name LIKE %:name%) AND "
             + "(:username IS NULL OR u.username LIKE %:username%) AND "
             + "(:email IS NULL OR u.email LIKE %:email%) AND "
-            +  "(:sdt IS NULL OR u.sdt LIKE %:sdt%) AND "
             + "(:accountNonLocked IS NULL OR u.accountNonLocked = :accountNonLocked)")
     List<User> findByCriteria(@Param("name") String name,
                               @Param("username") String username,
                               @Param("email") String email,
-                              @Param("sdt") String sdt,
                               @Param("accountNonLocked") Boolean accountNonLocked);
 //    @Modifying
 //    @Transactional

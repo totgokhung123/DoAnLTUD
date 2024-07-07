@@ -84,12 +84,11 @@ public class UserController {
     public String Userlist( @RequestParam(name = "name", required = false) String name,
                             @RequestParam(name = "username", required = false) String username,
                             @RequestParam(name = "email", required = false) String email,
-                            @RequestParam(name = "sdt", required = false) String sdt,
                             @RequestParam(name = "accountNonLocked", required = false) Boolean accountNonLocked
                             ,Model model) {
         List<User> userList = userService.getAllusers();
         List<Role> roles = roleService.findAllRoles();
-        List<User> users = userService.searchUsers(name, username, email,sdt, accountNonLocked);
+        List<User> users = userService.searchUsers(name, username, email, accountNonLocked);
         model.addAttribute("DSUser", users);
         model.addAttribute("roles", roles);
         return "ADMIN/DSUser";

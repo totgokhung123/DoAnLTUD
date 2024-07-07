@@ -191,11 +191,11 @@ public class UserServices {
         workbook.close();
         return users;
     }
-    public List<User> searchUsers(String name, String username, String email,String sdt, Boolean accountNonLocked) {
-        if (name == null && username == null && email == null && sdt == null && accountNonLocked == null) {
+    public List<User> searchUsers(String name, String username, String email, Boolean accountNonLocked) {
+        if (name == null && username == null && email == null && accountNonLocked == null) {
             return userRepository.findAll();
         }
-        return userRepository.findByCriteria(name, username, email,sdt, accountNonLocked);
+        return userRepository.findByCriteria(name, username, email, accountNonLocked);
     }
     public void updateResetPasswordToken(String token, String email) throws Exception {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("Không tìm thấy người dùng với email: " + email));
