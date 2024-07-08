@@ -76,10 +76,33 @@
             <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Bang /</span> Danh Sach User</h4>
                     <hr class="my-5" />
+                    <!-- Form tìm kiếm -->
+                    <form th:action="@{/userlist}" method="get" class="mb-3">
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                                <input type="text" name="name" class="form-control" placeholder="Tên" th:value="${param.name}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập" th:value="${param.username}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="email" class="form-control" placeholder="Email" th:value="${param.email}">
+                            </div>
+                            <div class="col-md-2">
+                                <select name="accountNonLocked" class="form-control">
+                                    <option value="">Trạng thái</option>
+                                    <option value="true" th:selected="${param.accountNonLocked == 'true'}">Kích hoạt</option>
+                                    <option value="false" th:selected="${param.accountNonLocked == 'false'}">Vô hiệu hóa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </form>
                     <div>
                         <a th:href="@{/userlist/add}" class="btn btn-primary bx-{tada-hover}">
                             <span class="tf-icons bx bx-user-plus bx-{tada-hover}"></span>&nbsp; Add User
@@ -88,7 +111,7 @@
                     <!-- Form import từ file Excel -->
                     <div id="importForm" style="display: none;">
                         <form id="uploadForm" action="/import-users" method="post" enctype="multipart/form-data">
-                            <input type="file" name="file" accept=".xlsx, .xls">
+                            <input type="file" class="form-control" name="file" accept=".xlsx, .xls" >
                             <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
                         </form>
                     </div>
@@ -108,6 +131,7 @@
                                         <th>Name</th>
                                         <th>UserName</th>
                                         <th>Password</th>
+                                        <th>Số điện thoại</th>
                                         <th>Email</th>
                                         <th>Vai Tro</th>
                                         <th>Trạng Thái</th>
@@ -124,13 +148,13 @@
                                         <td th:text="${USER.username}"></td>
                                         <td th:text="${USER.password}">
                                         </td>
+                                        <td><span class="badge bg-label-success me-1" th:text="${USER.sdt}"></span></td>
                                         <td th:text="${USER.email}">
                                         </td>
                                         <td><span th:each="role : ${USER.roles}" class="badge bg-label-primary me-1" th:text="${role.name}"></span></td>
                                         <td>
                                             <span th:text="${USER.accountNonLocked} ? 'Kích hoạt' : 'Vô hiệu hóa'"></span>
                                         </td>
-
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -140,7 +164,7 @@
                                                     <a class="dropdown-item" th:href="@{/edit/{id}(id=${USER.id})}"
                                                     ><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                                     <a class="dropdown-item" th:href="@{/delete/{id}(id=${USER.id})}"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a>
+                                                       onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="bx bx-trash me-1" ></i> Delete</a>
                                                     <a class="dropdown-item" th:href="@{/toggle-user-lock-status(id=${USER.id})}">
                                                         <i class="bx bx-lock-alt me-1"></i>
                                                         <span th:text="${USER.accountNonLocked} ? 'Vô hiệu hóa' : 'Kích hoạt'"></span>
@@ -163,7 +187,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn p-0 dropdown-toggle hide-arrow">Xóa người dùng đã chọn</button>
+                                <button type="submit" class="btn btn-primary p-0 dropdown-toggle hide-arrow" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa người dùng đã chọn</button>
                             </form>
                         </div>
                     </div>
@@ -188,7 +212,7 @@
     document.getElementById('exportButton').addEventListener('click', function() {
         window.location.href = '/export-users';
     });
-    function selectAllCheckboxes(source) {
+    function selectAllCheckboxes(source){
         checkboxes = document.getElementsByName('userIds');
         for(var i in checkboxes)
             checkboxes[i].checked = source.checked;

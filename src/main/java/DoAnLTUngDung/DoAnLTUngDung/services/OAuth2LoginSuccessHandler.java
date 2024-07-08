@@ -49,9 +49,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             newUser.setEmail(email);
             newUser.setUsername(email);
             newUser.setPassword(new BCryptPasswordEncoder().encode(email));
+            newUser.setSdt(null);
             userService.save(newUser);
         }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         SessionFlashMapManager flashMapManager = new SessionFlashMapManager();

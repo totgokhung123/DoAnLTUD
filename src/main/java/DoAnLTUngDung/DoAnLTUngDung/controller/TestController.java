@@ -37,20 +37,4 @@ public class TestController {
         }
         return "redirect:/userlist";
     }
-//    @PostMapping("/role")
-//    public String editUser(@Valid @ModelAttribute("user") User editedUser,
-//                           BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            List<FieldError> errors = bindingResult.getFieldErrors();
-//            for (FieldError error : errors) {
-//                model.addAttribute(error.getField() + "_error",
-//                        error.getDefaultMessage());
-//            }
-//            return "ADMIN/role";
-//        }
-//        // Cập nhật thông tin user
-//        editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
-//        userService.edit(editedUser);
-//        return "redirect:/userlist";
-//    }
 }

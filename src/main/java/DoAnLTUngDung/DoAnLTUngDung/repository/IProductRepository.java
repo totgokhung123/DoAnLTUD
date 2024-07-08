@@ -11,5 +11,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryId(Long categoryId);
     @Query("SELECT p FROM Product p WHERE p.specialOffer = true")
     List<Product> findSpecialOffers();
+    List<Product> findByTitleContainingOrCategory_NameContaining(String title, String categoryName);
 }
 

@@ -80,9 +80,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/index","/webchinh/**","/image/**","/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/assets/**", "/register","/public/**", "/error/**", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/search-products","/","/webchinh/**","/image/**","/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/assets/**", "/register","/public/**", "/error/**", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/edit/**","/role/**","/Admin","/adminlayout,/products","/products/add","/products/edit","/products/delete","/updateStatus","/userlist","/userlist/add","/edit", "/categories/edit", "/categories/delete")
+                        .requestMatchers("/products","/products/add","/products/edit","/products/delete","/userlist","/userlist/add","/edit", "/books/delete", "/categories/edit", "/categories/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories", "/categories/add")
                         .hasAnyAuthority("ADMIN", "USER")
@@ -116,7 +116,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(customAccessDeniedHandler())
-                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/auth-login-basic"))
+                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/"))
                 )
                 .build();
     }

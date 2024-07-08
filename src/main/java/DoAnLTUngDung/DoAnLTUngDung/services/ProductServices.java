@@ -44,7 +44,12 @@ public class ProductServices {
     }
 
 
-
+    public List<Product> getProductsByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+    public List<Product> getProductsByCategory(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
 
 
     public ByteArrayInputStream exportProductsToExcel() throws IOException {
@@ -56,7 +61,7 @@ public class ProductServices {
             headerCellStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
             headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            String[] headers = {"Title", "Price", "Quantity", "Description", "Manufacturing Year", "Image Path", "Category"};
+            String[] headers = {"Title", "Price", "Quantity", "Description", "Manufacturing Year", "Anh dai dien", "Category" ,"Image Path"};
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headers[i]);
@@ -86,12 +91,19 @@ public class ProductServices {
                     dateCell.setCellValue("");
                 }
 
-                row.createCell(5).setCellValue(product.getMuTiImagePath());
+                row.createCell(5).setCellValue(product.getAnhdaidien());
                 row.createCell(6).setCellValue(product.getCategory().getName());
+                row.createCell(7).setCellValue(product.getMuTiImagePath());
             }
 
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
+        }
+    }
+
+    public void deleteall(List<Long> productIDs) {
+        for (Long id : productIDs) {
+            productRepository.deleteById(id);
         }
     }
 
@@ -116,11 +128,21 @@ public class ProductServices {
                 Date manufacturingDate = DateUtil.getJavaDate(excelDate);
                 product.setNamSX(manufacturingDate);
 
+                Cell imageCell1 = currentRow.getCell(5);
+                String imagePath1 = (imageCell1 != null && imageCell1.getCellType() == CellType.STRING) ?
+                        imageCell1.getStringCellValue() : "null";
+                product.setAnhdaidien(imagePath1);
 
                 product.setMuTiImagePath(currentRow.getCell(5).getStringCellValue());
 
                 // Xử lý category từ file Excel
                 String categoryName = currentRow.getCell(6).getStringCellValue();
+
+                Cell imageCell = currentRow.getCell(7);
+                String imagePath = (imageCell != null && imageCell.getCellType() == CellType.STRING) ?
+                        imageCell.getStringCellValue() : "null";
+                product.setMuTiImagePath(imagePath);
+
                 Category category = categoryRepository.findByName(categoryName);
                 if (category != null) {
                     product.setCategory(category);
@@ -155,6 +177,9 @@ public class ProductServices {
                 .stream()
                 .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
                 .collect(Collectors.toList());
+    }
+    public List<Product> searchProducts(String query) {
+        return productRepository.findByTitleContainingOrCategory_NameContaining(query, query);
     }
     public List<Product> getSpecialOffers() {
         return productRepository.findSpecialOffers();
