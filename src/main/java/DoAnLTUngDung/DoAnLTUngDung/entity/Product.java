@@ -47,6 +47,10 @@ public class Product {
     @Column(name = "NamSX")
     private Date NamSX;
 
+
+    @Column(name = "anhdaidien")
+    private String anhdaidien;
+
     @Column(name = "MuTiImagePath")
     private String MuTiImagePath;
 
@@ -59,4 +63,5 @@ public class Product {
     @JoinColumn(name = "category_id")
     //@ValidCategoryId
     private Category category;
+
 }

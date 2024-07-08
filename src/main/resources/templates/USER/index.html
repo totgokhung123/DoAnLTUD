@@ -25,7 +25,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			window.scrollTo(0, 1);
 		}
 	</script>
+	<style>
+		.w3l-pricehkj .price {
 
+        }
+		.col-md-4 product-men
+		{
+		border: 1px solid red;
+		}
+        .w3l-pricehkj .discount {
+            font-size: 0.5em;
+             color: red;
+            border: 1px solid red; /* Đường viền màu đỏ */
+            padding: 5px; /* Khoảng cách bên trong ô vuông */
+            display: inline-block; /* Để ô vuông ôm sát nội dung */
+            width: fit-content; /* Đảm bảo độ rộng tự động điều chỉnh theo nội dung */
+        }
+
+
+
+	</style>
 	<style>
 		.category-container-wrapper {
         position: relative;
@@ -930,6 +949,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- End repeat -->
 		</div>
 
+
+
 		<button class="navigation-button left" onclick="previousPage()">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
 		</button>
@@ -1186,56 +1207,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="wrapper">
 				<div class="product-sec1" th:each="entry : ${categoryProductsMap}">
 
-
-<!--				<h3 class="heading-tittle">Nuts</h3>-->
-<!--				<div class="col-md-4 product-men" th:each="product : ${products}">-->
-<!--					<div class="men-pro-item simpleCart_shelfItem">-->
-<!--						<div class="men-thumb-item">-->
-<!--							<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">-->
-<!--							<div class="men-cart-pro">-->
-<!--								<div class="inner-men-cart-pro">-->
-<!--									<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Quick View</a>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--							<span class="product-new-top">New</span>-->
-<!--						</div>-->
-<!--						<div class="item-info-product ">-->
-<!--							<h4>-->
-<!--								<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>-->
-<!--							</h4>-->
-<!--							<div class="info-product-price">-->
-<!--								<span class="item_price" th:text="${'$' + product.price}"></span>-->
-<!--								<del th:text="${'$' + (product.price + (product.price * 0.2))}"></del>-->
-<!--							</div>-->
-<!--							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">-->
-<!--								<form action="#" method="post">-->
-<!--									<fieldset>-->
-<!--										<input type="hidden" name="cmd" value="_cart" />-->
-<!--										<input type="hidden" name="add" value="1" />-->
-<!--										<input type="hidden" name="business" value=" " />-->
-<!--										<input type="hidden" name="item_name" value="Almonds, 100g" />-->
-<!--										<input type="hidden" name="amount" value="149.00" />-->
-<!--										<input type="hidden" name="discount_amount" value="1.00" />-->
-<!--										<input type="hidden" name="currency_code" value="USD" />-->
-<!--										<input type="hidden" name="return" value=" " />-->
-<!--										<input type="hidden" name="cancel_return" value=" " />-->
-<!--										<input type="submit" name="submit" value="Add to cart" class="button" />-->
-<!--									</fieldset>-->
-<!--								</form>-->
-<!--							</div>-->
-
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div>-->
-
-
-
 					<h3 class="heading-tittle" th:href="@{/category/{id}(id=${entry.key.id})}" th:text="${entry.key.name}"></h3>
 					<div class="col-md-4 product-men" th:each="product : ${entry.value}">
 						<div class="men-pro-item simpleCart_shelfItem">
 							<div class="men-thumb-item">
-								<img th:src="@{${product.muTiImagePath}}" alt="Image" style="width:100px; height:100px;">
-
+<!--								<img th:src="@{${product.muTiImagePath}}" alt="Image" style="width:100px; height:100px;">-->
+								<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								<div class="men-cart-pro">
 									<div class="inner-men-cart-pro">
 										<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Quick View</a>
@@ -1249,8 +1226,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>
 								</h4>
 								<div class="info-product-price">
-									<span class="item_price" th:text="${'$' + product.price}"></span>
-									<del th:text="${'$' + (product.price + (product.price * 0.2))}"></del>
+									<div class="w3l-pricehkj">
+										<div>
+										<p class="discount" th:text="'Tiết kiệm ' + (${product.price} * 0.1)">Save $40.00</p>
+										</div>
+											<div>
+										<h8 class="price" th:text="${product.price + '  VNĐ'}">$220.00</h8>
+											</div>
+											</div>
 								</div>
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form action="#" method="post">
@@ -1272,7 +1255,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 						</div>
 					</div>
-
+					<div class="clearfix"></div>
+				</div>
 
 
 
@@ -1318,8 +1302,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--					</div>-->
 <!--				</div>-->
 
-				<div class="clearfix"></div>
-			</div>
+
 
 
 
@@ -1350,74 +1333,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<!-- //product right -->
 		</div>
+
 	</div>
 	<!-- //top products -->
+
 	<!-- special offers -->
-	<div class="featured-section" id="projects">
-		<div class="container">
-			<!-- tittle heading -->
-			<h3 class="tittle-w3l">Special Offers
-				<span class="heading-style">
+    <div class="featured-section" id="projects">
+        <div class="container">
+            <!-- tittle heading -->
+            <h3 class="tittle-w3l">Special Offers
+                <span class="heading-style">
 					<i></i>
 					<i></i>
 					<i></i>
 				</span>
-			</h3>
-			<!-- //tittle heading -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<!--<div class="col-md-4 product-men" th:each="product : ${products}">-->
-			<!--					<div class="men-pro-item simpleCart_shelfItem">-->
-			<!--						<div class="men-thumb-item">-->
-			<!--							<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">-->
-			<!--							<div class="men-cart-pro">-->
-			<!--								<div class="inner-men-cart-pro">-->
-			<!--									<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Xem nhanh</a>-->
-			<!--								</div>-->
-			<!--							</div>-->
-			<!--						</div>-->
-			<!--						<div class="item-info-product">-->
-			<!--							<h4>-->
-			<!--								<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Tên sản phẩm</a>-->
-			<!--							</h4>-->
-			<!--							<div class="info-product-price">-->
-			<!--								<span class="item_price" th:text="${'$' + product.price}">$149.00</span>-->
-			<!--								<del th:text="${'$' + product.originalPrice}">$280.00</del>-->
-			<!--							</div>-->
-			<!--							<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">-->
-			<!--								<form action="#" method="post">-->
-			<!--									<fieldset>-->
-			<!--										<input type="hidden" name="cmd" value="_cart" />-->
-			<!--										<input type="hidden" name="add" value="1" />-->
-			<!--										<input type="hidden" name="business" value=" " />-->
-			<!--										<input type="hidden" name="item_name" value="Surf Excel Liquid, 1.02L" />-->
-			<!--										<input type="hidden" name="amount" value="187.00" />-->
-			<!--										<input type="hidden" name="discount_amount" value="1.00" />-->
-			<!--										<input type="hidden" name="currency_code" value="USD" />-->
-			<!--										<input type="hidden" name="return" value=" " />-->
-			<!--										<input type="hidden" name="cancel_return" value=" " />-->
-			<!--										<input type="submit" name="submit" value="Add to cart" class="button" />-->
-			<!--									</fieldset>-->
-			<!--								</form>-->
-			<!--							</div>-->
-			<!--						</div>-->
-			<!--					</div>-->
-			<!--				</div>-->
+            </h3>
 
 			<!-- locsanpham -->
 			<div class="content-bottom-in" >
@@ -1426,7 +1356,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
 								<a href="/single">
-									<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">
+									<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								</a>
 							</div>
 							<div class="product-name-w3l">
@@ -1437,6 +1367,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<h6 th:text="${'$' + product.price}">$220.00</h6>
 									<p th:text="'Save $' + (${product.price} * 0.8)">Save $40.00</p>
 								</div>
+
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form action="#" method="post">
 										<fieldset>

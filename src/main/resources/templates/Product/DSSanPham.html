@@ -63,7 +63,24 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
 </head>
+<style>
+    .custom-button {
+    background-color: pink; /* Màu nền hồng */
+    border: none; /* Không có đường viền */
+    padding: 30px; /* Khoảng cách bên trong nút */
+    border-radius: 20%; /* Độ cong của góc là 80% */
+    color: white; /* Màu chữ là trắng */
+    font-weight: bold; /* Chữ in đậm */
+    text-transform: uppercase; /* Chữ in hoa */
+    cursor: pointer; /* Con trỏ chuột thành dấu nhấp chuột */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
 
+.custom-button:hover {
+    opacity: 0.8; /* Hiệu ứng mờ khi di chuột qua */
+}
+
+</style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
@@ -591,10 +608,16 @@
 
                     <div class="card" style="min-height: 800px;">
                         <h5 class="card-header">Danh Sách Sản Phẩm</h5>
-                        <div class="table-responsive text-nowrap" style="min-height: 800px;">
-                            <table class="table table-hover">
+                        <div class="table-responsive text-nowrap" style="min-height: 800px;" >
+
+
+                            <form th:action="@{/products/deleteall}" method="post">
+                                <table class="table table-hover">
                                 <thead>
                                 <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
+                                    </th>
                                     <th>Tên Sản phẩm</th>
                                     <th>Giá</th>
                                     <th>Số lượng</th>
@@ -608,12 +631,15 @@
                                 <tbody class="table-border-bottom-0">
                                 <!-- Iterate over each product in DSProduct -->
                                  <tr th:each="product : ${products}">
-                                    <td>
+                                     <td>
+                                         <input type="checkbox" name="productIds" class="form-check-input" id="defaultCheck1" th:value="${product.id}">
+                                     </td>
+                                     <td>
                                         <strong th:text="${product.title}"></strong>
                                     </td>
                                     <td th:text="${product.price}"></td>
                                     <td th:text="${product.sl}"></td>
-                                    <td><img th:if="${product.MuTiImagePath}" th:src="@{{image}(image=${product.MuTiImagePath})}" alt="Image" style="width:100px; height:100px;"></td>
+                                    <td><img th:if="${product.anhdaidien}" th:src="@{{image}(image=${product.anhdaidien})}" alt="Image" style="width:100px; height:100px;"></td>
 
                                     <td th:text="${product.category.name}"></td>
                                     <td th:text="${product.description}"></td>
@@ -640,7 +666,9 @@
                                     </td>
                                 </tr>
                                 </tbody>
-                            </table>
+                                </table>
+                                <button type="submit" class="btn p-0 dropdown-toggle hide-arrow custom-button">Xóa người dùng đã chọn</button>
+                            </form>
                         </div>
                     </div>
 
@@ -721,8 +749,13 @@
 <script src="../assets/js/main.js"></script>
 <script>
     document.getElementById('exportButton').addEventListener('click', function() {
-        window.location.href = '/products/export-products';
+        window.location.href = '/export-users';
     });
+    function selectAllCheckboxes(source) {
+        checkboxes = document.getElementsByName('productIds');
+        for(var i in checkboxes)
+            checkboxes[i].checked = source.checked;
+    }
     function toggleImportForm() {
         var importForm = document.getElementById('importForm');
         if (importForm.style.display === 'none') {
@@ -731,40 +764,7 @@
             importForm.style.display = 'none';
         }
     }
-
 </script>
-<!-- nhapnha -->
-<!--<script>-->
-<!--    document.getElementById('exportButton').addEventListener('click', function() {-->
-<!--        window.location.href = '/export-users';-->
-<!--    });-->
-<!--    function selectAllCheckboxes(source) {-->
-<!--        checkboxes = document.getElementsByName('userIds');-->
-<!--        for(var i in checkboxes)-->
-<!--            checkboxes[i].checked = source.checked;-->
-<!--    }-->
-<!--    function toggleImportForm() {-->
-<!--        var importForm = document.getElementById('importForm');-->
-<!--        if (importForm.style.display === 'none') {-->
-<!--            importForm.style.display = 'block';-->
-<!--        } else {-->
-<!--            importForm.style.display = 'none';-->
-<!--        }-->
-<!--    }-->
-<!--</script>-->
-
-
-
-
-
-
-
-
-
-
-<!-- Page JS -->
-
-<!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

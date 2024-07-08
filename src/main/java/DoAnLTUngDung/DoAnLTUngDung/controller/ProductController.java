@@ -4,6 +4,8 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.CategoryServices;
 import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -21,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 @Controller
 @RequestMapping("/products")
@@ -48,20 +51,57 @@ public class ProductController {
         return "Product/Product-add";
     }
 
+//    @PostMapping("/add")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
+//                             @RequestParam("image") MultipartFile file, Model model) {
+//        if (result.hasErrors()) {
+//            model.addAttribute("categories", categoryServices.getAllCategories());
+//            return "Product/Product-add";
+//        }
+//
+//        try {
+//            byte[] bytes = file.getBytes();
+//            Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
+//            Files.write(path, bytes);
+//            product.setAnhdaidien("/image/" + file.getOriginalFilename());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        productServices.saveProduct(product);
+//        return "redirect:/products/list";
+//    }
+private final ObjectMapper objectMapper = new ObjectMapper();
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
-                             @RequestParam("image") MultipartFile file, Model model) {
+                             @RequestParam("image") MultipartFile file,
+                             @RequestParam("images") MultipartFile[] additionalImages,
+                             Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", categoryServices.getAllCategories());
             return "Product/Product-add";
         }
 
         try {
+            // Xử lý hình ảnh đại diện
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
             Files.write(path, bytes);
-            product.setMuTiImagePath("/image/" + file.getOriginalFilename());
+            product.setAnhdaidien("/image/" + file.getOriginalFilename());
+
+            // Xử lý danh sách hình ảnh kèm và chuyển đổi thành chuỗi JSON
+            List<String> additionalImagePaths = new ArrayList<>();
+            for (MultipartFile additionalImage : additionalImages) {
+                bytes = additionalImage.getBytes();
+                path = Paths.get(UPLOADED_DIR + additionalImage.getOriginalFilename());
+                Files.write(path, bytes);
+                additionalImagePaths.add("/image/" + additionalImage.getOriginalFilename());
+            }
+            String additionalImagePathsJson = objectMapper.writeValueAsString(additionalImagePaths);
+            product.setMuTiImagePath(additionalImagePathsJson); // Lưu chuỗi JSON vào MuTiImagePath
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,6 +109,18 @@ public class ProductController {
         productServices.saveProduct(product);
         return "redirect:/products/list";
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -99,12 +151,12 @@ public class ProductController {
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
                     Files.write(path, bytes, StandardOpenOption.CREATE);
-                    product.setMuTiImagePath("/image/" + file.getOriginalFilename());
+                    product.setAnhdaidien("/image/" + file.getOriginalFilename());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                product.setMuTiImagePath(existingProduct.getMuTiImagePath());
+                product.setAnhdaidien(existingProduct.getAnhdaidien());
             }
         }
 
@@ -180,6 +232,11 @@ public class ProductController {
                 .body(new InputStreamResource(in));
     }
 
+    @PostMapping("/deleteall")
+    public String deleteall(@RequestParam("productIds") List<Long> productIds) {
+        productServices.deleteall(productIds);
+        return "redirect:/products/list";
+    }
 
 
 
