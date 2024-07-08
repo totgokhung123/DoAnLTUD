@@ -1,17 +1,4 @@
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <html
         lang="en"
         class="light-style layout-menu-fixed"
@@ -86,7 +73,7 @@
                     <!-- Basic -->
                     <div class="col-md-6">
                         <div class="card mb-4">
-                            <h5 class="card-header">Edit User</h5>
+                            <h5 class="card-header">Add User</h5>
                             <div class="card-body demo-vertical-spacing demo-only-element">
                                 <form id="formEditUser" class="mb-3" th:action="@{/userlist/add}" th:object="${user}" method="post">
                                     <input type="hidden" th:field="*{id}"/>

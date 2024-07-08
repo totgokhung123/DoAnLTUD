@@ -1,27 +1,36 @@
 package DoAnLTUngDung.DoAnLTUngDung.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "GiamGia")
+@Data
+@NoArgsConstructor
 public class GiamGia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "ten", nullable = false)
+    private String maGiamGia; // Tên chương trình giảm giá
+
     @Column(name = "phantram", nullable = false)
-    private int phantram; // Phần trăm giảm giá
+    private int discountPercentage; // Phần trăm giảm giá
 
     @Column(name = "dieukien")
-    private String dieukien; // Điều kiện áp dụng giảm giá
+    private String condition; // Điều kiện áp dụng giảm giá
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "ngaytao")
-    private Date ngaytao; // Ngày bắt đầu
+    private LocalDate startDate; // Ngày bắt đầu
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "ngayketthuc")
-    private Date ngayketthuc; // Ngày kết thúc
+    private LocalDate endDate; // Ngày kết thúc
+
+    public double getPhanTramGiam() {
+        return this.discountPercentage;
+    }
 }
