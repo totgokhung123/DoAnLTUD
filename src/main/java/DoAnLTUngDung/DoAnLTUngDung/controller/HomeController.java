@@ -2,10 +2,15 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
+import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.services.CategoryServices;
 import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
+import DoAnLTUngDung.DoAnLTUngDung.services.UserService;
+import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +33,14 @@ public class HomeController {
     private CategoryServices categoryServices;
     @Autowired
     private ProductServices productService;
+    @Autowired
+    private UserServices userServices;
     @GetMapping("/Admin")
-    public String adminHome() {
+    public String adminHome(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        User user = userServices.findByUsername(username); // Lấy thông tin người dùng từ database
+        model.addAttribute("user", user);
         return "ADMIN/LayoutAdmin";
     }
     @GetMapping("/default")
@@ -40,11 +51,7 @@ public class HomeController {
         return "redirect:/";
     }
     @GetMapping("/single/{id}")
-    public String showProductDetails(@PathVariable("id") Long id, Model model,HttpServletRequest request) {
-        if (!request.isUserInRole("USER") && !request.isUserInRole("ADMIN"))
-        {
-            return "redirect:/auth-login-basic";
-        }
+    public String showProductDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("products", productServices.getAllProducts());
         Product product = productServices.getProductById(id);
         if (product != null) {
@@ -60,11 +67,6 @@ public class HomeController {
         List<Category> categories = categoryServices.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("products", productServices.getAllProducts());
-//        String[] searchParams = query.split(";");
-//        String title = searchParams.length > 0 ? searchParams[0] : "";
-//        String categoryName = searchParams.length > 1 ? searchParams[1] : "";
-//        List<Product> productss= productService.searchProducts(title, categoryName);
-//        model.addAttribute("products", productss);
         Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
         for (Category category : categories) {
             List<Product> products = productServices.getProductsByCategoryIdAndHasImage(category.getId());

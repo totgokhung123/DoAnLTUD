@@ -53,7 +53,9 @@ public class UserServices {
     public User saveUsers(User user) {
         return userRepository.save(user);
     }
-
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
     public void deleteUsers(Long id) {
         userRepository.deleteById(id);
     }
