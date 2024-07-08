@@ -124,8 +124,15 @@
 
 
                         <div class="form-group">
-                          <label for="image">Hình ảnh: </label>
-                          <input class="form-control-file" type="file" id="image" name="image" th:required="${MuTiImagePath}" onchange="previewImage(event)">
+                          <label for="imageInput">Hình ảnh đại diện:</label>
+                          <input class="form-control-file" type="file" id="imageInput" name="image" th:required="${anhdaidien}" onchange="previewImage(event)">
+                          <img id="preview" src="#" alt="Preview Image" style="display: none; max-width: 100%; max-height: 200px; margin-top: 10px;">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="imageInput">Danh sách hình ảnh kèm:</label>
+                          <input class="form-control-file" type="file" id="imageInput1" name="images" multiple th:required="${MuTiImagePath}" onchange="previewImages(event)">
+                          <div id="previewContainer" style="margin-top: 10px;"></div>
                         </div>
 
 
@@ -189,7 +196,50 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
+    <script>
+      function previewImage(event) {
+          var input = event.target;
+          var preview = document.getElementById('preview');
 
+          if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+              reader.onload = function(e) {
+                  preview.src = e.target.result;
+                  preview.style.display = 'block'; // Hiển thị hình ảnh khi đã load xong
+              };
+
+              reader.readAsDataURL(input.files[0]); // Đọc và chuyển đổi file sang dạng URL
+          }
+      }
+    </script>
+
+    <script>
+      function previewImages(event) {
+  const previewContainer = document.getElementById('previewContainer');
+  previewContainer.innerHTML = ''; // Clear the container
+
+  const files = event.target.files;
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '150px';
+        img.style.marginRight = '10px';
+        img.style.marginBottom = '10px';
+        previewContainer.appendChild(img);
+      }
+
+      reader.readAsDataURL(file);
+    }
+  }
+}
+
+    </script>
     <!-- Page JS -->
 
     <!-- Place this tag in your head or just before your close body tag. -->

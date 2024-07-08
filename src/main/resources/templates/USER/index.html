@@ -19,7 +19,26 @@
 			window.scrollTo(0, 1);
 		}
 	</script>
+	<style>
+		.w3l-pricehkj .price {
 
+        }
+		.col-md-4 product-men
+		{
+		border: 1px solid red;
+		}
+        .w3l-pricehkj .discount {
+            font-size: 0.5em;
+             color: red;
+            border: 1px solid red; /* Đường viền màu đỏ */
+            padding: 5px; /* Khoảng cách bên trong ô vuông */
+            display: inline-block; /* Để ô vuông ôm sát nội dung */
+            width: fit-content; /* Đảm bảo độ rộng tự động điều chỉnh theo nội dung */
+        }
+
+
+
+	</style>
 	<style>
 		.category-container-wrapper {
         position: relative;
@@ -461,6 +480,8 @@
 			<!-- End repeat -->
 		</div>
 
+
+
 		<button class="navigation-button left" onclick="previousPage()">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
 		</button>
@@ -716,12 +737,13 @@
 			<div class="agileinfo-ads-display col-md-9">
 				<div class="wrapper">
 				<div class="product-sec1" th:each="entry : ${categoryProductsMap}">
+
 					<h3 class="heading-tittle" th:href="@{/category/{id}(id=${entry.key.id})}" th:text="${entry.key.name}"></h3>
 					<div class="col-md-4 product-men" th:each="product : ${entry.value}">
 						<div class="men-pro-item simpleCart_shelfItem">
 							<div class="men-thumb-item">
-								<img th:src="@{${product.muTiImagePath}}" alt="Image" style="width:100px; height:100px;">
-
+<!--								<img th:src="@{${product.muTiImagePath}}" alt="Image" style="width:100px; height:100px;">-->
+								<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								<div class="men-cart-pro">
 									<div class="inner-men-cart-pro">
 										<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Xem chi tiết</a>
@@ -735,8 +757,14 @@
 									<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>
 								</h4>
 								<div class="info-product-price">
-									<span class="item_price" th:text="${'$' + product.price}"></span>
-									<del th:text="${'$' + (product.price + (product.price * 0.2))}"></del>
+									<div class="w3l-pricehkj">
+										<div>
+										<p class="discount" th:text="'Tiết kiệm ' + (${product.price} * 0.1)">Save $40.00</p>
+										</div>
+											<div>
+										<h8 class="price" th:text="${product.price + '  VNĐ'}">$220.00</h8>
+											</div>
+											</div>
 								</div>
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form th:action="@{/cart/add}" method="post">
@@ -782,14 +810,16 @@
 			</div>
 			<!-- //product right -->
 		</div>
+
 	</div>
 	<!-- //top products -->
+
 	<!-- special offers -->
-	<div class="featured-section" id="projects">
-		<div class="container">
-			<!-- tittle heading -->
-			<h3 class="tittle-w3l">Special Offers
-				<span class="heading-style">
+    <div class="featured-section" id="projects">
+        <div class="container">
+            <!-- tittle heading -->
+            <h3 class="tittle-w3l">Special Offers
+                <span class="heading-style">
 					<i></i>
 					<i></i>
 					<i></i>
@@ -803,7 +833,7 @@
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
 								<a href="/single">
-									<img th:if="${product.MuTiImagePath != null}" th:src="@{${product.MuTiImagePath}}" alt="Image" style="width:100px; height:100px;">
+									<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								</a>
 							</div>
 							<div class="product-name-w3l">

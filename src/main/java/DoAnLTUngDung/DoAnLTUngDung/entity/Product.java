@@ -47,11 +47,10 @@ public class Product {
     @Column(name = "NamSX")
     private Date NamSX;
 
-    // ảnh sẽ hiện trên index
+
     @Column(name = "anhdaidien")
     private String anhdaidien;
 
-    // sau khi click checkout product gọi thằng này
     @Column(name = "MuTiImagePath")
     private String MuTiImagePath;
 
