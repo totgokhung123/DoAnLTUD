@@ -156,4 +156,8 @@ public class ProductServices {
                 .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
                 .collect(Collectors.toList());
     }
+    public List<Product> getSpecialOffers() {
+        return productRepository.findSpecialOffers();
+    }
+
 }

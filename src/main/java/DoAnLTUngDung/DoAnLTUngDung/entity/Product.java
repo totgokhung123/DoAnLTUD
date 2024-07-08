@@ -59,4 +59,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     //@ValidCategoryId
     private Category category;
+
+    @Column(name = "special_offer")
+    private Boolean specialOffer;
 }

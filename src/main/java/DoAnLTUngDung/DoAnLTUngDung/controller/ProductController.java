@@ -179,16 +179,17 @@ public class ProductController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new InputStreamResource(in));
     }
-
-
-
-
-
-//    @GetMapping("/delete/{id}")
+    //    @GetMapping("/delete/{id}")
 //    @PreAuthorize("hasAuthority('ADMIN')")
 //    public String deleteProduct(@PathVariable("id") Long id) {
 //        productServices.deleteProduct(id);
 //        return "redirect:/products/list";
 //    }
+    @GetMapping("/special-offers")
+    public String getSpecialOffers(Model model) {
+        List<Product> products = productServices.getSpecialOffers();
+        model.addAttribute("products", products);
+        return "special-offers";
+    }
 }
 
