@@ -90,6 +90,7 @@ public class CartService {
             cartItemRepository.save(cartItem);
         }
     }
+   // public String
     private List<CartItem> cartItems = new ArrayList<>();
 
     // Utility method to find CartItem by productId
