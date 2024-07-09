@@ -75,4 +75,7 @@ public class Product {
 
     @Column(name = "special_offer")
     private Boolean specialOffer;
+
+    @Column(name = "status")
+    private Boolean Status;
 }

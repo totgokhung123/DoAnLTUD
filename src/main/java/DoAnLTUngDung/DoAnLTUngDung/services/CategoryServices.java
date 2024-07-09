@@ -4,9 +4,14 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.transaction.Transactional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,5 +74,45 @@ public class CategoryServices {
         existingCategory.setImagePath(category.getImagePath());
         existingCategory.setName(category.getName());
         categoryRepository.save(existingCategory);
+    }
+
+    public List<Category> readCategoryFromExcel(InputStream inputStream) throws IOException {
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+
+        List<Category> categories = new ArrayList<>();
+
+        // Duyệt qua từng dòng của sheet, bắt đầu từ dòng thứ 1 (dòng tiêu đề đã có trong mẫu)
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            Row currentRow = sheet.getRow(i);
+            if (currentRow != null) {
+                Category category = new Category();
+                Cell idCell = currentRow.getCell(0);
+                Cell nameCell = currentRow.getCell(1);
+                Cell imageCell = currentRow.getCell(2);
+                Cell statusCell = currentRow.getCell(3);
+                if (idCell != null && idCell.getCellType() == CellType.NUMERIC) {
+                    category.setId((long) idCell.getNumericCellValue());
+                }
+
+                if (nameCell != null && nameCell.getCellType() == CellType.STRING) {
+                    category.setName(nameCell.getStringCellValue());
+                }
+
+                if (imageCell != null && imageCell.getCellType() == CellType.STRING) {
+                    category.setImagePath(imageCell.getStringCellValue());
+                } else {
+                    category.setImagePath(null); // hoặc giá trị mặc định nào đó nếu cần
+                }
+
+                if (statusCell != null && statusCell.getCellType() == CellType.STRING) {
+                    category.setStatus(Boolean.valueOf(statusCell.getStringCellValue()));
+                }
+                categories.add(category);
+            }
+        }
+
+        workbook.close();
+        return categories;
     }
 }

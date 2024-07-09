@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -36,18 +38,39 @@ public class ProductController {
     @Autowired
     private CategoryServices categoryServices;
 
+//    @GetMapping("/list")
+//    public String showAllProducts(Model model) {
+//        List<Product> products = productServices.getAllProducts();
+//        model.addAttribute("products", products);
+//        return "Product/DSSanPham";
+//    }
+
     @GetMapping("/list")
     public String showAllProducts(Model model) {
-        List<Product> products = productServices.getAllProducts();
+        List<Product> products = productServices.getAllProducts()
+                .stream()
+                .filter(Product::getStatus)
+                .collect(Collectors.toList());
         model.addAttribute("products", products);
         return "Product/DSSanPham";
     }
+
+//    @GetMapping("/add")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public String showAddForm(Model model) {
+//        model.addAttribute("product", new Product());
+//        model.addAttribute("categories", categoryServices.getAllCategories());
+//        return "Product/Product-add";
+//    }
 
     @GetMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showAddForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoryServices.getAllCategories());
+        model.addAttribute("categories", categoryServices.getAllCategories()
+                .stream()
+                .filter(category -> category.getStatus() != null && category.getStatus())
+                .collect(Collectors.toList()));
         return "Product/Product-add";
     }
 

@@ -52,40 +52,111 @@ public class HomeController {
         }
         return "redirect:/";
     }
+//    @GetMapping("/single/{id}")
+//    public String showProductDetails(@PathVariable("id") Long id, Model model) {
+//        List<Category> categories = categoryServices.getAllCategories();
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("products", productServices.getAllProducts());
+//
+//        // Lấy thông tin sản phẩm theo ID
+//        Product product = productServices.getProductById(id);
+//        if (product != null) {
+//            model.addAttribute("product", product);
+//            return "USER/single";
+//        }
+//        // Nếu sản phẩm không tồn tại, chuyển hướng đến danh sách sản phẩm
+//        return "redirect:/products/list";
+//    }
+
     @GetMapping("/single/{id}")
     public String showProductDetails(@PathVariable("id") Long id, Model model) {
-        List<Category> categories = categoryServices.getAllCategories();
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
         model.addAttribute("categories", categories);
-        model.addAttribute("products", productServices.getAllProducts());
+
+        List<Product> products = productServices.getAllProducts()
+                .stream()
+                .filter(Product::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("products", products);
 
         // Lấy thông tin sản phẩm theo ID
         Product product = productServices.getProductById(id);
-        if (product != null) {
+        if (product != null && product.getStatus()) {
             model.addAttribute("product", product);
             return "USER/single";
         }
         // Nếu sản phẩm không tồn tại, chuyển hướng đến danh sách sản phẩm
         return "redirect:/products/list";
     }
+//    @GetMapping("/")
+//    public String showAllCategories(Model model) {
+//        List<Category> categories = categoryServices.getAllCategories();
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("products", productServices.getAllProducts());
+//        Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
+//        for (Category category : categories) {
+//            List<Product> products = productServices.getProductsByCategoryIdAndHasImage(category.getId());
+//            // Chỉ thêm vào map nếu có sản phẩm trong danh sách
+//            if (!products.isEmpty()) {
+//                categoryProductsMap.put(category, products);
+//            }
+//        }
+//        model.addAttribute("categoryProductsMap", categoryProductsMap);
+//        return "USER/index";
+//    }
+
     @GetMapping("/")
     public String showAllCategories(Model model) {
-        List<Category> categories = categoryServices.getAllCategories();
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
         model.addAttribute("categories", categories);
-        model.addAttribute("products", productServices.getAllProducts());
-        Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
-        for (Category category : categories) {
-            List<Product> products = productServices.getProductsByCategoryIdAndHasImage(category.getId());
-            // Chỉ thêm vào map nếu có sản phẩm trong danh sách
-            if (!products.isEmpty()) {
-                categoryProductsMap.put(category, products);
-            }
-        }
+
+        List<Product> products = productServices.getAllProducts()
+                .stream()
+                .filter(Product::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("products", products);
+
+        Map<Category, List<Product>> categoryProductsMap = categories.stream()
+                .collect(Collectors.toMap(
+                        category -> category,
+                        category -> productServices.getProductsByCategoryIdAndHasImage(category.getId())
+                                .stream()
+                                .filter(Product::getStatus)
+                                .collect(Collectors.toList())
+                ));
+
+        // Loại bỏ các mục có danh sách sản phẩm rỗng
+        categoryProductsMap.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+
         model.addAttribute("categoryProductsMap", categoryProductsMap);
         return "USER/index";
     }
+
+//    @GetMapping("/category/{id}")
+//    public String theloai(@PathVariable("id") Long id, Model model) {
+//        List<Product> products = productServices.getProductsByCategory(id);
+//        if (products.isEmpty()) {
+//            model.addAttribute("message", "Chưa có sản phẩm nào trong thể loại này.");
+//        } else {
+//            Map<Category, List<Product>> categoryProductsMap = products.stream()
+//                    .collect(Collectors.groupingBy(Product::getCategory));
+//            model.addAttribute("categoryProductsMap", categoryProductsMap);
+//        }
+//        return "USER/theloai";
+//    }
+
     @GetMapping("/category/{id}")
     public String theloai(@PathVariable("id") Long id, Model model) {
-        List<Product> products = productServices.getProductsByCategory(id);
+        List<Product> products = productServices.getProductsByCategory(id)
+                .stream()
+                .filter(Product::getStatus)
+                .collect(Collectors.toList());
         if (products.isEmpty()) {
             model.addAttribute("message", "Chưa có sản phẩm nào trong thể loại này.");
         } else {
@@ -95,9 +166,19 @@ public class HomeController {
         }
         return "USER/theloai";
     }
+//    @GetMapping("/search-products")
+//    public String searchProducts(@RequestParam(name="query", required = false) String query , Model model) {
+//        List<Product> products = productService.searchProducts(query);
+//        model.addAttribute("products", products);
+//        return "USER/product";
+//    }
+
     @GetMapping("/search-products")
-    public String searchProducts(@RequestParam(name="query", required = false) String query , Model model) {
-        List<Product> products = productService.searchProducts(query);
+    public String searchProducts(@RequestParam(name = "query", required = false) String query, Model model) {
+        List<Product> products = productServices.searchProducts(query)
+                .stream()
+                .filter(Product::getStatus)
+                .collect(Collectors.toList());
         model.addAttribute("products", products);
         return "USER/product";
     }

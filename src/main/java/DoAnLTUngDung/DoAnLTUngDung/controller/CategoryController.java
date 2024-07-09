@@ -125,7 +125,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                 header.createCell(0).setCellValue("Category ID");
                 header.createCell(1).setCellValue("Category Name");
                 header.createCell(2).setCellValue("Image Path");
-
+                header.createCell(3).setCellValue("Status");
                 // Thêm dữ liệu từ danh sách categories vào sheet
                 int rowNum = 1;
                 for (Category category : categories) {
@@ -133,6 +133,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                     row.createCell(0).setCellValue(category.getId());
                     row.createCell(1).setCellValue(category.getName());
                     row.createCell(2).setCellValue(category.getImagePath());
+                    row.createCell(3).setCellValue(category.getStatus());
                 }
 
                 // Ghi workbook ra ByteArrayOutputStream
@@ -151,41 +152,25 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
             }
         }
 
-        @PostMapping("/upload/categories")
-        public String uploadCategories(@RequestParam("file") MultipartFile file) {
+        @PostMapping("/import-category")
+        @PreAuthorize("hasAuthority('ADMIN')")
+        public String importProducts(@RequestParam("file") MultipartFile file) {
             try {
-                Workbook workbook = new XSSFWorkbook(file.getInputStream());
-                Sheet sheet = workbook.getSheetAt(0);
-
-                Iterator<Row> rows = sheet.iterator();
-                List<Category> categories = new ArrayList<>();
-
-                // Bỏ qua header row
-                if (rows.hasNext()) {
-                    rows.next(); // Bỏ qua header
+                // Kiểm tra file có tồn tại và định dạng hợp lệ
+                if (file.isEmpty()) {
+                    // Xử lý khi file không tồn tại
+                    return "redirect:/products/list?import_error=empty";
                 }
-
-                // Duyệt qua từng dòng trong sheet và tạo các đối tượng Category
-                while (rows.hasNext()) {
-                    Row currentRow = rows.next();
-                    Category category = new Category();
-                    category.setName(currentRow.getCell(0).getStringCellValue());
-                    // Thêm các thuộc tính khác của danh mục tại đây
-
-                    categories.add(category);
-                }
-
-                // Gọi service để lưu danh sách danh mục vào cơ sở dữ liệu
+                // Xử lý đọc dữ liệu từ file Excel và thêm sản phẩm vào cơ sở dữ liệu
+                List<Category> categories = categoryServices.readCategoryFromExcel(file.getInputStream());
                 for (Category category : categories) {
-                    categoryServices.addCategory(category);
+                    // Lưu hoặc thêm product vào cơ sở dữ liệu
+                    categoryServices.saveCategory(category);
                 }
-
-                workbook.close();
-
-                return "redirect:/categorylist"; // Chuyển hướng sau khi upload thành công
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "redirect:/categorylist"; // Xử lý lỗi
+                return "redirect:/products/list";
+            } catch (Exception e) {
+                // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
+                return "redirect:/products/list?import_error=" + e.getMessage();
             }
         }
 
