@@ -82,9 +82,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<span th:text="${#lists.size(cartItems)} + ' Products'">3 Products</span>
 				</h4>
 				<div class="table-responsive">
+					<form th:action="@{/order/checkout}" method="post">
 					<table class="timetable_sub">
 						<thead>
 						<tr>
+							<th>Chọn</th>
 							<th>SP</th>
 							<th>Product</th>
 							<th>Quantity</th>
@@ -96,6 +98,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<tbody>
 						<tr th:each="cartItem, iter : ${cartItems}" th:class="${iter.odd ? 'rem1' : 'rem2'}">
 							<td th:text="${iter.count}">1</td>
+							<td><input type="checkbox" name="selectedProducts" th:value="${cartItem.product.id}"/></td>
 							<td class="invert-image" >
 								<a th:href="@{/single/{id}(id=${cartItem.product.id})}">
 									<img th:src="@{${cartItem.product.anhdaidien}}" alt="chưa có ảnh" class="img-responsive" style="width:100px; height:100px;">
@@ -119,19 +122,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<button type="submit" class="full-button">+</button>
 											</form>
 										</div>
-
-<!--										<div class="entry value-minus" th:onclick="'decreaseQuantity(' + ${cartItem.product.id} + ')'">&nbsp;</div>-->
-<!--										<div class="entry value">-->
-<!--											&lt;!&ndash; Thêm id để cập nhật số lượng &ndash;&gt;-->
-<!--											<span id="quantity-${cartItem.product.id}" th:text="${cartItem.quantity}">1</span>-->
-<!--										</div>-->
-<!--										<div class="entry value-plus active" th:onclick="'increaseQuantity(' + ${cartItem.product.id} + ')'">&nbsp;</div>-->
 									</div>
 								</div>
 							</td>
 							<td class="invert" th:text="${cartItem.product.title}">Spotzero Spin Mop</td>
 							<!-- Thêm id để cập nhật giá tiền -->
-							<td id="price-${cartItem.product.id}" th:text="${@cartService.ehhehehe(cartItem.product.price,cartItem.product.id)}">$888.00</td>
+							<td id="price-${cartItem.product.id}" th:text="${@cartService.ehhehehe(cartItem.product.price,cartItem.product.id,cartItem.user.id)}">$888.00</td>
 							<td class="invert">
 								<div class="rem">
 									<a th:href="@{/cart/remove/{productId}(productId=${cartItem.product.id})}" class="close1"></a>
@@ -140,6 +136,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</tr>
 						</tbody>
 					</table>
+					<button type="submit">Mua ngay</button>
+				</form>
 				</div>
 			</div>
 			<div>

@@ -2,6 +2,7 @@ package DoAnLTUngDung.DoAnLTUngDung.services;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICartItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -13,9 +14,11 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
-@SessionScope
+//@SessionScope
+@Transactional
 public class CartService {
     @Autowired
     private IProductRepository productRepository;
@@ -73,15 +76,15 @@ public class CartService {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         return currencyFormatter.format(price);
     }
-    public String ehhehehe(double price,Long productId) {
+    public String ehhehehe(double price, Long productId, Long userId) {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        CartItem cartItem = findCartItemByProductId(productId);
+        CartItem cartItem = cartItemRepository.findByProductIdAndUser_Id(productId, userId);
         return currencyFormatter.format(price * cartItem.getQuantity());
     }
 
     // Method to increase quantity of CartItem with productId
-    public void increaseQuantity(Long productId) {
-        CartItem cartItem = findCartItemByProductId(productId);
+    public void increaseQuantity(Long productId,User user) {
+        CartItem cartItem = findCartItemByUserAndProductId(user,productId);
         if (cartItem != null) {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
             cartItemRepository.save(cartItem);
@@ -89,8 +92,8 @@ public class CartService {
     }
 
     // Method to decrease quantity of CartItem with productId
-    public void decreaseQuantity(Long productId) {
-        CartItem cartItem = findCartItemByProductId(productId);
+    public void decreaseQuantity(Long productId,User user) {
+        CartItem cartItem = findCartItemByUserAndProductId(user,productId);
         if (cartItem != null && cartItem.getQuantity() > 1) {
             cartItem.setQuantity(cartItem.getQuantity() - 1);
             cartItemRepository.save(cartItem);
@@ -99,7 +102,19 @@ public class CartService {
    // public String
     private List<CartItem> cartItems = new ArrayList<>();
     // Utility method to find CartItem by productId
-    private CartItem findCartItemByProductId(Long productId) {
+    public CartItem findCartItemByProductId(Long productId) {
         return cartItemRepository.findByProductId(productId);
     }
+    public CartItem findCartItemByUserAndProductId(User user, Long productId) {
+        return cartItemRepository.findByUserAndProductId(user, productId);
+    }
+    public List<CartItem> findCartItemsByIds(List<Long> productIds, User user) {
+        return cartItemRepository.findAllByUser(user).stream()
+                .filter(cartItem -> productIds.contains(cartItem.getProduct().getId()))
+                .collect(Collectors.toList());
+    }
+//    public List<CartItem> findCartItemsByProductIds(List<Long> productIds,Long userid) {
+//        return cartItemRepository.findByUserAndProductIdInAndSelected(userid, productIds);
+//    }
+
 }

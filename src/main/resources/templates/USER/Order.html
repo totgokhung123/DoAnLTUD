@@ -1,0 +1,472 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Grocery Shoppy an Ecommerce Category Bootstrap Responsive Web Template | Checkout :: w3layouts</title>
+    <!--/tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Grocery Shoppy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <!--//tags -->
+    <link href="../webchinh/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../webchinh/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../webchinh/css/font-awesome.css" rel="stylesheet">
+    <!--pop-up-box-->
+    <link href="../webchinh/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <!--//pop-up-box-->
+    <!-- price range -->
+    <link rel="stylesheet" type="text/css" href="../webchinh/css/jquery-ui1.css">
+    <!-- fonts -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+</head>
+
+<body>
+<!-- top-header -->
+<th:block th:replace="~{USER/index::header-top}"></th:block>
+<!-- //top-header -->
+<!-- header-bot-->
+<th:block th:replace="~{USER/index::header-bot}"></th:block>
+
+<th:block th:replace="~{USER/index::ban-top}"></th:block>
+<!-- //navigation -->
+<!-- banner-2 -->
+<div class="page-head_agile_info_w3l">
+</div>
+<!-- //banner-2 -->
+<!-- page -->
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="index.html">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- //page -->
+<!-- checkout page -->
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">Order
+            <span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <!-- Debug -->
+            <h4>Your choose CartItem :
+                <span th:text="${#lists.size(cartItems)} + ' Products'">3 Products</span>
+            </h4>
+            <div class="table-responsive">
+                    <table class="timetable_sub">
+                        <thead>
+                        <tr>
+                            <th>SP</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${selectedCartItemss != null}" th:each="cartItem, iter : ${selectedCartItemss}" th:class="${iter.odd ? 'rem1' : 'rem2'}">
+                            <td th:text="${iter.count}">1</td>
+                            <td class="invert-image" >
+                                <a th:href="@{/single/{id}(id=${cartItem.product.id})}">
+                                    <img th:src="@{${cartItem.product.anhdaidien}}" alt="chưa có ảnh" class="img-responsive" style="width:100px; height:100px;">
+                                </a>
+                            </td>
+                            <td class="invert">
+                                <span th:text="${cartItem.quantity}">1</span>
+                            </td>
+                            <td class="invert"><strong th:text="${cartItem.product.title}"></strong></td>
+                            <!-- Thêm id để cập nhật giá tiền -->
+                            <td id="price-${cartItem.product.id}" th:text="${@cartService.ehhehehe(cartItem.product.price,cartItem.product.id,cartItem.user.id)}">$888.00</td>
+                        </tr>
+                        <!-- Xử lý khi selectedCartItems là null -->
+                        <tr th:if="${selectedCartItemss == null}">
+                            <td colspan="5">Không có sản phẩm trong giỏ hàng.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+
+        <div class="checkout-left">
+            <div class="address_form_agile">
+                <h4>Add a new Details</h4>
+                <form th:action="@{/order/complete}" method="post" class="creditly-card-form agileinfo_form">
+                    <!--    <input type="Hidden" name="selectedProducts" th:value="${selectedProducts}" />-->
+                    <!--    <label for="recipientName">Tên người nhận:</label>-->
+                    <!--    <input type="text" id="recipientName" name="recipientName" required/>-->
+
+                    <!--    <label for="recipientPhone">Số điện thoại:</label>-->
+                    <!--    <input type="text" id="recipientPhone" name="recipientPhone" required/>-->
+
+                    <!--    <label for="recipientAddress">Địa chỉ:</label>-->
+                    <!--    <input type="text" id="recipientAddress" name="recipientAddress" required/>-->
+
+                    <!--    <label for="email">Email:</label>-->
+                    <!--    <input type="email" id="email" name="email" required/>-->
+                    <!--    <label for="note">Ghi chú:</label>-->
+                    <!--    <textarea id="note" name="note"></textarea>-->
+                    <!--    <label for="paymentMethod">Phương thức thanh toán:</label>-->
+                    <!--    <select id="paymentMethod" name="paymentMethod">-->
+                    <!--        <option value="COD">Thanh toán khi nhận hàng (COD)</option>-->
+                    <!--        <option value="bankTransfer">Chuyển khoản ngân hàng</option>-->
+                    <!--        <option value="creditCard">Thẻ tín dụng</option>-->
+                    <!--    </select>-->
+                    <!--    <button type="submit">Hoàn tất đơn hàng</button>-->
+                    <input type="Hidden" name="selectedProducts" th:value="${selectedProducts}"/>
+                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                        <div class="information-wrapper">
+                            <div class="first-row">
+                                <label for="recipientName">Tên người nhận:</label>
+                                <div class="controls">
+                                    <input class="billing-address-name" placeholder="Tên người nhận" type="text" id="recipientName" name="recipientName" required/>
+                                </div>
+
+                                <div class="w3_agileits_card_number_grids">
+                                    <label for="recipientPhone">Số điện thoại:</label>
+                                    <div class="w3_agileits_card_number_grid_left">
+                                        <div class="controls">
+                                            <input type="text" placeholder="Số điện thoại người nhận" id="recipientPhone" name="recipientPhone" required/>
+                                        </div>
+                                    </div>
+                                    <label for="recipientAddress">Địa chỉ:</label>
+                                    <div class="w3_agileits_card_number_grid_right">
+                                        <div class="controls">
+                                            <input type="text" id="recipientAddress" placeholder="Địa chỉ người nhận" name="recipientAddress" required/>
+                                        </div>
+                                    </div>
+                                    <div class="clear"> </div>
+                                </div>
+                                <label for="email">Email:</label>
+                                <div class="controls">
+                                    <input class="billing-address-name" placeholder="email" type="email" id="email" name="email" required/>
+                                </div>
+                                <label for="note">Ghi chú:</label>
+                                <div class="controls">
+                                    <input class="billing-address-name" placeholder="note" type="email" id="note" name="note" required/>
+                                </div>
+                                <label for="paymentMethod">Phương thức thanh toán:</label>
+                                <div class="controls">
+                                    <select class="option-w3ls" id="paymentMethod" name="paymentMethod">
+                                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                                        <option value="bankTransfer">Chuyển khoản ngân hàng</option>
+                                        <option value="creditCard">Thẻ tín dụng</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="submit check_out" type="submit">Hoàn tất đơn hàng</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="checkout-right-basket">
+                    <a href="#">Make a Payment
+                        <span class="fa fa-hand-o-right" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!-- //checkout page -->
+<!-- newsletter -->
+<th:block th:replace="~{USER/index::footer-top}"></th:block>
+<!-- //newsletter -->
+<!-- footer -->
+<th:block th:replace="~{USER/index::footer}"></th:block>
+<!-- //footer -->
+<!-- copyright -->
+<div class="copy-right">
+    <div class="container">
+        <p>© 2017 Grocery Shoppy. All rights reserved | Design by
+            <a href="http://w3layouts.com"> W3layouts.</a>
+        </p>
+    </div>
+</div>
+<script >
+    function increaseQuantity(productId) {
+        $.ajax({
+            url: '/cart/increase',
+            type: 'POST',
+            data: {
+                productId: productId
+
+            },
+            success: function(response) {
+                // Update UI if needed
+                // Example: update cart item quantity displayed on the page
+            },
+            error: function(xhr, status, error) {
+                console.error('Error increasing quantity: ' + error);
+            }
+        });
+    }
+
+    function decreaseQuantity(productId) {
+        $.ajax({
+            url: '/cart/decrease',
+            type: 'POST',
+            data: {
+                productId: productId
+            },
+            success: function(response) {
+                // Update UI if needed
+                // Example: update cart item quantity displayed on the page
+            },
+            error: function(xhr, status, error) {
+                console.error('Error decreasing quantity: ' + error);
+            }
+        });
+    }
+</script>
+<script src="../webchinh/js/jquery-2.1.4.min.js"></script>
+<!-- //jquery -->
+
+<!-- popup modal (for signin & signup)-->
+<script src="../webchinh/js/jquery.magnific-popup.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.popup-with-zoom-anim').magnificPopup({
+            type: 'inline',
+            fixedContentPos: false,
+            fixedBgPos: true,
+            overflowY: 'auto',
+            closeBtnInside: true,
+            preloader: false,
+            midClick: true,
+            removalDelay: 300,
+            mainClass: 'my-mfp-zoom-in'
+        });
+
+    });
+</script>
+<script src="../webchinh/js/minicart.js"></script>
+<script>
+    paypalm.minicartk.render(); //use only unique class names other than paypal1.minicart1.Also Replace same class name in css and minicart.min.js
+
+    paypalm.minicartk.cart.on('checkout', function (evt) {
+        var items = this.items(),
+            len = items.length,
+            total = 0,
+            i;
+
+        // Count the number of each item in the cart
+        for (i = 0; i < len; i++) {
+            total += items[i].get('quantity');
+        }
+
+        if (total < 3) {
+            alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
+            evt.preventDefault();
+        }
+    });
+</script>
+<!-- //cart-js -->
+
+<!--quantity-->
+<script>
+    $('.value-plus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) + 1;
+        divUpd.text(newVal);
+    });
+
+    $('.value-minus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) - 1;
+        if (newVal >= 1) divUpd.text(newVal);
+    });
+</script>
+<!--quantity-->
+<script>
+    $(document).ready(function (c) {
+        $('.close1').on('click', function (c) {
+            $('.rem1').fadeOut('slow', function (c) {
+                $('.rem1').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close2').on('click', function (c) {
+            $('.rem2').fadeOut('slow', function (c) {
+                $('.rem2').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close3').on('click', function (c) {
+            $('.rem3').fadeOut('slow', function (c) {
+                $('.rem3').remove();
+            });
+        });
+    });
+</script>
+<!--//quantity-->
+
+<!-- password-script -->
+<script>
+    window.onload = function () {
+        document.getElementById("password1").onchange = validatePassword;
+        document.getElementById("password2").onchange = validatePassword;
+    }
+
+    function validatePassword() {
+        var pass2 = document.getElementById("password2").value;
+        var pass1 = document.getElementById("password1").value;
+        if (pass1 != pass2)
+            document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+        else
+            document.getElementById("password2").setCustomValidity('');
+        //empty string means no validation error
+    }
+</script>
+<!-- //password-script -->
+
+<!-- smoothscroll -->
+<script src="js/SmoothScroll.min.js"></script>
+<!-- //smoothscroll -->
+
+<!-- start-smooth-scrolling -->
+<script src="../webchinh/js/move-top.js"></script>
+<script src="../webchinh/js/easing.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+<!-- //end-smooth-scrolling -->
+
+<!-- smooth-scrolling-of-move-up -->
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<!-- //smooth-scrolling-of-move-up -->
+
+<!-- for bootstrap working -->
+<script src="../webchinh/js/bootstrap.js"></script>
+<!-- //for bootstrap working -->
+<!-- //js-files -->
+
+</body>
+<style>
+    .full-button {
+        width: 100%;
+        height: 100%;
+        padding: 0; /* Remove default padding */
+        margin: 0; /* Remove default margin */
+        border: none; /* Optional: remove border */
+        background: none; /* Optional: remove background */
+        text-align: center; /* Center text */
+        color: white;
+    }
+</style>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Thông tin người nhận</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>Thông tin người nhận</h2>-->
+<!--<form th:action="@{/order/complete}" method="post">-->
+<!--    <input type="Hidden" name="selectedProducts" th:value="${selectedProducts}" />-->
+<!--    <label for="recipientName">Tên người nhận:</label>-->
+<!--    <input type="text" id="recipientName" name="recipientName" required/>-->
+
+<!--    <label for="recipientPhone">Số điện thoại:</label>-->
+<!--    <input type="text" id="recipientPhone" name="recipientPhone" required/>-->
+
+<!--    <label for="recipientAddress">Địa chỉ:</label>-->
+<!--    <input type="text" id="recipientAddress" name="recipientAddress" required/>-->
+
+<!--    <label for="email">Email:</label>-->
+<!--    <input type="email" id="email" name="email" required/>-->
+<!--    <label for="note">Ghi chú:</label>-->
+<!--    <textarea id="note" name="note"></textarea>-->
+<!--    <label for="paymentMethod">Phương thức thanh toán:</label>-->
+<!--    <select id="paymentMethod" name="paymentMethod">-->
+<!--        <option value="COD">Thanh toán khi nhận hàng (COD)</option>-->
+<!--        <option value="bankTransfer">Chuyển khoản ngân hàng</option>-->
+<!--        <option value="creditCard">Thẻ tín dụng</option>-->
+<!--    </select>-->
+
+
+
+<!--    <button type="submit">Hoàn tất đơn hàng</button>-->
+<!--</form>-->
+
+<!--&lt;!&ndash; Hiển thị danh sách CartItem được chọn &ndash;&gt;-->
+<!--<h2>Danh sách sản phẩm</h2>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Ảnh</th>-->
+<!--        <th>Tên sản phẩm</th>-->
+<!--        <th>Số lượng</th>-->
+<!--        <th>Giá</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="cartItem : ${selectedCartItems}">-->
+<!--        <td><img th:src="@{${cartItem.product.anhdaidien}}" alt="Ảnh sản phẩm" style="width:100px; height:100px;"></td>-->
+<!--        <td th:text="${cartItem.product.title}">Tên sản phẩm</td>-->
+<!--        <td th:text="${cartItem.quantity}">1</td>-->
+<!--        <td th:text="${cartItem.product.price}">100000</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->

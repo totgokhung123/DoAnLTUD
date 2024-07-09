@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -33,11 +34,11 @@ public class CartController {
     private OrderService orderService;
 
     @GetMapping
-    public String showCart(Model model, @AuthenticationPrincipal User user, Authentication authentication) {
+    public String showCart(Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
-        User users = userServices.findByUsername(username);
-        user = users;
+        User user = userServices.findByUsername(username);
+
         List<CartItem> cartItems = cartService.getCartItems(user);
         model.addAttribute("cartItems", cartItems);
 
@@ -48,90 +49,57 @@ public class CartController {
 
         String totalFormatted = cartService.getTotalFormatted(user);
         model.addAttribute("sumOrder", totalFormatted);
+
         return "USER/checkout";
     }
     @PostMapping("/add")
-    public String addToCart(Authentication authentication,@AuthenticationPrincipal User user, @RequestParam Long productId, @RequestParam int quantity) {
+    public String addToCart(Authentication authentication, @RequestParam Long productId, @RequestParam int quantity) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User users = userServices.findByUsername(username);
-        user = users;// Lấy thông tin người dùng từ database
-        cartService.addToCart(user, productId, quantity);
+        cartService.addToCart(users, productId, quantity);
         return "redirect:/cart";
     }
     @GetMapping("/remove/{productId}")
-    public String removeFromCart(Authentication authentication,@AuthenticationPrincipal User user, @PathVariable Long productId) {
+    public String removeFromCart(Authentication authentication, @PathVariable Long productId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User users = userServices.findByUsername(username);
-        user = users;// Lấy thông tin người dùng từ database
-        cartService.removeFromCart(user, productId);
+
+        cartService.removeFromCart(users, productId);
         return "redirect:/cart";
     }
 
     @GetMapping("/clear")
-    public String clearCart(Authentication authentication,@AuthenticationPrincipal User user) {
+    public String clearCart(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User users = userServices.findByUsername(username);
-        user = users;
-        cartService.clearCart(user);
+        cartService.clearCart(users);
         return "redirect:/cart";
     }
     // Increase quantity
     @PostMapping("/increase/{productId}")
-    public String increaseQuantity(@PathVariable Long productId) {
-        cartService.increaseQuantity(productId);
+    public String increaseQuantity(@PathVariable Long productId,Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        User users = userServices.findByUsername(username);
+        cartService.increaseQuantity(productId,users);
         return "redirect:/cart";
     }
 
     // Decrease quantity
     @PostMapping("/decrease/{productId}")
-    public String  decreaseQuantity(@PathVariable Long productId) {
-        cartService.decreaseQuantity(productId);
+    public String  decreaseQuantity(@PathVariable Long productId,Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        User users = userServices.findByUsername(username);
+        cartService.decreaseQuantity(productId,users);
         return "redirect:/cart";
     }
     @PostMapping("/checkout")
-    public String checkout(@RequestParam("selectedItems") List<Long> selectedItems, Model model,Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        User users = userServices.findByUsername(username);
-        List<CartItem> selectedCartItems = cartService.getCartItems(users).stream()
-                .filter(item -> selectedItems.contains(item.getProduct().getId()))
-                .collect(Collectors.toList());
-
-        model.addAttribute("selectedCartItems", selectedCartItems);
-        model.addAttribute("orderForm", new OrderForm());
-        return "USER/orderForm";
-    }
-
-    @PostMapping("/placeOrder")
-    public String placeOrder(@ModelAttribute OrderForm orderForm, @RequestParam("selectedItems") List<Long> selectedItems,Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        User users = userServices.findByUsername(username);
-        List<CartItem> selectedCartItems = cartService.getCartItems(users).stream()
-                .filter(item -> selectedItems.contains(item.getProduct().getId()))
-                .collect(Collectors.toList());
-
-        List<OrderDetail> orderDetails = selectedCartItems.stream().map(cartItem -> {
-            OrderDetail detail = new OrderDetail();
-            detail.setProduct(cartItem.getProduct());
-            detail.setQuantity(cartItem.getQuantity());
-            detail.setPrice(cartItem.getProduct().getPrice());
-            return detail;
-        }).collect(Collectors.toList());
-
-        Order order = new Order();
-        order.setTotalPrice(orderDetails.stream().mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum());
-        order.setTenNguoiNhan(orderForm.getRecipientName());
-        order.setDiachi(orderForm.getRecipientAddress());
-        order.setSdt(orderForm.getRecipientPhone());
-        order.setEmail(orderForm.getEmail());
-        order.setNote(orderForm.getNote());
-        order.setPttt(orderForm.getPaymentMethod());
-
-        orderService.createOrder(order, orderDetails);
-        return "redirect:/order/confirmation";
+    public String checkout(@RequestParam("selectedProducts") List<Long> selectedProductIds, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("selectedProducts", selectedProductIds);
+        return "redirect:/order"; // Chuyển hướng đến GET request để hiển thị form đơn hàng
     }
 }
