@@ -19,9 +19,7 @@ public class QLDanhGia {
     @Column(name = "status", nullable = false)
     private String status; // Ví dụ: "pending", "approved", "rejected"
 
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id", referencedColumnName = "id")
-//    private User admin;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "NgayHD")
     private Date NgayHD;

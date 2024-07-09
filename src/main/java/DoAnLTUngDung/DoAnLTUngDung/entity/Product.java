@@ -72,4 +72,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "baoHanh_id", referencedColumnName = "id")
     private BaoHanh baoHanh;
+
+    public double getQuantity() {
+        return sl;
+    }
+
+    public void setQuantity(double quantity) {
+        this.sl = quantity;
+    }
 }

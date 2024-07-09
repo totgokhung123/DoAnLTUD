@@ -57,7 +57,6 @@ public class HomeController {
         List<Category> categories = categoryServices.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("products", productServices.getAllProducts());
-
         // Lấy thông tin sản phẩm theo ID
         Product product = productServices.getProductById(id);
         if (product != null) {

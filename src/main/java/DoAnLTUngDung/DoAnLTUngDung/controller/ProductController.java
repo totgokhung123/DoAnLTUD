@@ -51,27 +51,6 @@ public class ProductController {
         return "Product/Product-add";
     }
 
-//    @PostMapping("/add")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
-//                             @RequestParam("image") MultipartFile file, Model model) {
-//        if (result.hasErrors()) {
-//            model.addAttribute("categories", categoryServices.getAllCategories());
-//            return "Product/Product-add";
-//        }
-//
-//        try {
-//            byte[] bytes = file.getBytes();
-//            Path path = Paths.get(UPLOADED_DIR + file.getOriginalFilename());
-//            Files.write(path, bytes);
-//            product.setAnhdaidien("/image/" + file.getOriginalFilename());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        productServices.saveProduct(product);
-//        return "redirect:/products/list";
-//    }
 private final ObjectMapper objectMapper = new ObjectMapper();
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
