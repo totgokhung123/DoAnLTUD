@@ -15,7 +15,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Container - Layouts | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -40,6 +40,8 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
@@ -73,51 +75,51 @@
                     <!-- Basic -->
                     <div class="col-md-6">
                         <div class="card mb-4">
-                            <h5 class="card-header">Edit User</h5>
+                            <h5 class="card-header">Sửa mã giảm giá</h5>
                             <div class="card-body demo-vertical-spacing demo-only-element">
-                                <form id="formEditUser" class="mb-3" th:action="@{/edit}" th:object="${user}" method="post">
-                                    <input type="hidden" th:field="*{id}"/>
-                                    <label for="name" class="form-label">Họ và tên:</label>
+                                <form id="formEditUser" class="mb-3" th:action="@{/giamgia/edit/{id}(id=${giamgia.id})}" th:object="${giamgia}" method="post">
+                                    <label for="maGiamGia" class="form-label">Mã giảm giá</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon11">@</span>
-                                        <input type="text" class="form-control" placeholder="Nhập họ tên của bạn"
-                                               autofocus th:field="*{name}" id="name" aria-label="name"
+                                        <input type="text" class="form-control" placeholder="Nhập mã giảm giá" autofocus
+                                               th:field="*{maGiamGia}" id="maGiamGia" aria-label="name"
                                                aria-describedby="basic-addon11">
                                     </div>
-                                    <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-                                    <label for="sdt" class="form-label">Số điện thoại:</label>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('maGiamGia')}"
+                                          th:errors="*{maGiamGia}"></span>
+                                    <label for="discountPercentage" class="form-label">Phần trăm:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Nhập Số điện thoại của bạn" aria-label="Recipient's username" th:field="*{sdt}" id="sdt">
+                                        <input type="text" class="form-control" placeholder="Nhập phần trăm giảm giá"
+                                               aria-label="Recipient's username" th:field="*{discountPercentage}"
+                                               id="discountPercentage">
                                     </div>
-                                    <label for="email" class="form-label">Email:</label>
+                                    <label for="condition" class="form-label">Điều kiện:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Nhập địa chỉ email của bạn" aria-label="Recipient's username" aria-describedby="basic-addon13" th:field="*{email}" id="email">
-                                        <span class="input-group-text" id="basic-addon13">@gmail.com</span>
+                                        <input type="text" class="form-control" placeholder="Nhập điều kiện"
+                                               aria-label="Recipient's username" aria-describedby="basic-addon13"
+                                               th:field="*{condition}" id="condition">
+                                        <span class="input-group-text" id="basic-addon13"></span>
                                     </div>
-                                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                                    <label for="username" class="form-label">Tên đăng nhập:</label>
+                                    <span class="text-danger" th:if="${#fields.hasErrors('condition')}"
+                                          th:errors="*{condition}"></span>
+                                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" th:field="*{username}" id="username" readonly aria-describedby="basic-addon11">
-                                        <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                                        <input type="date" class="form-control" th:field="*{startDate}"
+                                               placeholder="Nhập ngày bắt đầu" id="startDate"
+                                               aria-describedby="basic-addon11">
                                     </div>
-                                    <label for="password" class="form-label">Mật khẩu:</label><span class="text-danger">*</span>
-                                    <div class="mb-3 form-password-toggle">
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" class="form-control" th:field="*{password}" id="password"
-                                                   placeholder="Nhập mật khẩu mới của bạn" aria-describedby="basic-default-password2"/>
-                                            <span id="basic-default-password2" class="input-group-text cursor-pointer"
-                                            ><i class="bx bx-hide"></i
-                                            ></span>
-                                        </div>
-                                        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                                    <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" th:field="*{endDate}"
+                                               placeholder="Nhập ngày kết thúc" id="endDate"
+                                               aria-describedby="basic-addon11">
                                     </div>
                                     <div class="d-grid gap-2 form-action">
                                         <button type="submit" class="btn btn-primary d-grid w-100">Submit</button>
                                     </div>
                                 </form>
-
                             </div>
-                            <a href="/userlist" class="btn btn-primary">quay lại danh sách</a>
+                            <a href="/giamgia/all" class="btn btn-primary">Quay lại danh sách</a>
                         </div>
                     </div>
                     <!--/ Layout Demo -->
@@ -139,14 +141,6 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
-<div class="buy-now">
-    <a
-            href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-            target="_blank"
-            class="btn btn-danger btn-buy-now"
-    >Upgrade to Pro</a
-    >
-</div>
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
@@ -159,15 +153,15 @@
 <!-- endbuild -->
 
 <!-- Vendors JS -->
+<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 <!-- Main JS -->
 <script src="../assets/js/main.js"></script>
 
 <!-- Page JS -->
+<script src="../assets/js/dashboards-analytics.js"></script>
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>
-
-
