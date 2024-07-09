@@ -17,7 +17,6 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Future(message = "Ngày lập hóa đơn không trước tương lai")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

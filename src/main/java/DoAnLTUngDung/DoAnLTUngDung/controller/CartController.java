@@ -48,10 +48,8 @@ public class CartController {
 
         String totalFormatted = cartService.getTotalFormatted(user);
         model.addAttribute("sumOrder", totalFormatted);
-
         return "USER/checkout";
     }
-
     @PostMapping("/add")
     public String addToCart(Authentication authentication,@AuthenticationPrincipal User user, @RequestParam Long productId, @RequestParam int quantity) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -61,7 +59,6 @@ public class CartController {
         cartService.addToCart(user, productId, quantity);
         return "redirect:/cart";
     }
-
     @GetMapping("/remove/{productId}")
     public String removeFromCart(Authentication authentication,@AuthenticationPrincipal User user, @PathVariable Long productId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

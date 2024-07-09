@@ -68,7 +68,7 @@ public class UserServices {
             existingUser.setEmail(editedUser.getEmail());
             existingUser.setName(editedUser.getName());
             existingUser.setSdt(editedUser.getSdt());
-            existingUser.setRoles(editedUser.getRoles());
+           // existingUser.setRoles(editedUser.getRoles());
             return userRepository.save(existingUser);
         }
         return null;

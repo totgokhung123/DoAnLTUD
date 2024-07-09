@@ -131,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</td>
 							<td class="invert" th:text="${cartItem.product.title}">Spotzero Spin Mop</td>
 							<!-- Thêm id để cập nhật giá tiền -->
-							<td id="price-${cartItem.product.id}" th:text="${@cartService.formatPrice(cartItem.product.price)}">$888.00</td>
+							<td id="price-${cartItem.product.id}" th:text="${@cartService.ehhehehe(cartItem.product.price,cartItem.product.id)}">$888.00</td>
 							<td class="invert">
 								<div class="rem">
 									<a th:href="@{/cart/remove/{productId}(productId=${cartItem.product.id})}" class="close1"></a>
@@ -143,9 +143,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 			<div>
-				<h4>Total: <span th:text="${sumOrder}">₫0.00</span></h4>
+				<h4>Tổng tiền: <span th:text="${sumOrder}">₫0.00</span></h4>
 			</div>
-
 		</div>
 	</div>
 

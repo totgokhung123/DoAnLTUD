@@ -73,6 +73,12 @@ public class CartService {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         return currencyFormatter.format(price);
     }
+    public String ehhehehe(double price,Long productId) {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        CartItem cartItem = findCartItemByProductId(productId);
+        return currencyFormatter.format(price * cartItem.getQuantity());
+    }
+
     // Method to increase quantity of CartItem with productId
     public void increaseQuantity(Long productId) {
         CartItem cartItem = findCartItemByProductId(productId);
@@ -92,7 +98,6 @@ public class CartService {
     }
    // public String
     private List<CartItem> cartItems = new ArrayList<>();
-
     // Utility method to find CartItem by productId
     private CartItem findCartItemByProductId(Long productId) {
         return cartItemRepository.findByProductId(productId);
