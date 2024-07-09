@@ -19,7 +19,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Tên khách Hàng nhận không được để trống")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @NotBlank(message = "Tên khách hàng nhận không được để trống")
     @Size(min = 10, max = 32, message = "Tên người nhận ít nhất 10 ký tự và lớn nhất 32 ký tự")
     @Column(name = "TenNguoiNhan")
     private String TenNguoiNhan;
@@ -29,14 +33,14 @@ public class Order {
     @Column(name = "sdt")
     private String sdt;
 
-    @NotBlank(message = "Địa Chỉ không được để trống")
+    @NotBlank(message = "Địa chỉ không được để trống")
     @Size(min = 10, message = "Địa chỉ ít nhất 10 ký tự")
     @Column(name = "diachi")
     private String diachi;
 
     @Email(message = "Email phải hợp lệ")
     @NotNull(message = "Email không được để trống")
-    @Column(name = "Email")
+    @Column(name = "email")
     private String email;
 
     private String note;
@@ -44,8 +48,6 @@ public class Order {
     @NotBlank(message = "Phương thức thanh toán không được để trống")
     @Column(name = "pttt")
     private String pttt;
-
-    private double totalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
@@ -108,14 +110,6 @@ public class Order {
 
     public void setPttt(String pttt) {
         this.pttt = pttt;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public List<OrderDetail> getOrderDetails() {

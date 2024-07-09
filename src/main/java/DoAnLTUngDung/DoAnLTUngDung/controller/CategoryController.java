@@ -154,17 +154,18 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
         @PostMapping("/upload/categories")
         public String uploadCategories(@RequestParam("file") MultipartFile file) {
             try {
+                if (file.isEmpty()) {
+                    // Xử lý khi file không tồn tại
+                    return "redirect:/categorylist?import_error=empty";
+                }
                 Workbook workbook = new XSSFWorkbook(file.getInputStream());
                 Sheet sheet = workbook.getSheetAt(0);
-
                 Iterator<Row> rows = sheet.iterator();
                 List<Category> categories = new ArrayList<>();
-
                 // Bỏ qua header row
                 if (rows.hasNext()) {
                     rows.next(); // Bỏ qua header
                 }
-
                 // Duyệt qua từng dòng trong sheet và tạo các đối tượng Category
                 while (rows.hasNext()) {
                     Row currentRow = rows.next();
@@ -179,13 +180,11 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                 for (Category category : categories) {
                     categoryServices.addCategory(category);
                 }
-
                 workbook.close();
-
-                return "redirect:/categorylist"; // Chuyển hướng sau khi upload thành công
+                return "redirect:/categorylist";
             } catch (IOException e) {
                 e.printStackTrace();
-                return "redirect:/categorylist"; // Xử lý lỗi
+                return "redirect:/categorylist";
             }
         }
 

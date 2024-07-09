@@ -134,8 +134,6 @@ public class UserController {
             }
             return "ADMIN/editUser";
         }
-//        // Cập nhật thông tin user
-//        editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
         userService.edit(editedUser);
         return "redirect:/userlist";
     }
@@ -194,7 +192,7 @@ public class UserController {
     }
     @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {
-        return "ADMIN/forgotpassword";
+        return "Login/forgotpassword";
     }
 
     @PostMapping("/forgot-password")
@@ -210,7 +208,7 @@ public class UserController {
         } catch (Exception ex) {
             model.addAttribute("error", ex.getMessage());
         }
-        return "ADMIN/forgotpassword";
+        return "Login/forgotpassword";
     }
 
     private void sendEmail(String recipientEmail, String link)
@@ -221,15 +219,15 @@ public class UserController {
         helper.setFrom("chutienbinh2003@gmail.com", "Totgokhung123 🤖");
         helper.setTo(recipientEmail);
 
-        String subject = "Liên kết đặt lại mật khẩu của bạn";
+        String subject = "Link to reset your password";
 
-        String content = "<p>Xin chào ✨</p>"
-                + "<p>Bạn đã yêu cầu đặt lại mật khẩu của mình.</p>"
-                + "<p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>"
+        String content = "<p>Hello ✨</p>"
+                + "<p> You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
                 + "<p><a href=\"" + link + "\">Reset Password here</a></p>"
                 + "<br>"
-                + "<p>Bỏ qua email này nếu bạn nhớ mật khẩu của mình, "
-                + "hoặc bạn không thực hiện yêu cầu này.</p>";
+                + "<p>Ignore this email if you remember your password. "
+                + "or you do not comply with this request.</p>";
 
         helper.setSubject(subject);
         helper.setText(content, true);
@@ -247,7 +245,7 @@ public class UserController {
             return "Login/auth-login-basic";
         }
 
-        return "ADMIN/reset-password";
+        return "Login/reset-password";
     }
 
     @PostMapping("/reset-password")
@@ -263,7 +261,7 @@ public class UserController {
             return "Login/auth-login-basic";
         } else if (!password.equals(confirmPassword)) {
             model.addAttribute("message", "Passwords do not match");
-            return "ADMIN/reset-password";
+            return "Login/reset-password";
         } else {
             userService.updatePassword(user, password);
             model.addAttribute("message", "You have successfully reset your password.");

@@ -58,7 +58,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         FlashMap flashMap = new FlashMap();
         flashMap.put("successMessage", "Đăng nhập thành công với Google!");
         flashMapManager.saveOutputFlashMap(flashMap, request, response);
-        super.onAuthenticationSuccess(request, response, authentication);
-        response.sendRedirect("/index");
+        //super.onAuthenticationSuccess(request, response, authentication);
+        response.sendRedirect("/");
     }
 }

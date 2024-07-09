@@ -13,6 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "HoaDon")
 public class HoaDon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,8 @@ public class HoaDon {
     @Column(name = "TrangThai")
     private String TrangThai;
 
+    @Column(name = "total_price")
+    private double totalPrice;
 
     @OneToOne
     @JoinColumn(name = "order_id",
