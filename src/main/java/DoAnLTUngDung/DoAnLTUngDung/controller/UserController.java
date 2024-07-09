@@ -77,7 +77,7 @@ public class UserController {
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
-        return "redirect:/index";
+        return "redirect:/";
     }
     @GetMapping("/userlist")
     //@PreAuthorize("hasAuthority('ADMIN')")
@@ -134,8 +134,8 @@ public class UserController {
             }
             return "ADMIN/editUser";
         }
-        // Cập nhật thông tin user
-        editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
+//        // Cập nhật thông tin user
+//        editedUser.setPassword(new BCryptPasswordEncoder().encode(editedUser.getPassword()));
         userService.edit(editedUser);
         return "redirect:/userlist";
     }
