@@ -71,6 +71,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 	</style>
+
+	<style>
+		dn {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        dx {
+            display: inline;
+            margin-right: 20px;
+        }
+	</style>
+
 	<style>
 		.category-container-wrapper {
         position: relative;
@@ -157,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
 	<!-- top-header -->
 	<div class="header-most-top" th:fragment="header-top">
-		<p>Grocery Offer Zone Top Deals & Discounts</p>
+		<p>Miễn phí giao hàng cho đơn hàng từ 300K</p>
 	</div>
 	<!-- //top-header -->
 	<!-- header-bot-->
@@ -175,24 +188,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- header-bot -->
 			<div class="col-md-8 header">
 				<!-- header lists -->
-				<ul>
-					<li>
+				<ul class="dn">
+					<li class="dx">
 						<a  href="https://maps.app.goo.gl/e5kvsQx33EtXoVmP8" target="_blank">
 							<span class="fa fa-map-marker" aria-hidden="true"></span> Địa chỉ cửa hàng
 						</a>
 					</li>
-					<li>
+					<li class="dx">
 						<span class="fa fa-phone" aria-hidden="true"></span> 0112 234 5678
 					</li>
-					<li sec:authorize="isAuthenticated()">
+					<li class="dx" sec:authorize="!isAuthenticated()">
+
 						<a href="/auth-login-basic" >
 							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Đăng nhập </a>
 					</li>
-					<li sec:authorize="isAuthenticated()">
+					<li class="dx" sec:authorize="!isAuthenticated()">
 						<a href="/register" >
 							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Đăng kí </a>
 					</li>
-                    <li sec:authorize="!isAuthenticated()">
+					<li class="dx" style="width:300px" sec:authorize="isAuthenticated()">
+						<span>Xin chào, <span sec:authentication="name"></span></span>
+					</li>
+                    <li class="dx" sec:authorize="isAuthenticated()">
                         <a href="/logout" >
                             <span class="fa fa-unlock-alt" aria-hidden="true"></span> Đăng xuất </a>
                     </li>

@@ -123,7 +123,7 @@ public class CartController {
         }).collect(Collectors.toList());
 
         Order order = new Order();
-        order.setTotalPrice(orderDetails.stream().mapToDouble(detail -> detail.getPrice() * detail.getQuantity()).sum());
+
         order.setTenNguoiNhan(orderForm.getRecipientName());
         order.setDiachi(orderForm.getRecipientAddress());
         order.setSdt(orderForm.getRecipientPhone());
