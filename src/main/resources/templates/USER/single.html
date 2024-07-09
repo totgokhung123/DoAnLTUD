@@ -32,23 +32,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         overflow: hidden;
         width: 100%; /* Ensure the wrapper has a width */
     }
+	.mfp-img {
+				width: 900px !important;
+				height: 750px !important;
+			}
+	  .category-container {
+		display: flex;
+		flex-wrap: nowrap; /* Ensure items do not wrap */
+		gap: 20px; /* Adjust the gap between items */
+		transition: transform 0.5s ease-in-out;
+	}
 
-  .category-container {
-    display: flex;
-    flex-wrap: nowrap; /* Ensure items do not wrap */
-    gap: 20px; /* Adjust the gap between items */
-    transition: transform 0.5s ease-in-out;
-}
-
-.category-item {
-    width: calc((100% - (5 * 20px)) / 5); /* Adjust width per item (thay đổi từ 12 xuống 5) */
-    max-width: 150px; /* Max width of each item */
-    height: 150px; /* Height of each item */
-    text-align: center;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    position: relative;
-}
+	.category-item {
+		width: calc((100% - (5 * 20px)) / 5); /* Adjust width per item (thay đổi từ 12 xuống 5) */
+		max-width: 150px; /* Max width of each item */
+		height: 150px; /* Height of each item */
+		text-align: center;
+		flex-shrink: 0;
+		box-sizing: border-box;
+		position: relative;
+	}
 
 
     .category-box {
@@ -102,7 +105,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!--pop-up-box-->
 	<link href="../webchinh/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
 	<!--//pop-up-box-->
+	<link rel="stylesheet" href="../webchinh/css/flexslider.css" type="text/css" media="screen" />
 	<!-- price range -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="../webchinh/css/jquery-ui1.css">
 	<!-- fonts -->
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
@@ -879,49 +887,58 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<i></i>
 				</span>
 			</h3>
-			<!-- //tittle heading -->
+
+
+<!--test-->
+
+<!--			<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">-->
+<!--				<div class="grid images_3_of_2">-->
+<!--					<div class="flexslider" >-->
+<!--						<ul class="slides" >-->
+<!--							<li th:if="${product.anhdaidien != null}" th:data-thumb="@{${product.anhdaidien}}" >-->
+<!--								<div class="thumb-image">-->
+<!--									<img th:src="@{${product.anhdaidien}}" alt="Ảnh Sản Phẩm" class="img-thumbnail mt-3" id="mainImage" style="height: 400px; width: 380px;">-->
+<!--								</div>-->
+<!--							</li>-->
+<!--							<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}" th:data-thumb="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" >-->
+<!--								<div class="thumb-image">-->
+<!--									<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" onclick="changeMainImage(this.src)" data-imagezoom="true" class="img-responsive" alt="Ảnh Bổ Sung" >-->
+<!--								</div>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<div class="clearfix"></div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+
+
+			<!--test-->
+
+
 			<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">
 				<div class="grid images_3_of_2">
 					<div class="flexslider">
 						<ul class="slides">
+							<li th:if="${product.anhdaidien != null}" th:data-thumb="@{${product.anhdaidien}}">
 								<div class="thumb-image">
-									<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Product Image" class="img-thumbnail mt-3"  style="height: 400px; width: 380px;">
+									<a th:href="@{${product.anhdaidien}}" class="popup-image">
+										<img th:src="@{${product.anhdaidien}}" alt="Ảnh Sản Phẩm" class="img-thumbnail mt-3" id="mainImage" style="height: 400px; width: 380px;">
+									</a>
 								</div>
+							</li>
+							<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}" th:data-thumb="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}">
+								<div class="thumb-image">
+									<a th:href="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" class="popup-image">
+										<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" onclick="changeMainImage(this.src)" data-imagezoom="true" class="img-responsive" alt="Ảnh Bổ Sung" style="height: 145px; width: 145px;">
+									</a>
+								</div>
+							</li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
 				</div>
-<!--				<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}">-->
-<!--					<div class="thumb-image" style="height: 200px; width: 200px;">-->
-<!--						<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" data-imagezoom="true" class="img-responsive" alt="Additional Image">-->
-<!--					</div>-->
-<!--				</li>-->
-
-
-				<div class="image-list">
-					<ul th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}">
-						<div class="thumb-imagee" style="height: 150px; width: 150px;">
-							<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" data-imagezoom="true" class="img-responsive" alt="Additional Image" style="height: 145px; width: 145px;">
-						</div>
-					</ul>
-				</div>
-				<div class="clearfix"></div>
-
 			</div>
 
-			<style>
-				.image-list {
-                    display: flex;
-                    flex-wrap: nowrap; /* Ngăn không cho các phần tử chuyển dòng */
-                    overflow-x: auto; /* Cho phép cuộn ngang nếu các ảnh vượt quá chiều rộng */
-
-                }
-                .thumb-imagee {
-                border: 2px solid #ccc;
-                    flex: 0 0 auto; /* Không cho phần tử co lại, giữ kích thước ban đầu */
-                    margin-right: 10px; /* Khoảng cách giữa các ảnh */
-                }
-			</style>
 
 
 
@@ -945,19 +962,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-			<style>
-				.image-list {
-                    display: flex;
-                    flex-wrap: nowrap; /* Ngăn không cho các phần tử chuyển dòng */
-                    overflow-x: auto; /* Cho phép cuộn ngang nếu các ảnh vượt quá chiều rộng */
-                }
-                .thumb-image {
-                    flex: 0 0 auto; /* Không cho phần tử co lại, giữ kích thước ban đầu */
-                    margin-right: 10px; /* Khoảng cách giữa các ảnh */
-                }
-			</style>
-
-					<div class="col-md-7 single-right-left simpleCart_shelfItem">
+			<div class="col-md-7 single-right-left simpleCart_shelfItem">
 						<h3 th:text="${product.title}">Tên sản phẩm</h3>
 						<div class="rating1">
                     <span class="starRating">
@@ -1026,7 +1031,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			<div class="clearfix"> </div>
 		</div>
-	</div>
+
 
 
 
@@ -1113,6 +1118,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 
 		</div>
+	</div>
 	</div>
 
 
@@ -1513,11 +1519,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<!-- js-files -->
 	<!-- jquery -->
-	<script src="../webchinh/js/jquery-2.1.4.min.js"></script>
-	<!-- //jquery -->
-
-	<!-- popup modal (for signin & signup)-->
-	<script src="../webchinh/js/jquery.magnific-popup.js"></script>
 	<script>
 		$(document).ready(function () {
             $('.popup-with-zoom-anim').magnificPopup({
@@ -1534,12 +1535,83 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
 	</script>
+	<script src="../webchinh/js/jquery-2.1.4.min.js"></script>
+	<!-- //jquery -->
+	<script src="../webchinh/js/jquery.flexslider.js"></script>
+	<script>
+		$(document).ready(function() {
+            $('.popup-image').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-img-mobile',
+                image: {
+                    verticalFit: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300 // Thời gian chuyển đổi hiệu ứng zoom
+                }
+            });
+
+            $('.flexslider').flexslider({
+                animation: "slide", // Sử dụng hiệu ứng "trượt" cho chuyển đổi giữa các ảnh
+                controlNav: "thumbnails", // Sử dụng các ảnh thu nhỏ làm điều hướng cho trình chiếu
+                start: function(slider) { // Sự kiện khi bắt đầu trình chiếu
+                    slider.find('.slides li img').each(function() {
+                        $(this).css({
+                            width: '400px',
+                            height: '380px'
+                        });
+                    });
+                }
+            });
+        });
+
+        function changeMainImage(src) {
+            document.getElementById('mainImage').src = src;
+        }
+	</script>
+	<style>
+		.thumb-image img {
+            cursor: pointer;
+        }
+	</style>
+	<!-- popup modal (for signin & signup)-->
+	<script src="../webchinh/js/jquery.magnific-popup.js"></script>
+
 	<!-- Large modal -->
 	<!-- <script>
         $('#').modal('show');
     </script> -->
 	<!-- //popup modal (for signin & signup)-->
+	<script src="../webchinh/js/jquery.flexisel.js"></script>
+	<script>
+		$(window).load(function () {
+			$("#flexiselDemo1").flexisel({
+				visibleItems: 3,
+				animationSpeed: 1000,
+				autoPlay: true,
+				autoPlaySpeed: 3000,
+				pauseOnHover: true,
+				enableResponsiveBreakpoints: true,
+				responsiveBreakpoints: {
+					portrait: {
+						changePoint: 480,
+						visibleItems: 1
+					},
+					landscape: {
+						changePoint: 640,
+						visibleItems: 2
+					},
+					tablet: {
+						changePoint: 768,
+						visibleItems: 2
+					}
+				}
+			});
 
+		});
+	</script>
 	<!-- cart-js -->
 	<script src="../webchinh/js/minicart.js"></script>
 	<script>
@@ -1586,33 +1658,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<!-- flexisel (for special offers) -->
 	<script src="../webchinh/js/jquery.flexisel.js"></script>
-	<script>
-		$(window).load(function () {
-            $("#flexiselDemo1").flexisel({
-                visibleItems: 3,
-                animationSpeed: 1000,
-                autoPlay: true,
-                autoPlaySpeed: 3000,
-                pauseOnHover: true,
-                enableResponsiveBreakpoints: true,
-                responsiveBreakpoints: {
-                    portrait: {
-                        changePoint: 480,
-                        visibleItems: 1
-                    },
-                    landscape: {
-                        changePoint: 640,
-                        visibleItems: 2
-                    },
-                    tablet: {
-                        changePoint: 768,
-                        visibleItems: 2
-                    }
-                }
-            });
 
-        });
-	</script>
 	<!-- //flexisel (for special offers) -->
 
 	<!-- password-script -->
