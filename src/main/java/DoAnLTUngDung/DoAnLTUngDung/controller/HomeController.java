@@ -52,6 +52,14 @@ public class HomeController {
         }
         return "redirect:/";
     }
+    @GetMapping("/about")
+    public String aobut() {
+        return "USER/about";
+    }
+    @GetMapping("/lienhe")
+    public String lienhe() {
+        return "USER/lienhe";
+    }
 //    @GetMapping("/single/{id}")
 //    public String showProductDetails(@PathVariable("id") Long id, Model model) {
 //        List<Category> categories = categoryServices.getAllCategories();

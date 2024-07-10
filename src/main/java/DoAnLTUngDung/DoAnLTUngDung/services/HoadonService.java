@@ -23,10 +23,8 @@ public class HoadonService {
     public void deleteHoaDonById(Long id) {
         hoaDonRepository.deleteById(id);
     }
-
     @Transactional
     public void deleteHoaDon(List<Long> hoadonIds) {
-        // Xử lý xóa từng danh mục theo id
         for (Long hoadonId : hoadonIds) {
             hoaDonRepository.deleteById(hoadonId);
         }

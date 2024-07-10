@@ -36,7 +36,7 @@ public class HoaDonController {
 //        hoadonService.deleteHoaDonById(id);
 //        return "redirect:/hoadonlist";
 //    }
-    @PostMapping("/deleteHoaDon/{id}")
+    @GetMapping("/deleteHoaDon/{id}")
     public String deleteHoaDon(@PathVariable("id") Long id) {
         hoadonService.deleteHoaDonById(id);
         return "redirect:/hoadonlist";
