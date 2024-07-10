@@ -124,7 +124,7 @@ label{
     height: 42px;
     outline: none;
     box-shadow: none;
-    background: #1accfd;
+    background: #D10024;
     padding: 0;
     border-radius: inherit;
     -webkit-appearance: none;
@@ -359,7 +359,7 @@ button.w3view-cart {
     width: 48px;
     height: 43px;
     font-size: 24px;
-    color: #fff;
+    color: #D10024;
 }
 /*-- //cart details--*/
 /*-- //header-bottom --*/
@@ -1021,7 +1021,7 @@ span.heading-style {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #FF5722;
+    background-color: #D10024;
     margin: 0 -4px;
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
@@ -1030,7 +1030,7 @@ span.heading-style {
 .heading-style i:nth-child(2) {
     width: 12px;
     height: 12px;
-    background-color: #1accfd;
+    background-color: #15161D;
 }
 h3.tittle-w3l:after {
     content: "";
@@ -1450,7 +1450,7 @@ ul.w3_short li {
 	letter-spacing:1px;
 }
 ul.w3_short li a {
-    color: #FF5722;
+    color: #D10024;
     text-decoration: none;
 }
 .services-breadcrumb {
