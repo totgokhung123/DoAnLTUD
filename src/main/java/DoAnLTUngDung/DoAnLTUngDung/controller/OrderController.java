@@ -112,11 +112,6 @@ public class OrderController {
         if (selectedCartItems == null || selectedCartItems.isEmpty()) {
             return "redirect:/cart";
         }
-        List<Category> categories = categoryServices.getAllCategories()
-                .stream()
-                .filter(Category::getStatus)
-                .collect(Collectors.toList());
-        model.addAttribute("categories", categories);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User user = userService.findByUsername(username);
