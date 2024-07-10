@@ -80,6 +80,18 @@
     opacity: 0.8; /* Hiệu ứng mờ khi di chuột qua */
 }
 
+    .table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+ .table-fixed {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+
+
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -136,17 +148,18 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                 <!-- Iterate over each product in DSProduct -->
-                                 <tr th:each="product : ${products}">
-                                     <td>
-                                         <input type="checkbox" name="productIds" class="form-check-input" id="defaultCheck1" th:value="${product.id}">
-                                     </td>
-                                     <td>
+                                <tr th:each="product : ${products}">
+                                    <td>
+                                        <input type="checkbox" name="productIds" class="form-check-input" id="defaultCheck1" th:value="${product.id}">
+                                    </td>
+                                    <td class="product-title-cell">
                                         <strong th:text="${product.title}"></strong>
                                     </td>
                                     <td th:text="${product.price}"></td>
                                     <td th:text="${product.sl}"></td>
-                                    <td><img th:if="${product.anhdaidien}" th:src="@{{image}(image=${product.anhdaidien})}" alt="Image" style="width:100px; height:100px;"></td>
-
+                                    <td>
+                                        <img th:if="${product.anhdaidien}" th:src="@{{image}(image=${product.anhdaidien})}" alt="Image" style="width:100px; height:100px;">
+                                    </td>
                                     <td th:text="${product.category.name}"></td>
                                     <td th:text="${product.description}"></td>
                                     <td th:text="${#dates.format(product.NamSX, 'yyyy-MM-dd')}"></td>
@@ -164,13 +177,13 @@
                                                 <!-- Delete link with product ID and confirmation dialog -->
                                                 <a class="dropdown-item" th:href="@{/products/delete/{id}(id=${product.id})}"
                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                                                    <i class="bx bx-trash me-1"></i> Delete
+                                                    <i class="bx bx-trash me-1"></i>Delete
                                                 </a>
                                             </div>
-
                                         </div>
                                     </td>
                                 </tr>
+
                                 </tbody>
                                 </table>
                                 <button type="submit" class="btn btn-primary p-0 dropdown-toggle hide-arrow">Xóa người dùng đã chọn</button>

@@ -5,7 +5,9 @@ import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
 import DoAnLTUngDung.DoAnLTUngDung.entity.Role;
 import DoAnLTUngDung.DoAnLTUngDung.entity.User;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IOrderDetailRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IProductRepository;
+import DoAnLTUngDung.DoAnLTUngDung.repository.OrderDetailRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
-
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.jpa.repository.Query;
 @Service
 public class ProductServices {
     @Autowired
@@ -183,6 +185,16 @@ public class ProductServices {
     }
     public List<Product> getSpecialOffers() {
         return productRepository.findSpecialOffers();
+    }
+
+
+
+
+
+
+    private IOrderDetailRepository orderDetailRepository;
+    public Integer getTotalQuantitySoldByProduct(Long productId) {
+        return orderDetailRepository.getTotalQuantitySoldByProduct(productId);
     }
 
 }
