@@ -39,11 +39,12 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="categoryImagePath" class="form-label">Chọn ảnh</label>
-                                    <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" onchange="previewImage(event)"/>
+                                    <input th:text="@{${category.imagePath}" type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" onchange="previewImage(event)"/>
                                     <small class="form-text text-muted">Chỉ chấp nhận các định dạng ảnh.</small>
                                 </div>
                                 <div class="mb-3">
-                                    <img th:src="@{${category.imagePath}}" id="imagePreview" style="width:100px; height:100px; margin-bottom: 10px;" />
+                                    <img th:src="'../'+ @{${category.imagePath}}" id="imagePreview" />
+
                                 </div>
                                 <button type="submit"  class="btn btn-primary">Save</button>
                                 <a href="/categorylist" class="btn btn-secondary">
