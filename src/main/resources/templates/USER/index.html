@@ -762,49 +762,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<!-- //product left -->
 			<!-- product right -->
+
 			<div class="agileinfo-ads-display col-md-9">
 				<div class="wrapper">
 				<div class="product-sec1" th:each="entry : ${categoryProductsMap}">
 
-					<h3 class="heading-tittle" th:href="@{/category/{id}(id=${entry.key.id})}" th:text="${entry.key.name}"></h3>
-					<div class="col-md-4 product-men" th:each="product : ${entry.value}">
-						<div class="men-pro-item simpleCart_shelfItem">
-							<div class="men-thumb-item">
-								<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:150px; height:150px;">
-								<div class="men-cart-pro">
-									<div class="inner-men-cart-pro">
-										<a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Quick View</a>
-									</div>
-								</div>
-								<span class="product-new-top">New</span>
-							</div>
-							<div class="item-info-product ">
-								<h4>
-									<a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>
-								</h4>
-								<div class="info-product-price">
-									<div class="w3l-pricehkj">
-										<div>
-										<p class="discount" th:text="'Tiết kiệm ' + (${product.price} * 0.1)">Save $40.00</p>
-										</div>
-											<div>
-										<h8 class="price" th:text="${product.price + '  VNĐ'}">$220.00</h8>
-											</div>
-											</div>
-								</div>
-								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-									<form th:action="@{/cart/add}" method="post">
-										<input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
-										<input type="hidden" th:value="${product.id}" name="productId"/>
-										<button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
-									</form>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-				</div>
+					<h3 class="heading-tittle">
+                        <a  th:href="@{/category/{id}(id=${entry.key.id})}" th:text="${entry.key.name}">Category Name</a>
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-4 product-men" th:each="product : ${entry.value}">
+                            <div class="men-pro-item simpleCart_shelfItem">
+                                <div class="men-thumb-item">
+                                    <img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:150px; height:150px;">
+                                    <div class="men-cart-pro">
+                                        <div class="inner-men-cart-pro">
+                                            <a th:href="@{/single/{id}(id=${product.id})}" class="link-product-add-cart">Quick View</a>
+                                        </div>
+                                    </div>
+                                    <span class="product-new-top">New</span>
+                                </div>
+                                <div class="item-info-product ">
+                                    <h4>
+                                        <a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title + ' - SL: ' + product.sl}"></a>
+                                    </h4>
+                                    <div class="info-product-price">
+                                        <div class="w3l-pricehkj">
+                                            <div>
+                                            <p class="discount" th:text="'Tiết kiệm ' + (${product.price} * 0.1)">Save $40.00</p>
+                                            </div>
+                                                <div>
+                                            <h8 class="price" th:text="${product.price + '  VNĐ'}">$220.00</h8>
+                                                </div>
+                                                </div>
+                                    </div>
+                                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                        <form th:action="@{/cart/add}" method="post">
+                                            <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
+                                            <input type="hidden" th:value="${product.id}" name="productId"/>
+                                            <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
 
 					<!-- //first section (nuts) -->
 					<!-- second section (nuts special) -->
@@ -820,13 +824,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<!-- //second section (nuts special) -->
-					<!-- third section (oils) -->
-
-					<!-- //third section (oils) -->
-					<!-- fourth section (noodles) -->
-
-					<!-- //fourth section (noodles) -->
 				</div>
 			</div>
 			<!-- //product right -->
@@ -859,29 +856,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="product-name-w3l">
 								<h4>
-									<a href="/single" th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
+									<a  th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6 th:text="${'$' + product.price}">$220.00</h6>
 									<p th:text="'Save $' + (${product.price} * 0.8)">Save $40.00</p>
 								</div>
 
-								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-									<form action="#" method="post">
-										<fieldset>
-											<input type="hidden" name="cmd" value="_cart" />
-											<input type="hidden" name="add" value="1" />
-											<input type="hidden" name="business" value=" " />
-											<input type="hidden" name="item_name" value="Aashirvaad, 5g" />
-											<input type="hidden" name="amount" value="220.00" />
-											<input type="hidden" name="discount_amount" value="1.00" />
-											<input type="hidden" name="currency_code" value="USD" />
-											<input type="hidden" name="return" value=" " />
-											<input type="hidden" name="cancel_return" value=" " />
-											<input type="submit" name="submit" value="Add to cart" class="button" />
-										</fieldset>
-									</form>
-								</div>
+                                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                    <form th:action="@{/cart/add}" method="post">
+                                        <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
+                                        <input type="hidden" th:value="${product.id}" name="productId"/>
+                                        <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
+                                    </form>
+                                </div>
 							</div>
 						</div>
 					</li>
