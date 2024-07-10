@@ -96,6 +96,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         width: 24px;
         height: 24px;
     }
+	.flex-control-nav.flex-control-thumbs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Căn giữa các hình ảnh trong danh sách */
+    overflow-x: auto; /* Cho phép thanh trượt ngang khi hình ảnh vượt quá kích thước */
+    white-space: nowrap; /* Ngăn không cho các hình ảnh xuống dòng */
+    -ms-overflow-style: scrollbar; /* Cho phép thanh trượt cho IE */
+    scrollbar-width: thin; /* Độ rộng thanh trượt (thường là thin hoặc auto) */
+    scrollbar-color: #ccc transparent; /* Màu sắc của thanh trượt */
+}
+
+
+.flex-control-nav.flex-control-thumbs li {
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.flex-control-nav.flex-control-thumbs li img {
+    max-width: 120px; /* Đảm bảo hình ảnh không vượt quá kích thước của thẻ cha */
+    height: 120px; /* Đảm bảo tỷ lệ khung hình */
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.flex-control-nav.flex-control-thumbs li img.flex-active {
+    border-color: #007bff;
+}
+
 
 	</style>
 	<!--//tags -->
@@ -868,14 +897,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- //page -->
 
-
-
-
-
-
-
-
-
 	<!-- Single Page -->
 	<div class="banner-bootom-w3-agileits">
 		<div class="container">
@@ -889,47 +910,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</h3>
 
 
-<!--test-->
 
-<!--			<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">-->
-<!--				<div class="grid images_3_of_2">-->
-<!--					<div class="flexslider" >-->
-<!--						<ul class="slides" >-->
-<!--							<li th:if="${product.anhdaidien != null}" th:data-thumb="@{${product.anhdaidien}}" >-->
-<!--								<div class="thumb-image">-->
-<!--									<img th:src="@{${product.anhdaidien}}" alt="Ảnh Sản Phẩm" class="img-thumbnail mt-3" id="mainImage" style="height: 400px; width: 380px;">-->
-<!--								</div>-->
-<!--							</li>-->
-<!--							<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}" th:data-thumb="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" >-->
-<!--								<div class="thumb-image">-->
-<!--									<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" onclick="changeMainImage(this.src)" data-imagezoom="true" class="img-responsive" alt="Ảnh Bổ Sung" >-->
-<!--								</div>-->
-<!--							</li>-->
-<!--						</ul>-->
-<!--						<div class="clearfix"></div>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-
-
-			<!--test-->
-
-
-			<div class="col-md-5 single-right-left" th:href="@{/single/{id}(id=${product.id})}">
+			<div class="col-md-5 single-right-left">
 				<div class="grid images_3_of_2">
 					<div class="flexslider">
 						<ul class="slides">
+							<!-- Main image -->
 							<li th:if="${product.anhdaidien != null}" th:data-thumb="@{${product.anhdaidien}}">
 								<div class="thumb-image">
 									<a th:href="@{${product.anhdaidien}}" class="popup-image">
-										<img th:src="@{${product.anhdaidien}}" alt="Ảnh Sản Phẩm" class="img-thumbnail mt-3" id="mainImage" style="height: 400px; width: 380px;">
+										<img th:src="@{${product.anhdaidien}}" alt="Ảnh Sản Phẩm" class="img-thumbnail mt-3" id="mainImage">
 									</a>
 								</div>
 							</li>
+
+							<!-- Additional images -->
 							<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}" th:data-thumb="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}">
 								<div class="thumb-image">
 									<a th:href="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" class="popup-image">
-										<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" onclick="changeMainImage(this.src)" data-imagezoom="true" class="img-responsive" alt="Ảnh Bổ Sung" style="height: 145px; width: 145px;">
+										<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" onclick="changeMainImage(this.src)" data-imagezoom="true" class="img-responsive" alt="Ảnh Bổ Sung">
 									</a>
 								</div>
 							</li>
@@ -938,27 +937,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1032,38 +1010,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="clearfix"> </div>
 		</div>
 
-
-
-
-
-
-
-
-
-<!--	<div class="additional-images">-->
-<!--		<ul class="additional-images-list">-->
-<!--			&lt;!&ndash; Iterate over the array of image paths &ndash;&gt;-->
-<!--			<li th:each="imagePath : ${#strings.arraySplit(product.muTiImagePath, ',')}">-->
-<!--				&lt;!&ndash; Ensure to remove any unnecessary quotes from the image path &ndash;&gt;-->
-<!--				<img th:src="${imagePath.replace('[', '').replace(']', '').replace('&quot;', '')}" alt="Additional Image" style="width:100px; height:100px;">-->
-<!--			</li>-->
-<!--		</ul>-->
-<!--	</div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<!--list-->
 	<!-- special offers -->
 	<div class="featured-section" id="projects">
@@ -1083,7 +1029,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li th:each="product : ${products}">
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
-								<a href="/single">
+								<a th:href="@{/single/{id}(id=${product.id})}">
 									<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								</a>
 							</div>
@@ -1120,32 +1066,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<!-- special offers -->
@@ -1574,6 +1494,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<style>
 		.thumb-image img {
             cursor: pointer;
+             height: 140px; /* Đặt chiều cao cho ảnh */
+       		 width: 140px; /* Đặt chiều rộng cho ảnh */
+
         }
 	</style>
 	<!-- popup modal (for signin & signup)-->

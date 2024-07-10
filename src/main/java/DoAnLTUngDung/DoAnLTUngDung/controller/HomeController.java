@@ -68,21 +68,26 @@ public class HomeController {
 
     @GetMapping("/index")
     public String showAllCategories(Model model) {
-    List<Category> categories = categoryServices.getAllCategories();
-    model.addAttribute("categories", categories);
-    model.addAttribute("products", productServices.getAllProducts());
-    Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
-    for (Category category : categories) {
-        List<Product> products = productServices.getProductsByCategoryIdAndHasImage(category.getId());
-        if (!products.isEmpty()) {
-            categoryProductsMap.put(category, products);
-        }
-    }
-    model.addAttribute("categoryProductsMap", categoryProductsMap);
-    return "USER/index";
-}
+        List<Category> categories = categoryServices.getAllCategories();
+        model.addAttribute("categories", categories);
 
-//    @GetMapping("/category/{id}")
+        List<Product> products = productServices.getAllProducts();
+        model.addAttribute("products", products);
+
+        Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
+        for (Category category : categories) {
+            List<Product> productsWithImages = productServices.getProductsByCategoryIdAndHasImage(category.getId());
+            if (!productsWithImages.isEmpty()) {
+                categoryProductsMap.put(category, productsWithImages);
+            }
+        }
+        model.addAttribute("categoryProductsMap", categoryProductsMap);
+
+        return "USER/index";
+    }
+
+
+    //    @GetMapping("/category/{id}")
 //    public String theloai(@PathVariable("id") Long id, Model model) {
 //        List<Product> products = productServices.getProductsByCategoryId(id);
 //        if (!products.isEmpty()) {
