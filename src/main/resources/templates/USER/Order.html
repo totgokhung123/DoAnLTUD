@@ -90,7 +90,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Product Name</th>
-                            <th>Price</th>
+                            <th>TotalPrice</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,7 +106,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </td>
                             <td class="invert"><strong th:text="${cartItem.product.title}"></strong></td>
                             <!-- Thêm id để cập nhật giá tiền -->
-                            <td id="price-${cartItem.product.id}" th:text="${@cartService.formatPrice(cartItem.product.price)}">$888.00</td>
+                            <td id="price-${cartItem.product.id}" th:text="${@cartService.formatPrice(cartItem.product.price * cartItem.quantity)}">$888.00</td>
                         </tr>
                         <!-- Xử lý khi selectedCartItems là null -->
                         <tr th:if="${selectedCartItemss == null}">
@@ -114,6 +114,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </tr>
                         </tbody>
                     </table>
+                    <div>
+                        <h4>Tổng tiền: <span th:text="${@cartService.formatPrice(sum)}">₫0.00</span></h4>
+                    </div>
             </div>
         </div>
 

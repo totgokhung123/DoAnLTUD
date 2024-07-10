@@ -4,6 +4,7 @@ import DoAnLTUngDung.DoAnLTUngDung.dto.OrderForm;
 import DoAnLTUngDung.DoAnLTUngDung.entity.*;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IHoaDonRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IOrderRepository;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IProductRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.OrderDetailRepository;
 import DoAnLTUngDung.DoAnLTUngDung.services.*;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +29,8 @@ public class OrderController {
 
     @Autowired
     private IOrderRepository orderRepository;
+    @Autowired
+    private IProductRepository p;
     @Autowired
     private IHoaDonRepository hoaDonRepository;
 
@@ -68,18 +71,24 @@ public class OrderController {
         session.setAttribute("selectedCartItems", selectedCartItems);
         // Đưa selectedCartItems vào model để sử dụng trong template
         model.addAttribute("selectedCartItemss", selectedCartItems);
+        Double s = 0.0;
         if (selectedCartItems == null) {
             System.out.println("selectedCartItems is null");
         } else {
             System.out.println("selectedCartItems size: " + selectedCartItems.size());
             System.out.println("selectedCartItems content: " + selectedCartItems);
+
             for(CartItem cart : selectedCartItems){
                 System.out.println("cart id: " + cart.getId());
                 System.out.println("cart product name: " + cart.getProduct().getTitle());
                 System.out.println("cart product price: " + cart.getProduct().getPrice());
                 System.out.println("cart user: " + cart.getUser().getId());
+                s += cart.getProduct().getPrice() * cart.getQuantity();
+                System.out.println("totalPrice trong USER/Order: " + s);
             }
+
         }
+        model.addAttribute("sum",s);
         return "USER/Order";
     }
 
@@ -126,6 +135,9 @@ public class OrderController {
                 order.getOrderDetails().add(orderDetail);
                 orderDetailRepository.save(orderDetail);
                 totalPrice += orderDetail.getPrice();
+                double remainingQuantity = product.getQuantity() - cartItem.getQuantity();
+                product.setQuantity(remainingQuantity);
+                p.save(product);
             }
         }
         if ("VNPAY".equals(paymentMethod)) {

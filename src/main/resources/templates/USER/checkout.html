@@ -136,15 +136,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</tr>
 						</tbody>
 					</table>
+					<div>
+						<h4>Tổng tiền: <span th:text="${sumOrder}">₫0.00</span></h4>
+					</div>
 					<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 						<input type="submit" class="button" value="Mua Ngay" />
 					</div>
 				</form>
 				</div>
 			</div>
-			<div>
-				<h4>Tổng tiền: <span th:text="${@cartService.formatPrice(sumOrder)}">₫0.00</span></h4>
-			</div>
+
 		</div>
 	</div>
 
