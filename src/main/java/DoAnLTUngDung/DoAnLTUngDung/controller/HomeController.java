@@ -84,30 +84,13 @@ public class HomeController {
 
         // Lấy thông tin sản phẩm theo ID
         Product product = productServices.getProductById(id);
-        if (product != null && product.getStatus()) {
+        if (product != null) {
             model.addAttribute("product", product);
             return "USER/single";
         }
         // Nếu sản phẩm không tồn tại, chuyển hướng đến danh sách sản phẩm
         return "redirect:/products/list";
     }
-//    @GetMapping("/")
-//    public String showAllCategories(Model model) {
-//        List<Category> categories = categoryServices.getAllCategories();
-//        model.addAttribute("categories", categories);
-//        model.addAttribute("products", productServices.getAllProducts());
-//        Map<Category, List<Product>> categoryProductsMap = new HashMap<>();
-//        for (Category category : categories) {
-//            List<Product> products = productServices.getProductsByCategoryIdAndHasImage(category.getId());
-//            // Chỉ thêm vào map nếu có sản phẩm trong danh sách
-//            if (!products.isEmpty()) {
-//                categoryProductsMap.put(category, products);
-//            }
-//        }
-//        model.addAttribute("categoryProductsMap", categoryProductsMap);
-//        return "USER/index";
-//    }
-
     @GetMapping("/")
     public String showAllCategories(Model model) {
         List<Category> categories = categoryServices.getAllCategories()
@@ -137,20 +120,6 @@ public class HomeController {
         model.addAttribute("categoryProductsMap", categoryProductsMap);
         return "USER/index";
     }
-
-//    @GetMapping("/category/{id}")
-//    public String theloai(@PathVariable("id") Long id, Model model) {
-//        List<Product> products = productServices.getProductsByCategory(id);
-//        if (products.isEmpty()) {
-//            model.addAttribute("message", "Chưa có sản phẩm nào trong thể loại này.");
-//        } else {
-//            Map<Category, List<Product>> categoryProductsMap = products.stream()
-//                    .collect(Collectors.groupingBy(Product::getCategory));
-//            model.addAttribute("categoryProductsMap", categoryProductsMap);
-//        }
-//        return "USER/theloai";
-//    }
-
     @GetMapping("/category/{id}")
     public String theloai(@PathVariable("id") Long id, Model model) {
         List<Product> products = productServices.getProductsByCategory(id)
@@ -166,13 +135,6 @@ public class HomeController {
         }
         return "USER/theloai";
     }
-//    @GetMapping("/search-products")
-//    public String searchProducts(@RequestParam(name="query", required = false) String query , Model model) {
-//        List<Product> products = productService.searchProducts(query);
-//        model.addAttribute("products", products);
-//        return "USER/product";
-//    }
-
     @GetMapping("/search-products")
     public String searchProducts(@RequestParam(name = "query", required = false) String query, Model model) {
         List<Product> products = productServices.searchProducts(query)

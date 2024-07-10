@@ -36,16 +36,8 @@
                                     <label for="categoryName" class="form-label">Category Name</label>
                                     <input type="text" class="form-control" id="categoryName" th:field="*{name}" placeholder="Nhập tên danh mục" />
                                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên danh mục là bắt buộc</div>
-
                                 </div>
-<!--                                <div class="mb-3">-->
-<!--                                    <label for="categoryStatus" class="form-label">Trạng thái</label>-->
-<!--                                    <select class="form-control" id="categoryStatus" th:field="*{status}">-->
-<!--                                        <option value="true" th:selected="${category.status == true}">TRUE</option>-->
-<!--                                        <option value="false" th:selected="${category.status == false}">FALSE</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-                                <div class="mb-3">-->
+                                <div class="mb-3">
                                     <label for="categoryStatus" class="form-label">Trạng thái</label>
                                     <select class="form-control" id="categoryStatus" th:field="*{status}">
                                         <option value="true">TRUE</option>
@@ -58,7 +50,8 @@
                                     <small class="form-text text-muted">Chỉ chấp nhận các định dạng ảnh.</small>
                                 </div>
                                 <div class="mb-3">
-                                    <img th:src="@{${category.imagePath}}" id="imagePreview" style="width:100px; height:100px; margin-bottom: 10px;" />
+                                    <img th:src="'../'+ @{${category.imagePath}}" id="imagePreview" />
+
                                 </div>
                                 <button type="submit"  class="btn btn-primary">Save</button>
                                 <a href="/categorylist" class="btn btn-secondary">

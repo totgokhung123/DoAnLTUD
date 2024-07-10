@@ -78,4 +78,12 @@ public class Product {
 
     @Column(name = "status")
     private Boolean Status;
+
+    public double getQuantity() {
+        return sl;
+    }
+
+    public void setQuantity(double quantity) {
+        this.sl = quantity;
+    }
 }

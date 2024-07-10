@@ -165,7 +165,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                 // Kiểm tra file có tồn tại và định dạng hợp lệ
                 if (file.isEmpty()) {
                     // Xử lý khi file không tồn tại
-                    return "redirect:/products/list?import_error=empty";
+                    return "redirect:/categorylist?import_error=empty";
                 }
                 // Xử lý đọc dữ liệu từ file Excel và thêm sản phẩm vào cơ sở dữ liệu
                 List<Category> categories = categoryServices.readCategoryFromExcel(file.getInputStream());
@@ -176,7 +176,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                 return "redirect:/categorylist";
             } catch (Exception e) {
                 // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
-                return "redirect:/categorylist/list?import_error=" + e.getMessage();
+                return "redirect:/categorylist?import_error=" + e.getMessage();
             }
         }
 

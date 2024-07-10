@@ -17,8 +17,7 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Future(message = "Ngày lập hóa đơn không trước tương lai")
+  //  @Future(message = "Ngày lập hóa đơn không trước tương lai")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgayLap")
@@ -29,11 +28,13 @@ public class HoaDon {
     @Column(name = "TrangThai")
     private String TrangThai;
 
-
+    @Column(name = "totalPrice")
+    private double totalPrice;
     @OneToOne
     @JoinColumn(name = "order_id",
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_HoaDon_Order"))
     private Order order;
+
 
 }

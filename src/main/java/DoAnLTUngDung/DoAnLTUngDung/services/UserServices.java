@@ -25,6 +25,7 @@ public class UserServices {
     @Autowired
     private IRoleRepository rolePepository;
     public void save(User user) {
+
         userRepository.save(user);
         Long userId = userRepository.getUserIdByUsername(user.getUsername());
 
@@ -68,7 +69,7 @@ public class UserServices {
             existingUser.setEmail(editedUser.getEmail());
             existingUser.setName(editedUser.getName());
             existingUser.setSdt(editedUser.getSdt());
-            existingUser.setRoles(editedUser.getRoles());
+           // existingUser.setRoles(editedUser.getRoles());
             return userRepository.save(existingUser);
         }
         return null;
@@ -148,8 +149,7 @@ public class UserServices {
                 if (currentRow.getCell(2) != null) {
                     password = currentRow.getCell(2).getStringCellValue();
                 }
-
-                if (password.isEmpty()) {
+                if (currentRow.getCell(2) == null) {
                     password = username; // Set password thành username nếu password để trống
                 }
 
@@ -209,9 +209,7 @@ public class UserServices {
     }
 
     public void updatePassword(User user, String newPassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(newPassword);
-        user.setPassword(encodedPassword);
+        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
         user.setResetToken(null);
         userRepository.save(user);
     }

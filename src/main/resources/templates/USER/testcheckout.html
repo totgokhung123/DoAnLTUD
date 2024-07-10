@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<!-- Bootstrap JavaScript và các dependency -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div class="content-bottom-in">
+    <ul id="flexiselDemo1">
+        <li th:each="product : ${products}">
+            <div class="w3l-specilamk">
+                <div class="speioffer-agile">
+                    <a href="/single">
+                        <img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
+                    </a>
+                </div>
+                <div class="product-name-w3l">
+                    <h4>
+                        <a th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
+                    </h4>
+                    <div class="w3l-pricehkj">
+                        <h6 th:text="${'$' + product.price}">$220.00</h6>
+                        <p th:text="'Save $' + (${product.price} * 0.8)">Save $40.00</p>
+                    </div>
+                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                        <button class="btn btn-warning btn-sm" onclick="openCartModal(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Add to Cart</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/cart/add}" method="post">
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control">
+                    </div>
+                    <input type="hidden" id="productId" name="productId"/>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="/cart" class="btn btn-primary">Check giỏ hàng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openCartModal(productId) {
+        $('#productId').val(productId);
+        $('#cartModal').modal('show');
+    }
+</script>
+</body>
+</html>
