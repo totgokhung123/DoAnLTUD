@@ -72,6 +72,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	</style>
 	<style>
+		.category-container2-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%; /* Ensure the wrapper has a width */
+    }
 		.category-container-wrapper {
         position: relative;
         overflow: hidden;
@@ -84,7 +89,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     gap: 20px; /* Adjust the gap between items */
     transition: transform 0.5s ease-in-out;
 }
-
+.category-container2 {
+    display: flex;
+    flex-wrap: nowrap; /* Ensure items do not wrap */
+    gap: 20px; /* Adjust the gap between items */
+    transition: transform 0.5s ease-in-out;
+}
 .category-item {
     width: calc((100% - (5 * 20px)) / 5); /* Adjust width per item (thay đổi từ 12 xuống 5) */
     max-width: 150px; /* Max width of each item */
@@ -166,7 +176,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- header-bot-->
 			<div class="col-md-4 logo_agile">
 				<h1>
-					<a href="/">
+					<a href="/" style="font-style: normal;">
 						<img src="../assets/img/favicon/logo.jpg" alt="brand-logo"/></a>
 					<a href="/"> <span ><strong style="color: red;">ROG</strong></span>
 						<span > <strong style="color: red;">Tech</strong></span></a>
@@ -211,12 +221,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!-- cart details -->
 				<div class="top_nav_right">
 					<div class="wthreecartaits wthreecartaits2 cart cart box_1" >
-						<form id="addToCartForm" action="#" method="post" class="last">
-							<input type="hidden" name="cmd" value="_cart">
-							<input type="hidden" name="display" value="1">
-								<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-							</button>
-						</form>
+						<a class="w3view-cart button"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
 					</div>
 				</div>
 				<!-- //cart details -->
@@ -503,6 +508,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</span>
 	</h3>
 
+	<div class="content-bottom-in" >
+		<ul id="flexiselDemo2">
+			<li th:each="category : ${categories}">
+				<div class="w3l-specilamk" >
+					<div class="category-container2" id="category-container2">
+						<!-- Repeat for each category -->
+						<div class="category-item">
+							<a th:href="@{/category/{id}(id=${category.id})}" class="category-box" style="width:285px;height:150px;">
+								<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" class="category-image">
+								<div class="category-name" th:text="${category.name}"></div>
+							</a>
+						</div>
+						<!-- End repeat -->
+					</div>
+<!--					&lt;!&ndash; Repeat for each category &ndash;&gt;-->
+<!--					<div class="category-item" >-->
+<!--						<div class="speioffer-agile">-->
+<!--							<a th:href="@{/category/{id}(id=${category.id})}">-->
+<!--								<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" style="width:150px; height:150px">-->
+<!--								<div class="category-name" th:text="${category.name}"></div>-->
+<!--							</a>-->
+<!--						</div>-->
+<!--					</div>-->
+					<!-- End repeat -->
+				</div>
+			</li>
+		</ul>
+	</div>
 	<div class="category-container-wrapper">
 		<div class="category-container" id="category-container">
 			<!-- Repeat for each category -->
@@ -800,7 +833,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         <form th:action="@{/cart/add}" method="post">
                                             <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
                                             <input type="hidden" th:value="${product.id}" name="productId"/>
-                                            <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
+                                            <input type="submit" name="submit" value="Thêm Vào Giỏ " class="button"/>
                                         </form>
                                     </div>
                                 </div>
@@ -836,7 +869,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="featured-section" id="projects">
         <div class="container">
             <!-- tittle heading -->
-            <h3 class="tittle-w3l">Special Offers
+            <h3 class="tittle-w3l">San pham dac biet
                 <span class="heading-style">
 					<i></i>
 					<i></i>
@@ -867,7 +900,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <form th:action="@{/cart/add}" method="post">
                                         <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
                                         <input type="hidden" th:value="${product.id}" name="productId"/>
-                                        <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
+										<input type="submit" name="submit" value="Thêm Vào Giỏ " class="button">
+<!--                                        <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>-->
                                     </form>
                                 </div>
 							</div>
@@ -1327,6 +1361,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		});
 	</script>
+	<script>
+		$(window).load(function () {
+			$("#flexiselDemo2").flexisel({
+				visibleItems: 3,
+				animationSpeed: 1000,
+				autoPlay: true,
+				autoPlaySpeed: 3000,
+				pauseOnHover: true,
+				enableResponsiveBreakpoints: true,
+				responsiveBreakpoints: {
+					portrait: {
+						changePoint: 480,
+						visibleItems: 1
+					},
+					landscape: {
+						changePoint: 640,
+						visibleItems: 2
+					},
+					tablet: {
+						changePoint: 768,
+						visibleItems: 2
+					}
+				}
+			});
+
+		});
+	</script>
 	<!-- //flexisel (for special offers) -->
 
 	<!-- password-script -->
@@ -1391,6 +1452,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     const itemsPerPage = 8; // Number of items per page
     const itemWidth = 150 + 20; // Width of each item plus gap (adjust as per your design)
     const gap = 20; // Adjust as per your design
+
     const container = document.getElementById('category-container');
     const totalItems = container.children.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
