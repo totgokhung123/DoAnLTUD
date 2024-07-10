@@ -33,17 +33,17 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
         @Autowired
         private CategoryServices categoryServices;
 
-        @PostMapping("/delete/selected")
-        public ResponseEntity<String> deleteSelectedCategories(@RequestBody List<Long> categoryIds) {
-            try {
-                // Gọi service để xóa danh mục
-                categoryServices.deleteCategories(categoryIds);
-                return ResponseEntity.ok("Đã xóa thành công danh mục đã chọn.");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Đã xảy ra lỗi khi xóa danh mục: " + e.getMessage());
-            }
-        }
+//        @PostMapping("/delete/selected")
+//        public ResponseEntity<String> deleteSelectedCategories(@RequestBody List<Long> categoryIds) {
+//            try {
+//                // Gọi service để xóa danh mục
+//                categoryServices.deleteCategories(categoryIds);
+//                return ResponseEntity.ok("Đã xóa thành công danh mục đã chọn.");
+//            } catch (Exception e) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                        .body("Đã xảy ra lỗi khi xóa danh mục: " + e.getMessage());
+//            }
+//        }
 
         private static final String UPLOADED_DIR = "src/main/resources/static/assets/img/category/";
         @GetMapping("/categorylist")
