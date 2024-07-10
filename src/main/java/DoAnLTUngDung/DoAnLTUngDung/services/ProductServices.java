@@ -133,6 +133,7 @@ public class ProductServices {
                         imageCell1.getStringCellValue() : "null";
                 product.setAnhdaidien(imagePath1);
 
+                product.setMuTiImagePath(currentRow.getCell(5).getStringCellValue());
 
                 // Xử lý category từ file Excel
                 String categoryName = currentRow.getCell(6).getStringCellValue();
@@ -146,6 +147,9 @@ public class ProductServices {
                 if (category != null) {
                     product.setCategory(category);
                 } else {
+                    // Nếu không tìm thấy category, có thể xử lý tùy ý (ví dụ: bỏ qua, ghi log,...)
+                    // Ví dụ: product.setCategory(null);
+                    // Hoặc có thể bỏ qua sản phẩm này
                     continue; // Bỏ qua sản phẩm nếu không tìm thấy category
                 }
 
@@ -171,10 +175,14 @@ public class ProductServices {
     public List<Product> getProductsByCategoryIdAndHasImage(Long categoryId) {
         return productRepository.findByCategoryId(categoryId)
                 .stream()
-                .filter(product -> product.getAnhdaidien() != null && product.getSl() > 1)
+                .filter(product -> product.getMuTiImagePath() != null && product.getSl() > 1)
                 .collect(Collectors.toList());
     }
     public List<Product> searchProducts(String query) {
         return productRepository.findByTitleContainingOrCategory_NameContaining(query, query);
     }
+    public List<Product> getSpecialOffers() {
+        return productRepository.findSpecialOffers();
+    }
+
 }

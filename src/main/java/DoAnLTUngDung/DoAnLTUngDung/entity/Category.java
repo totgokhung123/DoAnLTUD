@@ -27,5 +27,6 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
-
+    @Column(name = "status")
+    private Boolean Status;
 }

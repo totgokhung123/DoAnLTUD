@@ -36,6 +36,13 @@
                                     <input type="text" class="form-control" id="categoryName" th:field="*{name}" placeholder="Nhập tên danh mục" />
                                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên danh mục là bắt buộc</div>
                                 </div>
+                                <div class="mb-3">-->
+                                        <label for="categoryStatus" class="form-label">Trạng thái</label>
+                                        <select class="form-control" id="categoryStatus" th:field="*{status}">
+                                            <option value="true">TRUE</option>
+                                            <option value="false">FALSE</option>
+                                        </select>
+                                </div>
                                 <div class="mb-3">
                                     <label for="categoryImagePath" class="form-label">Chọn ảnh</label>
                                     <input type="file" class="form-control" id="categoryImagePath" name="image" accept="image/*" onchange="previewImage(event)"/>

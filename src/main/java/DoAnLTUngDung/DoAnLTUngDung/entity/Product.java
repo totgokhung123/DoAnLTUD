@@ -73,6 +73,12 @@ public class Product {
     @JoinColumn(name = "baoHanh_id", referencedColumnName = "id")
     private BaoHanh baoHanh;
 
+    @Column(name = "special_offer")
+    private Boolean specialOffer;
+
+    @Column(name = "status")
+    private Boolean Status;
+
     public double getQuantity() {
         return sl;
     }

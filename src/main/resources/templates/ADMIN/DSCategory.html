@@ -38,7 +38,7 @@
                         <a th:href="@{/add}" class="btn btn-primary mb-3">Add</a>
                         <button id="delete-selected" class="btn btn-danger mb-3">Delete Selected</button>
                         <a th:href="@{/export/excel}" class="btn btn-success mb-3">Export Excel</a>
-                        <form method="post" action="/upload/categories" enctype="multipart/form-data">
+                        <form method="post" action="/import-category" enctype="multipart/form-data">
                             <input type="file" name="file" accept=".xlsx, .xls" class="form-control">
                             <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
                         </form>
@@ -53,6 +53,7 @@
                                     <th>Category ID</th>
                                     <th>Category Name</th>
                                     <th>Image Path</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -62,6 +63,7 @@
                                     <td th:text="${category.id}"></td>
                                     <td th:text="${category.name}"></td>
                                     <td><img th:if="${category.ImagePath}" th:src="@{{image}(image=${category.ImagePath})}" style="width:100px; height:100px;"></td>
+                                    <td th:text="${category.status}"></td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
