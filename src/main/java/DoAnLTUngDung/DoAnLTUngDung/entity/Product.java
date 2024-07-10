@@ -77,7 +77,7 @@ public class Product {
     private Boolean specialOffer;
 
     @Column(name = "status")
-    private Boolean Status;
+    private Boolean Status = true;
 
     public double getQuantity() {
         return sl;

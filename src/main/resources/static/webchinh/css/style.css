@@ -54,7 +54,7 @@ label{
     font-weight: 600;
     padding: 8px;
     letter-spacing: 2px;
-    background: #1accfd;
+    background:#D10024;
 }
 /* //top-header */
 /*-- header-bottom --*/
@@ -75,7 +75,7 @@ label{
 }
 .header ul li span {
     margin-right: 7px;
-    color: #FF5722;
+    color: #D10024;
     font-size: 15px;
 }
 .header-right {
@@ -124,7 +124,7 @@ label{
     height: 42px;
     outline: none;
     box-shadow: none;
-    background: #1accfd;
+    background: #D10024;
     padding: 0;
     border-radius: inherit;
     -webkit-appearance: none;
@@ -287,10 +287,10 @@ a.nav-stylehead {
     font-size: 15px;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
-    color: #FF5722;
+    color: #D10024;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #FF5722;
+    color: #D10024;
 }
 .navbar-default .navbar-nav > li > a {
     color: #000;
@@ -355,11 +355,11 @@ a.simpleCart_empty {
 button.w3view-cart {
     outline: none;
     border: none;
-    background: #FF5722;
+    background: #D10024;
     width: 48px;
     height: 43px;
     font-size: 24px;
-    color: #fff;
+    color: #FFFFFF;
 }
 /*-- //cart details--*/
 /*-- //header-bottom --*/
@@ -422,7 +422,7 @@ button.w3view-cart {
 }
 .carousel-caption h2 span, .carousel-caption h3 span{
     font-weight: 800;
-    color: #FF5722;
+    color: #D10024;
 }
 .carousel-caption p {
     letter-spacing: 5px;
@@ -471,7 +471,7 @@ button.w3view-cart {
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     box-shadow: 0 0 1px transparent;
-    background: #1accfd;
+    background: #D10024;
     border-radius: 4px;
     color: #fff;
     letter-spacing: 2px;
@@ -498,7 +498,7 @@ button.w3view-cart {
 .snipcart-details input.button {
     font-size: 13px;
     color: #fff;
-    background: #1accfd;
+    background: #D10024;
     text-decoration: none;
     position: relative;
     border: none;
@@ -809,7 +809,7 @@ button.w3view-cart {
   color: #c4c4c4;
 }
 .search-hotel form input[type="submit"]{
-  background: url(../images/search.png) no-repeat 13px 11px #1accfd;
+  background: url(../images/search.png) no-repeat 13px 11px #D10024;
   width: 44px;
   height: 39px;
   border: none;
@@ -821,7 +821,7 @@ button.w3view-cart {
   background:#f5f4f0;
 }
   h3.agileits-sear-head {
-    color: #FF5722;
+    color: #D10024;
     margin-bottom: 20px;
     font-size: 21px;
 }
@@ -1021,7 +1021,7 @@ span.heading-style {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #FF5722;
+    background-color: #D10024;
     margin: 0 -4px;
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
@@ -1030,7 +1030,7 @@ span.heading-style {
 .heading-style i:nth-child(2) {
     width: 12px;
     height: 12px;
-    background-color: #1accfd;
+    background-color: #15161D;
 }
 h3.tittle-w3l:after {
     content: "";
@@ -1170,7 +1170,7 @@ h3.tittle-w3l:after {
     font-size: 17px;
     letter-spacing: 1px;
     width: 18%;
-    background: #FF5722;
+    background: #D10024;
     border: none;
     -webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
@@ -1179,7 +1179,7 @@ h3.tittle-w3l:after {
     transition: 0.5s all;
 }
 .footer-top input[type="submit"]:hover{
-	background:#1accfd;
+	background:#8B0018;
 	-webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
     -o-transition: 0.5s all;
@@ -1391,7 +1391,7 @@ p.footer-main span {
 .copy-right {
     text-align: center;
     padding: 15px 0;
-    background: #FF5722;
+    background: #15161D;
 }
 .copy-right p {
     color: #fff;
@@ -1450,7 +1450,7 @@ ul.w3_short li {
 	letter-spacing:1px;
 }
 ul.w3_short li a {
-    color: #FF5722;
+    color: #D10024;
     text-decoration: none;
 }
 .services-breadcrumb {

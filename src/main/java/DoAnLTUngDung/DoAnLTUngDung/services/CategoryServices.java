@@ -1,6 +1,7 @@
 package DoAnLTUngDung.DoAnLTUngDung.services;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.Category;
+import DoAnLTUngDung.DoAnLTUngDung.entity.Product;
 import DoAnLTUngDung.DoAnLTUngDung.repository.ICategoryRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.transaction.Transactional;
@@ -73,6 +74,7 @@ public class CategoryServices {
                         category.getId() + " does not exist."));
         existingCategory.setImagePath(category.getImagePath());
         existingCategory.setName(category.getName());
+        existingCategory.setStatus(category.getStatus());
         categoryRepository.save(existingCategory);
     }
 
@@ -105,8 +107,14 @@ public class CategoryServices {
                     category.setImagePath(null); // hoặc giá trị mặc định nào đó nếu cần
                 }
 
-                if (statusCell != null && statusCell.getCellType() == CellType.STRING) {
-                    category.setStatus(Boolean.valueOf(statusCell.getStringCellValue()));
+                if (statusCell != null) {
+                    if (statusCell.getCellType() == CellType.BOOLEAN) {
+                        category.setStatus(statusCell.getBooleanCellValue());
+                    } else if (statusCell.getCellType() == CellType.NUMERIC) {
+                        category.setStatus(statusCell.getNumericCellValue() != 0);
+                    } else if (statusCell.getCellType() == CellType.STRING) {
+                        category.setStatus(Boolean.parseBoolean(statusCell.getStringCellValue()));
+                    }
                 }
                 categories.add(category);
             }
@@ -114,5 +122,27 @@ public class CategoryServices {
 
         workbook.close();
         return categories;
+    }
+
+    @Transactional
+    public void softDeleteCategories(List<Long> categoryIds) {
+        for (Long categoryId : categoryIds) {
+            softDeleteCategory(categoryId);
+        }
+    }
+
+    public void softDeleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Category with ID " + id + " does not exist."));
+        category.setStatus(false);
+        categoryRepository.save(category);
+
+        // Set status of associated products to false
+        List<Product> products = category.getProducts();
+        if (products != null) {
+            for (Product product : products) {
+                product.setStatus(false);
+            }
+        }
     }
 }

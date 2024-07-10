@@ -1,9 +1,12 @@
 package DoAnLTUngDung.DoAnLTUngDung.services;
 
-import DoAnLTUngDung.DoAnLTUngDung.repository.IOrderDetailRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
 

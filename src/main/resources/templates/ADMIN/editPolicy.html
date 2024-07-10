@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Category List | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Sửa chính sách </title>
     <meta name="description" content="" />
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,67 +27,29 @@
 
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Category List
-                    </h4>
-
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Chính sách /</span> Sửa chính sách</h4>
                     <hr class="my-5" />
-<!--                    <div class="d-flex justify-content-between mb-3">-->
-<!--                        <button th:href="@{/add}" class="btn btn-primary">Add</button>-->
-<!--                    </div>-->
-                    <div>
-                        <a th:href="@{/add}" class="btn btn-primary mb-3">Add</a>
-<!--                        <button id="delete-selected" class="btn btn-danger mb-3">Delete Selected</button>-->
-                        <a th:href="@{/export/excel}" class="btn btn-success mb-3">Export Excel</a>
-                        <form method="post" action="/import-category" enctype="multipart/form-data">
-                            <input type="file" name="file" accept=".xlsx, .xls" class="form-control">
-                            <button type="submit" class="btn btn-primary mb-3">Import Excel</button>
-                        </form>
-                    </div>
                     <div class="card">
-                        <h5 class="card-header">Category List</h5>
-                        <div class="table-responsive text-nowrap">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="select-all"></th>
-                                    <th>Category ID</th>
-                                    <th>Category Name</th>
-                                    <th>Image Path</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="category : ${categories}">
-                                    <td><input type="checkbox" class="category-checkbox" th:value="${category.id}"></td>
-                                    <td th:text="${category.id}"></td>
-                                    <td th:text="${category.name}"></td>
-                                    <td><img th:if="${category.ImagePath}" th:src="@{{image}(image=${category.ImagePath})}" style="width:100px; height:100px;"></td>
-                                    <td th:text="${category.status}"></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" th:href="@{/editcategory/{id}(id=${category.id})}"><i class="bx bx-edit-alt me-1"></i>Edit</a>
-<!--                                                <a class="dropdown-item" th:href="@{/delete/{id}(id=${category.id})}"><i class="bx bx-trash me-1"></i>Delete</a>-->
-<!--                                                <a class="dropdown-item" th:href="@{/delete/{id}(id=${category.id})}"-->
-<!--                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?')" >-->
-<!--                                                    <i class="bx bx-trash me-1"></i> Delete-->
-<!--                                                </a>-->
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <h5 class="card-header">Sửa Chính Sách</h5>
+                        <div class="card-body">
+                            <form th:action="@{/policy/update/{id}(id=${policy.id})}" th:object="${policy}" method="post">
+                                <input type="hidden" id="policyId" th:field="*{id}" />
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">Tên chính sách:</label>
+                                    <input type="text" id="type" th:field="*{type}" class="form-control"/>
+                                    <div class="text-danger" th:if="${#fields.hasErrors('type')}"
+                                         th:errors="*{type}"></div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="description">Mô tả</label>
+                                    <input id="description" class="form-control" th:field="*{description}" placeholder="Mô tả chính sách..."></input>
+                                </div>
+                                <button type="submit">Cập nhật Chính sách</button>
+                            </form>
                         </div>
+                        <a href="/policy" class="btn btn-primary">Quay lại danh sách</a>
                     </div>
                 </div>
-            <!--footer-->
                 <th:block th:replace="~{ADMIN/LayoutAdmin::footer}"></th:block>
-            <!--footer-->
                 <div class="content-backdrop fade"></div>
             </div>
         </div>

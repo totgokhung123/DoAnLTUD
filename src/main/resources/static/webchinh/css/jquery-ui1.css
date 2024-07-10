@@ -1,4 +1,3 @@
-
 /* right-aligned */
 
 .ui-menu .ui-menu-icon { position: static; float: right; }
@@ -54,16 +53,16 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1em; }
 .ui-widget-content { background: #e0ddda; color: #222222;  margin-top: 3em; }
 .ui-widget-content a { color: #222222/*{fcContent}*/; }
-.ui-widget-header { background: #1accfd; color: #222222/*{fcHeader}*/; font-weight: bold; }
+.ui-widget-header { background: #D10024; color: #222222/*{fcHeader}*/; font-weight: bold; }
 .ui-widget-header a { color: #222222/*{fcHeader}*/; }
 
 /* Interaction states
 ----------------------------------*/
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 0px solid #ff5d56/*{borderColorDefault}*/;
-  background: #FF5722;
+  background: #D10024;
   font-weight: normal/*{fwDefault}*/;
-  color: #555555/*{fcDefault}*/;
+  color: #D10024/*{fcDefault}*/;
   outline: none;
   width: 15px;
   height: 15px; 

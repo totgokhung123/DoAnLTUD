@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DISEE - Invoice HTML5 Template</title>
+    <title>ROG Tech - Thong tin Hoa Don</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
 
@@ -20,7 +20,6 @@
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-
 <!-- Invoice 4 start -->
 <div class="invoice-4 invoice-content">
     <div class="container">
@@ -31,12 +30,12 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="logo">
-                                    <img src="../assets/img/logos/logo.png" alt="logo">
+                                    <a href="/"><img src="../assets/img/favicon/logo.jpg" alt="logo"><strong style="color: red;">ROG Tech</strong></a>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="invoice text-end">
-                                    <h1>Invoice</h1>
+                                    <h1>Hóa Đơn</h1>
                                 </div>
                             </div>
                         </div>
@@ -45,12 +44,12 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="invoice-number">
-                                    <h3>Invoice Number: #45613</h3>
+                                    <h3 th:text="'Số hóa đơn:#'+ ${hoaDon.id}">Số hoa don: #45613</h3>
                                 </div>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <div class="invoice-date">
-                                    <h3>Invoice Date: 24 Jan 2022</h3>
+                                    <h3 th:utext="${#dates.format(hoaDon.NgayLap, 'dd/MM/yyyy HH:mm:ss')}">Ngay lap: 24 Jan 2022</h3>
                                 </div>
                             </div>
                         </div>
@@ -59,33 +58,32 @@
                         <div class="row">
                             <div class="col-sm-6 mb-30">
                                 <div class="invoice-number">
-                                    <h4 class="inv-title-1">Invoice To</h4>
-                                    <p class="invo-addr-1">
-                                        Theme Vessel <br/>
-                                        info@themevessel.com <br/>
-                                        21-12 Green Street, Meherpur, Bangladesh <br/>
-                                    </p>
+                                    <h4 class="inv-title-1">Hóa đơn đến</h4>
+                                    <p>người đặt: <span th:text="${user.name}"></span></p>
+                                    <p>Email: <span th:text="${user.email}"></span></p>
+                                    <p>người nhận: <span th:text="${order.TenNguoiNhan}"></span></p>
+                                    <p>Số điện thoại: <span th:text="${order.sdt}"></span></p>
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-30">
                                 <div class="invoice-number text-end">
-                                    <h4 class="inv-title-1">Bill To</h4>
+                                    <h4 class="inv-title-1">Chủ Shop </h4>
                                     <p class="invo-addr-1">
-                                        Apexo Inc  <br/>
-                                        billing@apexo.com <br/>
-                                        169 Teroghoria, Bangladesh <br/>
+                                          Totgokhung123<br/>
+                                        chutienbinh2003@gmail.com<br/>
+                                        Man thiện,tăng nhơn phu A, TP.HCM<br/>
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mb-30">
-                                <h4 class="inv-title-1">Date</h4>
-                                <p class="inv-from-1">Due Date:21/09/2021</p>
+                                <h4 class="inv-title-1" >trạng thái đơn hàng: </h4>
+                                <p class="inv-from-1" th:text="${hoaDon.TrangThai}">trang thai don hang: </p>
                             </div>
                             <div class="col-sm-6 text-end mb-30">
-                                <h4 class="inv-title-1">Payment Method</h4>
-                                <p class="inv-from-1">Credit Card</p>
+                                <h4 class="inv-title-1">Phương thức thanh toán</h4>
+                                <p class="inv-from-1" th:text="${order.pttt}">Credit Card</p>
                             </div>
                         </div>
                     </div>
@@ -94,57 +92,35 @@
                             <table class="table invoice-table">
                                 <thead class="bg-active">
                                 <tr>
-                                    <th>Item Item</th>
-                                    <th class="text-center">Price</th>
-                                    <th class="text-center">Quantity</th>
-                                    <th class="text-right">Totals</th>
+                                    <th>Sản phẩm</th>
+                                    <th class="text-center">Giá</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-right">Tổng tiền</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="orderdetails : ${orderDetails}">
                                     <td>
                                         <div class="item-desc-1">
-                                            <span>BS-200</span>
-                                            <small>Customize web application</small>
+                                            <span th:text="${orderdetails.product.category.name}">BS-200</span>
+                                            <small th:text="${orderdetails.product.title}">Customize web application</small>
                                         </div>
                                     </td>
-                                    <td class="text-center">$10.99</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$10.99</td>
+                                    <td class="text-center" th:text="${@cartService.formatPrice(orderdetails.product.price)}">$10.99</td>
+                                    <td class="text-center"th:text="${orderdetails.quantity}">1</td>
+                                    <td class="text-right" th:text="${@cartService.formatPrice(orderdetails.price)}">$10.99</td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div class="item-desc-1">
-                                            <span>BS-201</span>
-                                            <small>Website SEO improvement of Website development</small>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">$20.00</td>
-                                    <td class="text-center">3</td>
-                                    <td class="text-right">$60.00</td>
+                                    <td colspan="3" class="text-end"  >SubTotal</td>
+                                    <td class="text-right" th:text="${@cartService.formatPrice(subTotal)}">$710.99</td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div class="item-desc-1">
-                                            <span>BS-200</span>
-                                            <small>Customize web application</small>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">$10.99</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$10.99</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end">SubTotal</td>
-                                    <td class="text-right">$710.99</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end">Tax</td>
-                                    <td class="text-right">$85.99</td>
+                                    <td colspan="3" class="text-end" >VAT</td>
+                                    <td class="text-right" th:text="${@cartService.formatPrice(tax)}">$85.99</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="text-end fw-bold">Grand Total</td>
-                                    <td class="text-right fw-bold">$795.99</td>
+                                    <td class="text-right fw-bold" th:text="${@cartService.formatPrice(total)}">$795.99</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -162,18 +138,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="terms-and-condistions mb-30">
-                                    <h3 class="inv-title-1">Terms and Condistions</h3>
-                                    <p class="mb-0">Once order done, money can't refund. Delivery might delay due to</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="nates mb-30">
-                                    <h4 class="inv-title-1">Notes</h4>
-                                    <p class="text-muted">This is computer generated invoice and physical signature</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -181,21 +145,20 @@
                         <div class="row g-0">
                             <div class="col-lg-9 col-md-11 col-sm-12">
                                 <div class="contact-info">
-                                    <a href="tel:+55-4XX-634-7071"><i class="fa fa-phone"></i> +00 123 647 840</a>
-                                    <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i> info@themevessel.com</a>
-                                    <a href="tel:info@themevessel.com" class="mr-0 d-none-580"><i class="fa fa-map-marker"></i> 169 Teroghoria, Bangladesh</a>
+                                    <a href="tel:0942617888"><i class="fa fa-phone"></i> 0942617888</a>
+                                    <a href="tel:chutienbinh2003@gmail.com"><i class="fa fa-envelope"></i> chutienbinh2003@gmail.com</a>
+                                    <a href="tel:info@themevessel.com" class="mr-0 d-none-580"><i class="fa fa-map-marker"></i> Man thien, Tang nhon phu A, TP.HCM</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="invoice-btn-section clearfix d-print-none">
                     <a href="javascript:window.print()" class="btn btn-lg btn-print">
-                        <i class="fa fa-print"></i> Print Invoice
+                        <i class="fa fa-print"></i>In file
                     </a>
-                    <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
-                        <i class="fa fa-download"></i> Download Invoice
+                    <a id="invoice_download_btn" th:href="@{'/order/download-invoice/' + ${hoaDon.id}}" class="btn btn-lg btn-download btn-theme">
+                        <i class="fa fa-download"></i> Xuất file PDF
                     </a>
                 </div>
             </div>
