@@ -104,12 +104,18 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
             model.addAttribute("categories", categoryServices.getAllCategories());
             return "redirect:/categorylist";
         }
-            @GetMapping("/deletecategory/{id}")
-            //@PreAuthorize("hasAuthority('ADMIN')")
-            public String deleteCategory(@PathVariable("id") Long id) {
-                categoryServices.deleteCategory(id);
-                return "redirect:/ADMIN/Categorylist";
-            }
+//            @GetMapping("/deletecategory/{id}")
+//            //@PreAuthorize("hasAuthority('ADMIN')")
+//            public String deleteCategory(@PathVariable("id") Long id) {
+//                categoryServices.deleteCategory(id);
+//                return "redirect:/Categorylist";
+//            }
+
+        @GetMapping("/deletecategory/{id}")
+        public String deleteCategory(@PathVariable("id") Long id) {
+            categoryServices.softDeleteCategory(id);
+            return "redirect:/categorylist";
+        }
 
         @GetMapping("/export/excel")
         public ResponseEntity<byte[]> exportCategoriesToExcel() {
@@ -167,10 +173,10 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
                     // Lưu hoặc thêm product vào cơ sở dữ liệu
                     categoryServices.saveCategory(category);
                 }
-                return "redirect:/products/list";
+                return "redirect:/categorylist";
             } catch (Exception e) {
                 // Xử lý ngoại lệ nếu có lỗi khi đọc hoặc lưu dữ liệu
-                return "redirect:/products/list?import_error=" + e.getMessage();
+                return "redirect:/categorylist/list?import_error=" + e.getMessage();
             }
         }
 
