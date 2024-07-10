@@ -53,38 +53,14 @@ public class HomeController {
         return "redirect:/";
     }
     @GetMapping("/about")
-    public String aobut(Model model) {
-        List<Category> categories = categoryServices.getAllCategories()
-                .stream()
-                .filter(Category::getStatus)
-                .collect(Collectors.toList());
-        model.addAttribute("categories", categories);
+    public String aobut() {
         return "USER/about";
     }
     @GetMapping("/lienhe")
-    public String lienhe(Model model) {
-        List<Category> categories = categoryServices.getAllCategories()
-                .stream()
-                .filter(Category::getStatus)
-                .collect(Collectors.toList());
-        model.addAttribute("categories", categories);
+    public String lienhe() {
+
         return "USER/lienhe";
     }
-//    @GetMapping("/single/{id}")
-//    public String showProductDetails(@PathVariable("id") Long id, Model model) {
-//        List<Category> categories = categoryServices.getAllCategories();
-//        model.addAttribute("categories", categories);
-//        model.addAttribute("products", productServices.getAllProducts());
-//
-//        // Lấy thông tin sản phẩm theo ID
-//        Product product = productServices.getProductById(id);
-//        if (product != null) {
-//            model.addAttribute("product", product);
-//            return "USER/single";
-//        }
-//        // Nếu sản phẩm không tồn tại, chuyển hướng đến danh sách sản phẩm
-//        return "redirect:/products/list";
-//    }
 
     @GetMapping("/single/{id}")
     public String showProductDetails(@PathVariable("id") Long id, Model model) {

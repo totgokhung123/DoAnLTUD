@@ -93,11 +93,6 @@ public class OrderController {
             }
 
         }
-        List<Category> categories = categoryServices.getAllCategories()
-                .stream()
-                .filter(Category::getStatus)
-                .collect(Collectors.toList());
-        model.addAttribute("categories", categories);
         model.addAttribute("sum",s);
         return "USER/Order";
     }

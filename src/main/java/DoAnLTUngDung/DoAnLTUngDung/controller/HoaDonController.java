@@ -41,6 +41,7 @@ public class HoaDonController {
 //    }
     @GetMapping("/deleteHoaDon/{id}")
     public String deleteHoaDon(@PathVariable("id") Long id) {
+        System.out.println("hoadon id: " + id);
         hoaDonRepository.deleteById(id);
         return "redirect:/hoadonlist";
     }
