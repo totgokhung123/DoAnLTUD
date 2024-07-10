@@ -104,7 +104,8 @@ public class HomeController {
                 .filter(Product::getStatus)
                 .collect(Collectors.toList());
         model.addAttribute("products", products);
-
+        List<Product> productssu = productServices.getSpecialOffers();
+        model.addAttribute("productsu", productssu);
         Map<Category, List<Product>> categoryProductsMap = categories.stream()
                 .collect(Collectors.toMap(
                         category -> category,

@@ -53,10 +53,7 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <form th:action="@{/deleteHoaDon}" method="post" style="display:inline;">
-                                                    <input type="hidden" name="id" th:value="${hoadon.id}" />
-                                                    <button type="submit" class="dropdown-item"><i class="bx bx-trash me-1"></i>Delete</button>
-                                                </form>
+                                                    <a class="dropdown-item" th:href="@{/deleteHoaDon/{id}(id=${hoadon.id})}"><i class="bx bx-trash me-1"></i>Delete</a>
                                             </div>
                                         </div>
                                     </td>
