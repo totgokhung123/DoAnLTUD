@@ -38,7 +38,6 @@ public class PolicyController {
     }
 
     @GetMapping("/policy")
-    @PreAuthorize("hasRole('ADMIN')")
     public String listPolicy(Model model) {
         List<Policy> policies = policyService.getAllPolicies();
         model.addAttribute("policies", policies);

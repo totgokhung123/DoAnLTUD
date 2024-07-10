@@ -80,11 +80,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/policies","/inhoadon","/order","/policy","/giamgia/edit/**","/cart/**","/single/**","/search-products","/","/webchinh/**","/image/**","/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/assets/**", "/register","/public/**", "/error/**", "/auth/**", "/oauth2/**")
+                        .requestMatchers("/category/**","/policies","/inhoadon","/order","/giamgia/edit/**","/cart/**","/single/**","/search-products","/","/webchinh/**","/image/**","/css/**", "/js/**","/img/**","/vendor/**","/forgot-password","/reset-password","auth/login-success","/auth-login-basic","/assets/**", "/register","/public/**", "/error/**", "/auth/**", "/oauth2/**")
                         .permitAll()
-                        .requestMatchers("/Admin","/products","/products/add","/products/edit","/products/delete","/userlist","/userlist/add","/edit", "/books/delete", "/categories/edit", "/categories/delete","/","/policy/edit/**", "/policy/add", "/policy/delete/**")
+                        .requestMatchers("/policy","/Admin","/products","/products/add","/products/edit","/products/delete","/userlist","/userlist/add","/edit", "/categories/edit", "/categories/delete","/","/policy/edit/**", "/policy/add", "/policy/delete/**")
                         .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/","/categories", "/categories/add")
+                        .requestMatchers("/","/categories")
                         .hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )

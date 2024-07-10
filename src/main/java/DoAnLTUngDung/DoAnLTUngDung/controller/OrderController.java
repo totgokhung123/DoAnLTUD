@@ -18,10 +18,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.itextpdf.text.DocumentException;
+//import com.itextpdf.text.DocumentException;
+
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/order")
@@ -179,16 +182,69 @@ public class OrderController {
         hoaDonRepository.save(hoaDon);
         return hoaDon;
     }
-    @GetMapping("/download-invoice/{id}")
-    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response) {
-        try {
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
+//    @Autowired
+//    private ThymeleafTemplateService templateService;
 
-            HoaDon hoaDon = hoaDonRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid invoice ID: " + id));
-            pdfService.generateInvoicePdf(hoaDon, response);
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+
+//    @GetMapping("/order/download-invoice/{id}")
+//    public void downloadInvoice(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+//        // Tạo model cho Thymeleaf template
+//        Map<String, Object> model = new HashMap<>();
+//        model.put("hoaDon", getHoaDonById(id));
+//        model.put("user", getUserById(id));
+//        model.put("order", getOrderById(id));
+//        model.put("orderDetails", getOrderDetailsById(id));
+//        model.put("subTotal", getSubTotal(id));
+//        model.put("tax", getTax(id));
+//        model.put("total", getTotal(id));
+//
+//        // Render Thymeleaf template thành HTML string
+//        String htmlContent = templateService.processTemplate("invoice_template", model);
+//
+//        // Tạo tên file PDF
+//        String pdfFileName = "invoice_" + id + ".pdf";
+//
+//        // Thiết lập thông tin HTTP response
+//        response.setContentType("application/pdf");
+//        response.setHeader("Content-Disposition", "attachment; filename=" + pdfFileName);
+//
+//        // Chuyển đổi HTML sang PDF và ghi vào response
+//        pdfService.generatePdfFromHtml(htmlContent, response.getOutputStream());
+//    }
+//
+//    // Các phương thức để lấy dữ liệu từ CSDL (hoặc dịch vụ khác)
+//    private Object getHoaDonById(Long id) {
+//        // Implement this method to fetch hoaDon by id
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getUserById(Long id) {
+//        // Implement this method to fetch user by id
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getOrderById(Long id) {
+//        // Implement this method to fetch order by id
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getOrderDetailsById(Long id) {
+//        // Implement this method to fetch order details by id
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getSubTotal(Long id) {
+//        // Implement this method to fetch subtotal
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getTax(Long id) {
+//        // Implement this method to fetch tax
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
+//
+//    private Object getTotal(Long id) {
+//        // Implement this method to fetch total
+//        return new Object(); // Dummy object, replace with actual implementation
+//    }
 }
