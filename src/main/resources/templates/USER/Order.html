@@ -80,7 +80,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="checkout-right">
             <!-- Debug -->
             <h4>Your choose CartItem :
-                <span th:text="${#lists.size(cartItems)} + ' Products'">3 Products</span>
+                <span th:text="${#lists.size(selectedCartItemss)} + ' Products'">3 Products</span>
             </h4>
             <div class="table-responsive">
                     <table class="timetable_sub">
@@ -121,27 +121,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="address_form_agile">
                 <h4>Add a new Details</h4>
                 <form th:action="@{/order/complete}" method="post" class="creditly-card-form agileinfo_form">
-                    <!--    <input type="Hidden" name="selectedProducts" th:value="${selectedProducts}" />-->
-                    <!--    <label for="recipientName">Tên người nhận:</label>-->
-                    <!--    <input type="text" id="recipientName" name="recipientName" required/>-->
-
-                    <!--    <label for="recipientPhone">Số điện thoại:</label>-->
-                    <!--    <input type="text" id="recipientPhone" name="recipientPhone" required/>-->
-
-                    <!--    <label for="recipientAddress">Địa chỉ:</label>-->
-                    <!--    <input type="text" id="recipientAddress" name="recipientAddress" required/>-->
-
-                    <!--    <label for="email">Email:</label>-->
-                    <!--    <input type="email" id="email" name="email" required/>-->
-                    <!--    <label for="note">Ghi chú:</label>-->
-                    <!--    <textarea id="note" name="note"></textarea>-->
-                    <!--    <label for="paymentMethod">Phương thức thanh toán:</label>-->
-                    <!--    <select id="paymentMethod" name="paymentMethod">-->
-                    <!--        <option value="COD">Thanh toán khi nhận hàng (COD)</option>-->
-                    <!--        <option value="bankTransfer">Chuyển khoản ngân hàng</option>-->
-                    <!--        <option value="creditCard">Thẻ tín dụng</option>-->
-                    <!--    </select>-->
-                    <!--    <button type="submit">Hoàn tất đơn hàng</button>-->
                     <input type="Hidden" name="selectedProducts" th:value="${selectedProducts}"/>
                     <div class="creditly-wrapper wthree, w3_agileits_wrapper">
                         <div class="information-wrapper">
@@ -174,14 +153,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="controls">
                                     <input class="billing-address-name" placeholder="note" type="email" id="note" name="note" required/>
                                 </div>
-                                <label for="paymentMethod">Phương thức thanh toán:</label>
+                                <label >Phương thức thanh toán:</label>
                                 <div class="controls">
-                                    <select class="option-w3ls" id="paymentMethod" name="paymentMethod">
-                                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
-                                        <option value="bankTransfer">Chuyển khoản ngân hàng</option>
-                                        <option value="creditCard">Thẻ tín dụng</option>
-                                    </select>
+                                    <div>
+                                        <input type="radio" id="paymentMethodCOD" name="paymentMethod" value="COD" onclick="togglePaymentMethod()" required/>
+                                        <label for="paymentMethodCOD">Thanh toán khi nhận hàng (COD)</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" id="paymentMethodVNPAY" name="paymentMethod" value="VNPAY" onclick="togglePaymentMethod()"/>
+                                        <label for="paymentMethodVNPAY">Thanh toán qua VNPAY</label>
+                                    </div>
                                 </div>
+<!--                                <div class="controls">-->
+<!--                                    <select class="option-w3ls" id="paymentMethod" name="paymentMethod">-->
+<!--                                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>-->
+<!--                                        <option value="bankTransfer">Chuyển khoản ngân hàng</option>-->
+<!--                                        <option value="creditCard">Thẻ tín dụng</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+                            </div>
+                            <!-- Form thanh toán VNPAY -->
+                            <div id="vnpayPaymentForm" style="display: none;">
+                                <h4>Thông tin thanh toán VNPAY</h4>
+                                <p>Bạn sẽ được chuyển hướng đến trang thanh toán của VNPAY sau khi hoàn tất đơn hàng.</p>
                             </div>
                             <button class="submit check_out" type="submit">Hoàn tất đơn hàng</button>
                         </div>
@@ -212,6 +206,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </p>
     </div>
 </div>
+<script>
+    function togglePaymentMethod() {
+        const paymentMethodVNPAY = document.getElementById("paymentMethodVNPAY");
+        const vnpayPaymentForm = document.getElementById("vnpayPaymentForm");
+        if (paymentMethodVNPAY.checked) {
+            vnpayPaymentForm.style.display = "block";
+        } else {
+            vnpayPaymentForm.style.display = "none";
+        }
+    }
+</script>
 <script >
     function increaseQuantity(productId) {
         $.ajax({

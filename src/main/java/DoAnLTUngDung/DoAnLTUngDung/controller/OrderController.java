@@ -2,10 +2,10 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.dto.OrderForm;
 import DoAnLTUngDung.DoAnLTUngDung.entity.*;
-import DoAnLTUngDung.DoAnLTUngDung.services.CartService;
-import DoAnLTUngDung.DoAnLTUngDung.services.OrderService;
-import DoAnLTUngDung.DoAnLTUngDung.services.ProductServices;
-import DoAnLTUngDung.DoAnLTUngDung.services.UserServices;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IHoaDonRepository;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IOrderRepository;
+import DoAnLTUngDung.DoAnLTUngDung.repository.OrderDetailRepository;
+import DoAnLTUngDung.DoAnLTUngDung.services.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,17 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
+    private IOrderRepository orderRepository;
+    @Autowired
+    private IHoaDonRepository hoaDonRepository;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+    @Autowired
     private CartService cartService;
+
+    @Autowired
+    private VnpayService vnpayService;
 
     @Autowired
     private UserServices userService;
@@ -71,7 +81,6 @@ public class OrderController {
 
     @PostMapping("/complete")
     public String submitOrder(
-//        @RequestParam("selectedProducts") List<Long> selectedProductIds,
         @RequestParam("recipientName") String recipientName,
         @RequestParam("recipientPhone") String recipientPhone,
         @RequestParam("recipientAddress") String recipientAddress,
@@ -80,31 +89,62 @@ public class OrderController {
         @RequestParam("paymentMethod") String paymentMethod,
         Model model,
         HttpSession session,
-        Authentication authentication) {
-        // Lấy danh sách CartItem được chọn từ session
+        Authentication authentication,RedirectAttributes redirectAttributes) {
         List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItems");
-
         if (selectedCartItems == null || selectedCartItems.isEmpty()) {
-            return "redirect:/cart"; // Nếu không có sản phẩm nào được chọn, quay lại giỏ hàng
-        }
-        else {
-        System.out.println("selectedCartItems size trong complete: " + selectedCartItems.size());
-        System.out.println("selectedCartItems content: " + selectedCartItems);
-            for(CartItem cart : selectedCartItems){
-                System.out.println("cart anh: " + cart.getProduct().getAnhdaidien());
-                System.out.println("cart product name: " + cart.getProduct().getTitle());
-                System.out.println("cart product price: " + cart.getProduct().getPrice());
-                System.out.println("cart quantity: " + cart.getQuantity());
-            }
+            return "redirect:/cart";
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User user = userService.findByUsername(username);
+        // Tạo Order
+        Order order = new Order();
+        order.setUser(user);
+        order.setTenNguoiNhan(recipientName);
+        order.setSdt(recipientPhone);
+        order.setDiachi(recipientAddress);
+        order.setEmail(email);
+        order.setNote(note);
+        order.setPttt(paymentMethod);
+        orderRepository.save(order);
+        double totalPrice = 0;
+        // Tạo OrderDetail từ CartItem được chọn
+        for (CartItem cartItem : selectedCartItems) {
+            Product product = cartItem.getProduct();
 
-        orderService.createOrder(recipientName, recipientPhone, recipientAddress, email, note, paymentMethod, user, selectedCartItems);
+            if (product != null) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setProduct(product);
+                orderDetail.setOrder(order);
+                orderDetail.setQuantity(cartItem.getQuantity());
+                orderDetail.setPrice(product.getPrice() * cartItem.getQuantity());
+                orderDetailRepository.save(orderDetail);
+                // order.getOrderDetails().add(orderDetail);
+                totalPrice += orderDetail.getPrice();
+            }
+        }
+        if ("VNPAY".equals(paymentMethod)) {
+            double amount = totalPrice; // Số tiền cần thanh toán
+            String paymentUrl = vnpayService.createPaymentUrl(order.getId().toString(), amount);
+            saveHoaDon(order, totalPrice);
+            //session.setAttribute("order", order);
+           // session.setAttribute("totalPrice", totalPrice);
+            return "redirect:" + paymentUrl;
+        } else {
+            // Lưu HoaDon ngay lập tức khi không sử dụng VNPAY
+            saveHoaDon(order, totalPrice);
+            session.removeAttribute("selectedCartItems");
+            redirectAttributes.addFlashAttribute("message", "Đơn hàng của bạn đã được hoàn tất!");
+            return "redirect:/";
+        }
+    }
+    private void saveHoaDon(Order order, double totalPrice) {
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setOrder(order);
+        hoaDon.setNgayLap(new Date());
+        hoaDon.setTrangThai("hoan thanh");
+        hoaDon.setTotalPrice(totalPrice);
+        hoaDonRepository.save(hoaDon);
+    }
 
-        // Xóa danh sách sản phẩm đã chọn khỏi session sau khi đặt hàng thành công
-        session.removeAttribute("selectedCartItems");
-    return "redirect:/";
-}
 }
