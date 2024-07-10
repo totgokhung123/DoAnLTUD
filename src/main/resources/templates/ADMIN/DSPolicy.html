@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Chính sách</title>
+    <meta name="description" content="" />
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="../assets/js/config.js"></script>
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <div th:replace="~{ADMIN/LayoutAdmin::navbar}"></div>
+        <div class="layout-page">
+
+            <th:block th:replace="~{ADMIN/LayoutAdmin::NavbarInLayout}"></th:block>
+
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Policy/</span> Các chính sách
+                    </h4>
+                    <hr class="my-5" />
+                    <div>
+                        <a th:href="@{/policy/add}" class="btn btn-primary mb-3">Thêm chính sách</a>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header">Chính sách</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên chính sách</th>
+                                    <th>Nội dung</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="policy : ${policies}">
+                                    <td th:text="${policy.id}"></td>
+                                    <td th:text="${policy.type}"></td>
+                                    <td th:text="${policy.description}"></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" th:href="@{/policy/edit/{id}(id=${policy.id})}"><i class="bx bx-edit-alt me-1"></i>Sửa</a>
+                                                <a class="dropdown-item" th:href="@{/policy/delete/{id}(id=${policy.id})}"
+                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?')" > <i class="bx bx-trash me-1"></i> Xoá
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--footer-->
+                <th:block th:replace="~{ADMIN/LayoutAdmin::footer}"></th:block>
+                <!--footer-->
+                <div class="content-backdrop fade"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../assets/vendor/js/menu.js"></script>
+<script src="../assets/js/main.js"></script>
+<script async defer src="https://buttons.github.io/buttons"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        // Xử lý sự kiện khi click nút "Delete Selected"
+        $('#delete-selected').click(function() {
+            var categoryIds = [];
+            // Lặp qua từng checkbox và lấy ra các id của danh mục được chọn
+            $('.category-checkbox:checked').each(function() {
+                categoryIds.push($(this).val());
+            });
+
+            // Kiểm tra nếu có ít nhất một danh mục được chọn
+            if (categoryIds.length > 0) {
+                // Gửi yêu cầu xóa đến backend
+                $.ajax({
+                    type: 'POST',
+                    url: '/delete/selected',
+                    contentType: 'application/json',
+                    data: JSON.stringify(categoryIds),
+                    success: function(response) {
+                        // Xử lý thành công (ví dụ: cập nhật lại danh sách danh mục)
+                        console.log('Deleted categories:', categoryIds);
+                        // Tùy chỉnh lại dữ liệu hoặc làm gì đó sau khi xóa thành công
+                        location.reload(); // Ví dụ: làm mới trang để cập nhật lại danh sách
+                    },
+                    error: function(error) {
+                        console.error('Error deleting categories:', error);
+                        alert('Đã xảy ra lỗi khi xóa danh mục. Vui lòng thử lại sau.');
+                    }
+                });
+            } else {
+                alert('Vui lòng chọn ít nhất một danh mục để xóa.');
+            }
+        });
+
+        // Xử lý sự kiện khi click vào checkbox "Select All"
+        $('#select-all').change(function() {
+            var isChecked = $(this).prop('checked');
+            $('.category-checkbox').prop('checked', isChecked);
+        });
+    });
+    /*]]>*/
+</script>
