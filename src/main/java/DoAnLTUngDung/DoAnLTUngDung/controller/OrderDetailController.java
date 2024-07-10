@@ -15,10 +15,10 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @GetMapping("/orderhistory")
-    public String showOrderHistory(Model model) {
-        List<OrderDetail> orderDetails = orderDetailService.getAllOrderDetails();
-        model.addAttribute("orderDetails", orderDetails);
-        return "USER/OrderHistory";
-    }
+//    @GetMapping("/orderhistory")
+//    public String showOrderHistory(Model model) {
+//        List<OrderDetail> orderDetails = orderDetailService.();
+//        model.addAttribute("orderDetails", orderDetails);
+//        return "USER/OrderHistory";
+//    }
 }

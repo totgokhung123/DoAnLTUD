@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 html, body{
 	margin:0;
 	font-size: 100%;
-	background: #fff;
+	background: #EEEEEE;
 	font-family: 'Open Sans', sans-serif;
 }
 body a {
@@ -584,6 +584,8 @@ button.w3view-cart {
 	width: 80%;
 }
 .product-men {
+    width: 190px;
+    height: 420px;
     margin-top: 2em;
 }
 .men-pro-item {
@@ -1061,6 +1063,7 @@ h3.tittle-w3l:after {
 	margin: 0 auto;
 }
 .nbs-flexisel-item {
+    height:380px;
 	float: left;
 	position: relative;
 	line-height: 0px;
@@ -1139,6 +1142,7 @@ h3.tittle-w3l:after {
     padding: 20px 0;
 }
 .w3l-specilamk {
+    height: 380px;
     border: 1px solid #CACACA;
     padding: 20px;
     margin: 0 10px;
