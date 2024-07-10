@@ -5,6 +5,7 @@ import DoAnLTUngDung.DoAnLTUngDung.services.PolicyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,10 +38,18 @@ public class PolicyController {
     }
 
     @GetMapping("/policy")
+    @PreAuthorize("hasRole('ADMIN')")
     public String listPolicy(Model model) {
         List<Policy> policies = policyService.getAllPolicies();
         model.addAttribute("policies", policies);
         return "ADMIN/DSPolicy";
+    }
+
+    @GetMapping("/policies")
+    public String userPolicy(Model model) {
+        List<Policy> policies = policyService.getAllPolicies();
+        model.addAttribute("policies", policies);
+        return "USER/policy";
     }
 
     @GetMapping("/policy/edit/{id}")
@@ -51,7 +60,7 @@ public class PolicyController {
         model.addAttribute("policy", policy);
         return "ADMIN/editPolicy";
     }
-    // POST request to update category
+
     @PostMapping("/policy/update/{id}")
     public String updatePolicy(@PathVariable("id") Long id, @Valid Policy policy, BindingResult result, Model model) {
         if (result.hasErrors()) {
