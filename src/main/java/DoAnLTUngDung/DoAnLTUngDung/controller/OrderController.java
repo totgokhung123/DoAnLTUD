@@ -6,6 +6,7 @@ import DoAnLTUngDung.DoAnLTUngDung.repository.IHoaDonRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.IOrderRepository;
 import DoAnLTUngDung.DoAnLTUngDung.repository.OrderDetailRepository;
 import DoAnLTUngDung.DoAnLTUngDung.services.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,8 @@ public class OrderController {
 
     @Autowired
     private ProductServices productService;
+    @Autowired
+    private PdfService pdfService;
 
     @PostMapping("/checkout")
     public String checkout(@RequestParam("selectedProducts") List<Long> selectedProductIds,Model model, HttpSession session,Authentication authentication) {
@@ -109,6 +113,7 @@ public class OrderController {
         orderRepository.save(order);
         double totalPrice = 0;
         // Tạo OrderDetail từ CartItem được chọn
+
         for (CartItem cartItem : selectedCartItems) {
             Product product = cartItem.getProduct();
 
@@ -118,44 +123,60 @@ public class OrderController {
                 orderDetail.setOrder(order);
                 orderDetail.setQuantity(cartItem.getQuantity());
                 orderDetail.setPrice(product.getPrice() * cartItem.getQuantity());
+                order.getOrderDetails().add(orderDetail);
                 orderDetailRepository.save(orderDetail);
-                // order.getOrderDetails().add(orderDetail);
                 totalPrice += orderDetail.getPrice();
             }
         }
         if ("VNPAY".equals(paymentMethod)) {
-            double amount = totalPrice; // Số tiền cần thanh toán
+            double amount = totalPrice;
             String paymentUrl = vnpayService.createPaymentUrl(order.getId().toString(), amount);
             saveHoaDon(order, totalPrice);
             //session.setAttribute("order", order);
            // session.setAttribute("totalPrice", totalPrice);
             return "redirect:" + paymentUrl;
         } else {
-            // Lưu HoaDon ngay lập tức khi không sử dụng VNPAY
-            saveHoaDon(order, totalPrice);
-
+            HoaDon hoaDon = saveHoaDon(order, totalPrice);
             double subTotal = totalPrice;
             double tax = subTotal * 0.1;
             double total = subTotal + tax;
-            // Thêm các thuộc tính vào model để truyền vào template hóa đơn
+            System.out.println("od : " + order.getOrderDetails());
+            for(OrderDetail i :order.getOrderDetails()){
+                System.out.println("od : " + i.getProduct().getId());
+                System.out.println("od : " + i.getProduct().getTitle());
+            }
+            //OrderDetail i = order.getOrderDetails();
             model.addAttribute("user", user);
             model.addAttribute("order", order);
-            model.addAttribute("orderDetails", order.getOrderDetails());
+            model.addAttribute("orderDetails",order.getOrderDetails());
             model.addAttribute("subTotal", subTotal);
             model.addAttribute("tax", tax);
             model.addAttribute("total", total);
+            model.addAttribute("hoaDon", hoaDon);
             session.removeAttribute("selectedCartItems");
             redirectAttributes.addFlashAttribute("message", "Đơn hàng của bạn đã được hoàn tất!");
-            return "redirect:/";
+            return "HOADON/invoice-4";
         }
     }
-    private void saveHoaDon(Order order, double totalPrice) {
+    private HoaDon saveHoaDon(Order order, double totalPrice) {
         HoaDon hoaDon = new HoaDon();
         hoaDon.setOrder(order);
         hoaDon.setNgayLap(new Date());
-        hoaDon.setTrangThai("hoan thanh");
+        hoaDon.setTrangThai("Success"); // Hoặc trạng thái phù hợp khác
         hoaDon.setTotalPrice(totalPrice);
         hoaDonRepository.save(hoaDon);
+        return hoaDon;
     }
+    @GetMapping("/download-invoice/{id}")
+    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
 
+            HoaDon hoaDon = hoaDonRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid invoice ID: " + id));
+            pdfService.generateInvoicePdf(hoaDon, response);
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

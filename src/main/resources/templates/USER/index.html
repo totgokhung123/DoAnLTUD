@@ -823,13 +823,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <p class="discount" th:text="'Tiết kiệm ' + (${product.price} * 0.1)">Save $40.00</p>
                                             </div>
                                                 <div>
-                                            <h8 class="price" th:text="${product.price + '  VNĐ'}">$220.00</h8>
+                                            <h8 class="price" th:text="${@cartService.formatPrice(product.price)}">$220.00</h8>
                                                 </div>
                                                 </div>
                                     </div>
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                         <form th:action="@{/cart/add}" method="post">
-                                            <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
+                                            <input type="hidden" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
                                             <input type="hidden" th:value="${product.id}" name="productId"/>
                                             <input type="submit" name="submit" value="Thêm Vào Giỏ " class="button"/>
                                         </form>
@@ -891,13 +891,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<a  th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
 								</h4>
 								<div class="w3l-pricehkj">
-									<h6 th:text="${'$' + product.price}">$220.00</h6>
-									<p th:text="'Save $' + (${product.price} * 0.8)">Save $40.00</p>
+									<h6 th:text="${@cartService.formatPrice(product.price)}">$220.00</h6>
+									<p th:text="'Tiết kiệm' + (${product.price} * 0.8) +đ">Save $40.00</p>
 								</div>
 
                                 <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                     <form th:action="@{/cart/add}" method="post">
-                                        <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
+                                        <input type="hidden" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
                                         <input type="hidden" th:value="${product.id}" name="productId"/>
 										<input type="submit" name="submit" value="Thêm Vào Giỏ " class="button">
 <!--                                        <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>-->
