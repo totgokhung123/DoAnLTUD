@@ -133,6 +133,13 @@ public class OrderController {
         } else {
             // Lưu HoaDon ngay lập tức khi không sử dụng VNPAY
             saveHoaDon(order, totalPrice);
+            // Thêm các thuộc tính vào model để truyền vào template hóa đơn
+            model.addAttribute("user", user);
+            model.addAttribute("order", order);
+            model.addAttribute("orderDetails", order.getOrderDetails());
+            model.addAttribute("Total", totalPrice);
+//            model.addAttribute("tax", tax);
+//            model.addAttribute("total", total);
             session.removeAttribute("selectedCartItems");
             redirectAttributes.addFlashAttribute("message", "Đơn hàng của bạn đã được hoàn tất!");
             return "redirect:/";
