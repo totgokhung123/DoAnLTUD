@@ -106,7 +106,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </td>
                             <td class="invert"><strong th:text="${cartItem.product.title}"></strong></td>
                             <!-- Thêm id để cập nhật giá tiền -->
-                            <td id="price-${cartItem.product.id}" th:text="${@cartService.ehhehehe(cartItem.product.price,cartItem.product.id,cartItem.user.id)}">$888.00</td>
+                            <td id="price-${cartItem.product.id}" th:text="${@cartService.formatPrice(cartItem.product.price)}">$888.00</td>
                         </tr>
                         <!-- Xử lý khi selectedCartItems là null -->
                         <tr th:if="${selectedCartItemss == null}">
