@@ -53,11 +53,21 @@ public class HomeController {
         return "redirect:/";
     }
     @GetMapping("/about")
-    public String aobut() {
+    public String aobut(Model model) {
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
         return "USER/about";
     }
     @GetMapping("/lienhe")
-    public String lienhe() {
+    public String lienhe(Model model) {
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
         return "USER/lienhe";
     }
 //    @GetMapping("/single/{id}")

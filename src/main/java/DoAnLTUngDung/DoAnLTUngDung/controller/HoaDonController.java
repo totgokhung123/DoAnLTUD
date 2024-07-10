@@ -2,6 +2,7 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
 
 import DoAnLTUngDung.DoAnLTUngDung.entity.DanhGia;
 import DoAnLTUngDung.DoAnLTUngDung.entity.HoaDon;
+import DoAnLTUngDung.DoAnLTUngDung.repository.IHoaDonRepository;
 import DoAnLTUngDung.DoAnLTUngDung.services.DanhGiaService;
 import DoAnLTUngDung.DoAnLTUngDung.services.HoadonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class HoaDonController {
 
     @Autowired
     private HoadonService hoadonService;
+    @Autowired
+    private IHoaDonRepository hoaDonRepository;
 
 
     @GetMapping("/hoadonlist")
@@ -38,7 +41,7 @@ public class HoaDonController {
 //    }
     @GetMapping("/deleteHoaDon/{id}")
     public String deleteHoaDon(@PathVariable("id") Long id) {
-        hoadonService.deleteHoaDonById(id);
+        hoaDonRepository.deleteById(id);
         return "redirect:/hoadonlist";
     }
 }

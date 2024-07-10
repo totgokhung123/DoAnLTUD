@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
@@ -55,6 +56,7 @@ public class OrderController {
     private ProductServices productService;
     @Autowired
     private PdfService pdfService;
+    private CategoryServices categoryServices;
 
     @PostMapping("/checkout")
     public String checkout(@RequestParam("selectedProducts") List<Long> selectedProductIds,Model model, HttpSession session,Authentication authentication) {
@@ -91,6 +93,11 @@ public class OrderController {
             }
 
         }
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
         model.addAttribute("sum",s);
         return "USER/Order";
     }
@@ -110,6 +117,11 @@ public class OrderController {
         if (selectedCartItems == null || selectedCartItems.isEmpty()) {
             return "redirect:/cart";
         }
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         User user = userService.findByUsername(username);

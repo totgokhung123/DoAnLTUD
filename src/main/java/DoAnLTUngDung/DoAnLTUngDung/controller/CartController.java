@@ -32,6 +32,7 @@ public class CartController {
     private UserServices userServices;
     @Autowired
     private OrderService orderService;
+    private CategoryServices categoryServices;
 
     @GetMapping
     public String showCart(Model model, Authentication authentication) {
@@ -50,6 +51,11 @@ public class CartController {
         String totalFormatted = cartService.getTotalFormatted(user);
         model.addAttribute("sumOrder", totalFormatted);
 
+        List<Category> categories = categoryServices.getAllCategories()
+                .stream()
+                .filter(Category::getStatus)
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
         return "USER/checkout";
     }
     @PostMapping("/add")
@@ -100,6 +106,7 @@ public class CartController {
     @PostMapping("/checkout")
     public String checkout(@RequestParam("selectedProducts") List<Long> selectedProductIds, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("selectedProducts", selectedProductIds);
-        return "redirect:/order"; // Chuyển hướng đến GET request để hiển thị form đơn hàng
+
+        return "redirect:/order";
     }
 }
