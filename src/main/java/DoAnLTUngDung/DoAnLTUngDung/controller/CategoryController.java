@@ -104,12 +104,18 @@ package DoAnLTUngDung.DoAnLTUngDung.controller;
             model.addAttribute("categories", categoryServices.getAllCategories());
             return "redirect:/categorylist";
         }
-            @GetMapping("/deletecategory/{id}")
-            //@PreAuthorize("hasAuthority('ADMIN')")
-            public String deleteCategory(@PathVariable("id") Long id) {
-                categoryServices.deleteCategory(id);
-                return "redirect:/ADMIN/Categorylist";
-            }
+//            @GetMapping("/deletecategory/{id}")
+//            //@PreAuthorize("hasAuthority('ADMIN')")
+//            public String deleteCategory(@PathVariable("id") Long id) {
+//                categoryServices.deleteCategory(id);
+//                return "redirect:/Categorylist";
+//            }
+
+        @GetMapping("/deletecategory/{id}")
+        public String deleteCategory(@PathVariable("id") Long id) {
+            categoryServices.softDeleteCategory(id);
+            return "redirect:/categorylist";
+        }
 
         @GetMapping("/export/excel")
         public ResponseEntity<byte[]> exportCategoriesToExcel() {
