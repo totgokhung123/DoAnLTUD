@@ -149,6 +149,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         height: 24px;
     }
 
+
+
+
 	</style>
 	<!--//tags -->
 	<link href="../webchinh/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
@@ -508,52 +511,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</span>
 	</h3>
 
-	<div class="content-bottom-in" >
-		<ul id="flexiselDemo2">
-			<li th:each="category : ${categories}">
-				<div class="w3l-specilamk" >
-					<div class="category-container2" id="category-container2">
-						<!-- Repeat for each category -->
-						<div class="category-item">
-							<a th:href="@{/category/{id}(id=${category.id})}" class="category-box" style="width:285px;height:150px;">
-								<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" class="category-image">
-								<div class="category-name" th:text="${category.name}"></div>
-							</a>
-						</div>
-						<!-- End repeat -->
-					</div>
-<!--					&lt;!&ndash; Repeat for each category &ndash;&gt;-->
-<!--					<div class="category-item" >-->
-<!--						<div class="speioffer-agile">-->
-<!--							<a th:href="@{/category/{id}(id=${category.id})}">-->
-<!--								<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" style="width:150px; height:150px">-->
-<!--								<div class="category-name" th:text="${category.name}"></div>-->
-<!--							</a>-->
-<!--						</div>-->
-<!--					</div>-->
-					<!-- End repeat -->
-				</div>
-			</li>
-		</ul>
-	</div>
+
+
+
+
+
+	<!-- locsanpham -->
 	<div class="category-container-wrapper">
-		<div class="category-container" id="category-container">
-			<!-- Repeat for each category -->
-			<div class="category-item" th:each="category : ${categories}">
-				<a th:href="@{/category/{id}(id=${category.id})}" class="category-box">
-					<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" class="category-image">
-					<div class="category-name" th:text="${category.name}"></div>
-				</a>
-			</div>
-			<!-- End repeat -->
+		<div class="category-container" id="flexiselDemo2">
+			<th:block th:each="category : ${categories}">
+				<div class="category-item">
+					<a th:href="@{/category/{id}(id=${category.id})}" class="category-box">
+						<img th:if="${category.imagePath != null}" th:src="@{${category.imagePath}}" alt="Category Image" class="category-image">
+						<div class="category-name" th:text="${category.name}"></div>
+					</a>
+				</div>
+			</th:block>
 		</div>
-		<button class="navigation-button left" onclick="previousPage()">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-		</button>
-		<button class="navigation-button right" onclick="nextPage()">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-		</button>
 	</div>
+
+
+
+
+
+
 	<!-- top Products -->
 	<div class="ads-grid">
 		<div class="container">
@@ -887,6 +868,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<img th:if="${product.anhdaidien != null}" th:src="@{${product.anhdaidien}}" alt="Image" style="width:100px; height:100px;">
 								</a>
 							</div>
+
 							<div class="product-name-w3l">
 								<h4>
 									<a  th:href="@{/single/{id}(id=${product.id})}" th:text="${product.title}">Aashirvaad, 5g</a>
