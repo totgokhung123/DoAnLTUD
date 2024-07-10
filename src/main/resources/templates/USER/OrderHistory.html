@@ -867,49 +867,95 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-<div class="agileinfo-ads-display col-md-12">
-    <div class="wrapper">
-        <h3 class="tittle-w3l">Danh sách sản phẩm đã mua</h3>
-        <div th:each="orderDetail : ${orderDetails}">
-            <div class="col-md-3 product-men">
-                <div class="men-pro-item simpleCart_shelfItem">
-                    <div class="men-thumb-item">
-                        <!-- Giả sử sản phẩm có hình ảnh -->
-                        <img th:if="${orderDetail.product.anhdaidien}" th:src="@{{image}(image=${orderDetail.product.anhdaidien})}" alt="Ảnh sản phẩm" style="width:100px; height:100px;">
-                        <div class="men-cart-pro">
-                            <div class="inner-men-cart-pro">
-                                <a th:href="@{/single/{id}(id=${orderDetail.product.id})}" class="link-product-add-cart">Xem nhanh</a>
-                            </div>
+<!--<div class="agileinfo-ads-display col-md-12">-->
+<!--    <div class="wrapper">-->
+<!--        <h3 class="tittle-w3l">Danh sách sản phẩm đã mua</h3>-->
+<!--        <div th:each="orderDetail : ${orderDetails}">-->
+<!--            <div class="col-md-3 product-men">-->
+<!--                <div class="men-pro-item simpleCart_shelfItem">-->
+<!--                    <div class="men-thumb-item">-->
+<!--                        &lt;!&ndash; Giả sử sản phẩm có hình ảnh &ndash;&gt;-->
+<!--                        <img th:if="${orderDetail.product.anhdaidien}" th:src="@{{image}(image=${orderDetail.product.anhdaidien})}" alt="Ảnh sản phẩm" style="width:100px; height:100px;">-->
+<!--                        <div class="men-cart-pro">-->
+<!--                            <div class="inner-men-cart-pro">-->
+<!--                                <a th:href="@{/single/{id}(id=${orderDetail.product.id})}" class="link-product-add-cart">Xem nhanh</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="item-info-product">-->
+<!--                        <h4>-->
+<!--                            <a th:href="@{/single/{id}(id=${orderDetail.product.id})}" th:text="${orderDetail.product.title}">Tên sản phẩm</a>-->
+<!--                        </h4>-->
+<!--                        <div class="info-product-price">-->
+<!--                            <span class="item_price" th:text="${orderDetail.price}">Giá sản phẩm</span>-->
+<!--                            <del>$280.00</del> &lt;!&ndash; Giá gốc của sản phẩm &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">-->
+<!--                            <form action="#" method="post">-->
+<!--                                <fieldset>-->
+<!--                                    <input type="hidden" name="cmd" value="_cart" />-->
+<!--                                    <input type="hidden" name="add" value="1" />-->
+<!--                                    <input type="hidden" name="business" value=" " />-->
+<!--                                    <input type="hidden" name="item_name" th:value="${orderDetail.product.title}" />-->
+<!--                                    <input type="hidden" name="amount" th:value="${orderDetail.price}" />-->
+<!--                                    <input type="hidden" name="discount_amount" value="1.00" />-->
+<!--                                    <input type="hidden" name="currency_code" value="USD" />-->
+<!--                                    <input type="hidden" name="return" value=" " />-->
+<!--                                    <input type="hidden" name="cancel_return" value=" " />-->
+<!--                                    <input type="submit" name="submit" value="Thêm vào giỏ hàng" class="button" />-->
+<!--                                </fieldset>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="card">
+    <h3 class="tittle-w3l">Danh sách sản phẩm đã mua</h3>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>OrderDetail ID</th>
+                <th>Product Name</th>
+                <th>Product Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderDetail : ${orderDetails}">
+                <td th:text="${orderDetail.id}"></td>
+                <td th:text="${orderDetail.product.title}"></td>
+                <td>
+                    <img th:if="${orderDetail.product.anhdaidien}" th:src="@{{image}(image=${orderDetail.product.anhdaidien})}" alt="Ảnh sản phẩm" style="width:100px; height:100px;">
+                </td>
+                <td th:text="${orderDetail.quantity}"></td>
+                <td th:text="${orderDetail.price}"></td>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:href="@{/single/{id}(id=${orderDetail.product.id})}">
+                                <i class="bx bx-eye me-1"></i> View
+                            </a>
+                            <a class="dropdown-item" th:href="@{/editorderdetail/{id}(id=${orderDetail.id})}">
+                                <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" th:href="@{/deleteorderdetail/{id}(id=${orderDetail.id})}"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                <i class="bx bx-trash me-1"></i> Delete
+                            </a>
                         </div>
                     </div>
-                    <div class="item-info-product">
-                        <h4>
-                            <a th:href="@{/single/{id}(id=${orderDetail.product.id})}" th:text="${orderDetail.product.title}">Tên sản phẩm</a>
-                        </h4>
-                        <div class="info-product-price">
-                            <span class="item_price" th:text="${orderDetail.price}">Giá sản phẩm</span>
-                            <del>$280.00</del> <!-- Giá gốc của sản phẩm -->
-                        </div>
-                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                            <form action="#" method="post">
-                                <fieldset>
-                                    <input type="hidden" name="cmd" value="_cart" />
-                                    <input type="hidden" name="add" value="1" />
-                                    <input type="hidden" name="business" value=" " />
-                                    <input type="hidden" name="item_name" th:value="${orderDetail.product.title}" />
-                                    <input type="hidden" name="amount" th:value="${orderDetail.price}" />
-                                    <input type="hidden" name="discount_amount" value="1.00" />
-                                    <input type="hidden" name="currency_code" value="USD" />
-                                    <input type="hidden" name="return" value=" " />
-                                    <input type="hidden" name="cancel_return" value=" " />
-                                    <input type="submit" name="submit" value="Thêm vào giỏ hàng" class="button" />
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </div>
