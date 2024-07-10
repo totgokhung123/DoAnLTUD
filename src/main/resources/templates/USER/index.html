@@ -241,14 +241,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!-- cart details -->
 				<div class="top_nav_right">
 					<div class="wthreecartaits wthreecartaits2 cart cart box_1" >
-						<a class="w3view-cart button"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+						<a th:href="@{/cart}">
+						<button class="w3view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+						</a>
 					</div>
+
 				</div>
 
 				<div class="top_nav_right">
 					<div class="wthreecartaits wthreecartaits2 cart cart box_1" >
-						<a class="w3view-cart button" href="/orderhistory">
-							<i class="fa fa-list-alt" aria-hidden="true"></i></a>
+						<a href="/orderhistory">
+						<button class="w3view-cart">
+							<i class="fa fa-list-alt" aria-hidden="true"></i></button>
+						</a>
 					</div>
 				</div>
 
